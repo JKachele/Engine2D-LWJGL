@@ -13,7 +13,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.joml.Vector4f;
 
-@SuppressWarnings("unused")
 @Getter
 @Setter
 @EqualsAndHashCode
