@@ -8,6 +8,7 @@
 package com.jkachele.game.engine;
 
 import com.jkachele.game.renderer.Renderer;
+import imgui.ImGui;
 import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,9 @@ public abstract class Scene {
     protected Camera camera;
     private boolean isRunning = false;
     protected List<GameObject> gameObjects = new ArrayList<>();
+    protected GameObject currentGameObject = null;
+
+    public abstract void update(float dt);
 
     public Scene() {
     }
@@ -45,6 +49,17 @@ public abstract class Scene {
         }
     }
 
-    public abstract void update(float dt);
+    public void sceneImGui() {
+        if(currentGameObject != null) {
+            ImGui.begin("Inspector");
+            currentGameObject.imgui();
+            ImGui.end();
+        }
 
+        imgui();
+    }
+
+    public void imgui() {
+
+    }
 }

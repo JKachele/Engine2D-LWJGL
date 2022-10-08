@@ -11,6 +11,8 @@ import com.jkachele.game.components.Sprite;
 import com.jkachele.game.components.SpriteRenderer;
 import com.jkachele.game.components.Spritesheet;
 import com.jkachele.game.util.AssetPool;
+import com.jkachele.game.util.Color;
+import imgui.ImGui;
 import org.joml.Vector2f;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -46,9 +48,9 @@ public class LevelEditorScene extends Scene{
 
         obj3 = new GameObject("Object 3", new Transform(new Vector2f(500, 10),
                 new Vector2f(256, 256)), -1);
-        obj3.addComponent(new SpriteRenderer(new Sprite(
-                AssetPool.getTexture("assets/images/blendImageR.png"))));
+        obj3.addComponent(new SpriteRenderer(new Color(1f, 0f, 0f, 0.5f).getVector()));
         this.addGameObject(obj3);
+        this.currentGameObject = obj3;
 
         obj4 = new GameObject("Object 4", new Transform(new Vector2f(700, 10),
                 new Vector2f(256, 256)), -2);
@@ -109,5 +111,12 @@ public class LevelEditorScene extends Scene{
 
         // Render the scene
         this.renderer.render();
+    }
+
+    @Override
+    public void imgui() {
+        ImGui.begin("Test Window");
+        ImGui.text("Test Text");
+        ImGui.end();
     }
 }

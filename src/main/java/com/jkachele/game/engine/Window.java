@@ -9,6 +9,8 @@
 package com.jkachele.game.engine;
 
 import com.jkachele.game.util.Color;
+import imgui.gl3.ImGuiImplGl3;
+import imgui.glfw.ImGuiImplGlfw;
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.Version;
@@ -32,6 +34,11 @@ public class Window {
     private long glfwWindow;
     private Color color;
     private boolean fadeToBlack = false;
+    private ImGuiLayer imGuiLayer;
+
+    private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
+    private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    private String glslVersion = null;
 
     private static Window window = null;
     private static Scene currentScene = null;
@@ -44,6 +51,11 @@ public class Window {
     }
 
     public void init() {
+        initWindow();
+        initImGui();
+    }
+
+    private void initWindow() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         // Setup error callback to System.err
@@ -58,7 +70,6 @@ public class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);               // Window will remain hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);              // Window will be resizeable
-        //glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);              // Window will start maximized
 
         // Create the window
         glfwWindow = glfwCreateWindow(this.width, this.height, this.TITLE, NULL, NULL);
@@ -73,6 +84,10 @@ public class Window {
         glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
         // Setup Callback when window size changes
+        glfwSetWindowSizeCallback(glfwWindow, (window, width, height) -> {
+            this.width = width;
+            this.height = height;
+        });
         glfwSetFramebufferSizeCallback(glfwWindow, Window::framebufferSizeCallback);
 
         // Center the window on the primary monitor
@@ -99,8 +114,14 @@ public class Window {
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
+        this.imGuiLayer = new ImGuiLayer(this.glfwWindow);
+        this.imGuiLayer.initImGui();
+
         // Initialize first scene
         Window.changeScene(0);
+    }
+
+    private void initImGui() {
     }
 
     public static Scene getCurrentScene() {
@@ -126,14 +147,16 @@ public class Window {
     }
 
     public static Window getInstance(int width, int height, String title, Color backgroundColor) {
-        if (Window.window == null)
+        if (Window.window == null) {
             Window.window = new Window(width, height, title, backgroundColor);
+        }
         return Window.window;
     }
 
     public static Window getInstance() {
-        if (Window.window == null)
+        if (Window.window == null) {
             Window.window = new Window(0, 0, "", Color.WHITE);
+        }
         return Window.window;
     }
 
@@ -149,5 +172,13 @@ public class Window {
         // Terminate glfw and free the error callback
         glfwTerminate();
         Objects.requireNonNull(glfwSetErrorCallback(null)).free();
+    }
+
+    public static int getWidth() {
+        return getInstance().width;
+    }
+
+    public static int getHeight() {
+        return getInstance().height;
     }
 }
