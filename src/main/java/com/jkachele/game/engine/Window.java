@@ -11,8 +11,6 @@ package com.jkachele.game.engine;
 import com.jkachele.game.util.Color;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
-import lombok.Getter;
-import lombok.Setter;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.GLFWErrorCallback;
 import org.lwjgl.glfw.GLFWVidMode;
@@ -25,37 +23,35 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-@Getter @Setter
 public class Window {
 
-    private int width;
-    private int height;
-    private final String TITLE;
-    private long glfwWindow;
-    private Color color;
-    private boolean fadeToBlack = false;
-    private ImGuiLayer imGuiLayer;
+    private static int width;
+    private static int height;
+    private static String title;
+    private static long glfwWindow;
+    private static Color color;
+    private static boolean fadeToBlack = false;
+    private static ImGuiLayer imGuiLayer;
 
-    private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
-    private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
-    private String glslVersion = null;
+    private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
+    private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    private static String glslVersion = null;
 
-    private static Window window = null;
     private static Scene currentScene = null;
 
-    private Window(int width, int height, String title, Color backgroundColor) {
-        this.width = width;
-        this.height = height;
-        this.TITLE = title;
-        color = backgroundColor;
+    public static void init(int width, int height, String title, Color backgroundColor) {
+        Window.width = width;
+        Window.height = height;
+        Window.title = title;
+        Window.color = backgroundColor;
     }
 
-    public void init() {
+    public static void start() {
         initWindow();
         initImGui();
     }
 
-    private void initWindow() {
+    private static void initWindow() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         // Setup error callback to System.err
@@ -72,7 +68,7 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);              // Window will be resizeable
 
         // Create the window
-        glfwWindow = glfwCreateWindow(this.width, this.height, this.TITLE, NULL, NULL);
+        glfwWindow = glfwCreateWindow(Window.width, Window.height, Window.title, NULL, NULL);
         if (glfwWindow == NULL) {
             throw new RuntimeException("Failed to create GLFW window");
         }
@@ -85,8 +81,8 @@ public class Window {
 
         // Setup Callback when window size changes
         glfwSetWindowSizeCallback(glfwWindow, (window, width, height) -> {
-            this.width = width;
-            this.height = height;
+            Window.width = width;
+            Window.height = height;
         });
         glfwSetFramebufferSizeCallback(glfwWindow, Window::framebufferSizeCallback);
 
@@ -114,14 +110,14 @@ public class Window {
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-        this.imGuiLayer = new ImGuiLayer(this.glfwWindow);
-        this.imGuiLayer.initImGui();
+        Window.imGuiLayer = new ImGuiLayer(Window.glfwWindow);
+        Window.imGuiLayer.initImGui();
 
         // Initialize first scene
         Window.changeScene(0);
     }
 
-    private void initImGui() {
+    private static void initImGui() {
     }
 
     public static Scene getCurrentScene() {
@@ -146,25 +142,11 @@ public class Window {
         }
     }
 
-    public static Window getInstance(int width, int height, String title, Color backgroundColor) {
-        if (Window.window == null) {
-            Window.window = new Window(width, height, title, backgroundColor);
-        }
-        return Window.window;
-    }
-
-    public static Window getInstance() {
-        if (Window.window == null) {
-            Window.window = new Window(0, 0, "", Color.WHITE);
-        }
-        return Window.window;
-    }
-
     public static void framebufferSizeCallback(long window, int width, int height) {
         glViewport(0, 0, width, height);
     }
 
-    public void clear() {
+    public static void clear() {
         // Free the memory
         glfwFreeCallbacks(glfwWindow);
         glfwDestroyWindow(glfwWindow);
@@ -175,10 +157,22 @@ public class Window {
     }
 
     public static int getWidth() {
-        return getInstance().width;
+        return Window.width;
     }
 
     public static int getHeight() {
-        return getInstance().height;
+        return Window.height;
+    }
+
+    public static long getGlfwWindow() {
+        return glfwWindow;
+    }
+
+    public static Color getColor() {
+        return color;
+    }
+
+    public static ImGuiLayer getImGuiLayer() {
+        return imGuiLayer;
     }
 }

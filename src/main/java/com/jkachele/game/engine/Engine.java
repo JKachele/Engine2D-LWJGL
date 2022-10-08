@@ -15,11 +15,10 @@ import static org.lwjgl.opengl.GL11.*;
 public class Engine implements Runnable{
 
     private final Thread GAME_LOOP_THREAD;
-    private Window window;
 
     public Engine(int width, int height, String title, Color backgroundColor) {
         GAME_LOOP_THREAD = new Thread(this, "GAME_LOOP_THREAD");
-        window = Window.getInstance(width, height, title, backgroundColor);
+        Window.init(width, height, title, backgroundColor);
     }
 
     public void start() {
@@ -29,7 +28,7 @@ public class Engine implements Runnable{
     @Override
     public void run() {
         try {
-            window.init();
+            Window.start();
             gameLoop();
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,8 +42,8 @@ public class Engine implements Runnable{
         float dt = -1.0f;
 
         // Run the rendering loop until the user has attempted to close the window
-        while (!glfwWindowShouldClose(window.getGlfwWindow())) {
-            Color backgroundColor = window.getColor();
+        while (!glfwWindowShouldClose(Window.getGlfwWindow())) {
+            Color backgroundColor = Window.getColor();
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.
@@ -59,8 +58,8 @@ public class Engine implements Runnable{
                 Window.getCurrentScene().update(dt);
             }
 
-            window.getImGuiLayer().update(dt, Window.getCurrentScene());
-            glfwSwapBuffers(window.getGlfwWindow());
+            Window.getImGuiLayer().update(dt, Window.getCurrentScene());
+            glfwSwapBuffers(Window.getGlfwWindow());
 
             //System.out.println(fps(dt));
 
