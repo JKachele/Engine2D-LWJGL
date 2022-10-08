@@ -7,7 +7,6 @@
  ******************************************/
 package com.jkachele.game.engine;
 
-import com.jkachele.game.components.Sprite;
 import com.jkachele.game.components.SpriteRenderer;
 import com.jkachele.game.components.Spritesheet;
 import com.jkachele.game.util.AssetPool;
@@ -54,8 +53,7 @@ public class LevelEditorScene extends Scene{
 
         obj4 = new GameObject("Object 4", new Transform(new Vector2f(700, 10),
                 new Vector2f(256, 256)), -2);
-        obj4.addComponent(new SpriteRenderer(new Sprite(
-                AssetPool.getTexture("assets/images/blendImageG.png"))));
+        obj4.addComponent(new SpriteRenderer(new Color(0f, 1f, 0f, 0.5f).getVector()));
         this.addGameObject(obj4);
     }
 
