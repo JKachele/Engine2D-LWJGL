@@ -8,10 +8,8 @@
 package com.jkachele.game.components;
 
 import com.jkachele.game.renderer.Texture;
-import lombok.Getter;
 import org.joml.Vector2f;
 
-@Getter
 public class Sprite {
 
     private Texture texture;
@@ -35,4 +33,14 @@ public class Sprite {
         uvCoords[3] = new Vector2f(0, 1);
         return uvCoords;
     }
+
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public Vector2f[] getUvCoords() {
+        return uvCoords;
+    }
+
+
 }

@@ -7,7 +7,6 @@
  ******************************************/
 package com.jkachele.game.renderer;
 
-import lombok.Getter;
 import org.lwjgl.BufferUtils;
 
 import java.nio.ByteBuffer;
@@ -16,7 +15,6 @@ import java.nio.IntBuffer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.stb.STBImage.*;
 
-@Getter
 public class Texture {
     private String filePath;
     private int texID;
@@ -76,5 +74,13 @@ public class Texture {
 
     public void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

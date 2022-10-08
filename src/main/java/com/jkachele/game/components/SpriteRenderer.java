@@ -11,11 +11,9 @@ import com.jkachele.game.engine.Component;
 import com.jkachele.game.engine.Transform;
 import com.jkachele.game.renderer.Texture;
 import imgui.ImGui;
-import lombok.Getter;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-@Getter
 public class SpriteRenderer extends Component {
 
     private Vector4f color;
@@ -95,4 +93,7 @@ public class SpriteRenderer extends Component {
         this.isDirty = false;
     }
 
+    public Vector4f getColor() {
+        return color;
+    }
 }

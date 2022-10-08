@@ -7,16 +7,8 @@
  ******************************************/
 package com.jkachele.game.util;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
 import org.joml.Vector4f;
 
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
 public class Color {
 
     public static final Color WHITE         = new Color(1.0f, 1.0f, 1.0f);
@@ -92,5 +84,21 @@ public class Color {
 
     public Vector4f getVector() {
         return new Vector4f(red, green, blue, alpha);
+    }
+
+    public float getRed() {
+        return red;
+    }
+
+    public float getGreen() {
+        return green;
+    }
+
+    public float getBlue() {
+        return blue;
+    }
+
+    public float getAlpha() {
+        return alpha;
     }
 }

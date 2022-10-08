@@ -9,11 +9,9 @@ package com.jkachele.game.engine;
 
 import com.jkachele.game.renderer.Renderer;
 import imgui.ImGui;
-import lombok.Getter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 public abstract class Scene {
 
     protected Renderer renderer = new Renderer();
@@ -61,5 +59,9 @@ public abstract class Scene {
 
     public void imgui() {
 
+    }
+
+    public Camera getCamera() {
+        return camera;
     }
 }
