@@ -7,6 +7,7 @@
  ******************************************/
 package com.jkachele.game.engine;
 
+import com.jkachele.game.scene.Scene;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
 import imgui.ImGui;

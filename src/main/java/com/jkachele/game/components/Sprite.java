@@ -12,18 +12,10 @@ import org.joml.Vector2f;
 
 public class Sprite {
 
-    private Texture texture;
-    private Vector2f[] uvCoords;
-
-    public Sprite(Texture texture) {
-        this.texture = texture;
-        this.uvCoords = defaultUV();
-    }
-
-    public Sprite(Texture texture, Vector2f[] uvCoords) {
-        this.texture = texture;
-        this.uvCoords = uvCoords;
-    }
+    private Texture texture = null;
+    private Vector2f[] uvCoords = defaultUV();
+    private float width;
+    private float height;
 
     public static Vector2f[] defaultUV() {
         Vector2f[] uvCoords = new Vector2f[4];
@@ -38,9 +30,35 @@ public class Sprite {
         return texture;
     }
 
+    public void setTexture(Texture texture) {
+        this.texture = texture;
+    }
+
     public Vector2f[] getUvCoords() {
         return uvCoords;
     }
 
+    public void setUvCoords(Vector2f[] uvCoords) {
+        this.uvCoords = uvCoords;
+    }
 
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
+    }
+
+    public int getTexID() {
+        return texture == null? -1 : texture.getID();
+    }
 }

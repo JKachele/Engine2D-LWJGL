@@ -14,6 +14,8 @@ import org.joml.Vector3f;
 public class Camera {
     private Matrix4f projectionMatrix;
     private Matrix4f viewMatrix;
+    private Matrix4f inverseProjection;
+    private Matrix4f inverseView;
     private Vector2f position;
     private Vector2f camRangeX;
     private Vector2f camRangeY;
@@ -29,6 +31,8 @@ public class Camera {
         this.position = cameraPosition;
         this.projectionMatrix = new Matrix4f();
         this.viewMatrix = new Matrix4f();
+        this.inverseProjection = new Matrix4f();
+        this.inverseView = new Matrix4f();
         adjustProjection();
         setCameraRange();
     }
@@ -39,6 +43,7 @@ public class Camera {
         projectionMatrix.ortho(0.0f, CAM_WIDTH_PIXELS,        //Screen Width in "pixels"
                 0.0f, CAM_HEIGHT_PIXELS,                          // Screen Height in "pixels"
                 0.0f, 100.0f);                               // Near and far clipping planes
+        projectionMatrix.invert(inverseProjection);
     }
 
     public Matrix4f getViewMatrix() {
@@ -51,6 +56,7 @@ public class Camera {
                 new Vector3f(position.x, position.y, 20.0f),    // Where the camera is in world space
                 cameraFront.add(position.x, position.y, 0.0f),
                 cameraUp); // Where is the camera pointing
+        this.viewMatrix.invert(inverseView);
         return this.viewMatrix;
     }
 
@@ -79,10 +85,18 @@ public class Camera {
     }
 
     public Vector2f getCamRangeX() {
-        return camRangeX;
+        return this.camRangeX;
     }
 
     public Vector2f getCamRangeY() {
-        return camRangeY;
+        return this.camRangeY;
+    }
+
+    public Matrix4f getInverseProjection() {
+        return this.inverseProjection;
+    }
+
+    public Matrix4f getInverseView() {
+        return this.inverseView;
     }
 }

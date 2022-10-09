@@ -16,9 +16,9 @@ public class Engine implements Runnable{
 
     private final Thread GAME_LOOP_THREAD;
 
-    public Engine(int width, int height, String title, Color backgroundColor) {
+    public Engine(int width, int height, String title, Color backgroundColor, boolean reset) {
         GAME_LOOP_THREAD = new Thread(this, "GAME_LOOP_THREAD");
-        Window.init(width, height, title, backgroundColor);
+        Window.init(width, height, title, backgroundColor, reset);
     }
 
     public void start() {
@@ -43,7 +43,7 @@ public class Engine implements Runnable{
 
         // Run the rendering loop until the user has attempted to close the window
         while (!glfwWindowShouldClose(Window.getGlfwWindow())) {
-            Color backgroundColor = Window.getColor();
+            Color backgroundColor = Window.getBackgroundColor();
 
             // Poll for window events. The key callback above will only be
             // invoked during this call.
@@ -67,6 +67,8 @@ public class Engine implements Runnable{
             dt = endTime - beginTime;
             beginTime = endTime;
         }
+
+        Window.getCurrentScene().saveExit();
     }
 
     private static String fps(float dt) {

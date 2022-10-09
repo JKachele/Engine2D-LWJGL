@@ -7,8 +7,6 @@
  ******************************************/
 package com.jkachele.game.components;
 
-import com.jkachele.game.engine.Component;
-
 public class FontRenderer extends Component {
 
     @Override

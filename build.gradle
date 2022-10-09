@@ -8,8 +8,6 @@ version '1.0-SNAPSHOT'
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
-
-    implementation fileTree('libs') {include '*.jar'}
 }
 
 test {
@@ -25,19 +23,32 @@ repositories {
 }
 
 dependencies {
+    // LWJGL
     implementation platform("org.lwjgl:lwjgl-bom:3.3.1")
-
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"
+    implementation "org.lwjgl:lwjgl-cuda"
     implementation "org.lwjgl:lwjgl-glfw"
+    implementation "org.lwjgl:lwjgl-libdivide"
     implementation "org.lwjgl:lwjgl-openal"
+    implementation "org.lwjgl:lwjgl-opencl"
     implementation "org.lwjgl:lwjgl-opengl"
     implementation "org.lwjgl:lwjgl-stb"
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
+    runtimeOnly "org.lwjgl:lwjgl-libdivide::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
     implementation "org.joml:joml:1.10.4"
+
+    // Joml
+    implementation "org.joml:joml:1.10.4"
+
+    // ImGUI
+    implementation fileTree('libs') {include '*.jar'}
+
+    // GSON
+    implementation 'com.google.code.gson:gson:2.9.1'
 }

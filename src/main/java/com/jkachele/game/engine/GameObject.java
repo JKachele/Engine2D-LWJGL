@@ -7,6 +7,8 @@
  ******************************************/
 package com.jkachele.game.engine;
 
+import com.jkachele.game.components.Component;
+
 import java.util.ArrayList;
 import java.util.List;
 

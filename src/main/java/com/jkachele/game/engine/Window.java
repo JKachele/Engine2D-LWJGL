@@ -8,6 +8,9 @@
 
 package com.jkachele.game.engine;
 
+import com.jkachele.game.scene.LevelEditorScene;
+import com.jkachele.game.scene.LevelScene;
+import com.jkachele.game.scene.Scene;
 import com.jkachele.game.util.Color;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
@@ -23,14 +26,14 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public class Window {
+public final class Window {
 
     private static int width;
     private static int height;
     private static String title;
     private static long glfwWindow;
-    private static Color color;
-    private static boolean fadeToBlack = false;
+    private static Color backgroundColor;
+    private static boolean reset;
     private static ImGuiLayer imGuiLayer;
 
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
@@ -39,11 +42,12 @@ public class Window {
 
     private static Scene currentScene = null;
 
-    public static void init(int width, int height, String title, Color backgroundColor) {
+    public static void init(int width, int height, String title, Color backgroundColor, boolean reset) {
         Window.width = width;
         Window.height = height;
         Window.title = title;
-        Window.color = backgroundColor;
+        Window.backgroundColor = backgroundColor;
+        Window.reset = reset;
     }
 
     public static void start() {
@@ -128,18 +132,21 @@ public class Window {
         switch (newScene) {
             case 0:
                 currentScene = new LevelEditorScene();
-                currentScene.init();
-                currentScene.start();
                 break;
             case 1:
                 currentScene = new LevelScene();
-                currentScene.init();
-                currentScene.start();
                 break;
             default:
                 assert false: "Unknown Scene '" + newScene + "'";
                 break;
         }
+
+        if (!Window.reset) {
+            // Load the current scene from the level.txt
+            currentScene.load();
+        }
+        currentScene.init(Window.reset);
+        currentScene.start();
     }
 
     public static void framebufferSizeCallback(long window, int width, int height) {
@@ -168,8 +175,8 @@ public class Window {
         return glfwWindow;
     }
 
-    public static Color getColor() {
-        return color;
+    public static Color getBackgroundColor() {
+        return backgroundColor;
     }
 
     public static ImGuiLayer getImGuiLayer() {

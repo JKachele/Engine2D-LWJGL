@@ -5,9 +5,9 @@
  *Date----------9/25/2022
  *License-------GNU GENERAL PUBLIC LICENSE
  ******************************************/
-package com.jkachele.game.engine;
+package com.jkachele.game.scene;
 
-public class LevelScene extends Scene{
+public class LevelScene extends Scene {
 
     public LevelScene() {
 

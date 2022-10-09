@@ -7,7 +7,6 @@
  ******************************************/
 package com.jkachele.game.components;
 
-import com.jkachele.game.engine.Component;
 import com.jkachele.game.engine.Transform;
 import com.jkachele.game.renderer.Texture;
 import imgui.ImGui;
@@ -16,28 +15,13 @@ import org.joml.Vector4f;
 
 public class SpriteRenderer extends Component {
 
-    private Vector4f color;
-    private Sprite sprite;
+    private Vector4f color = new Vector4f(1, 1, 1, 1);
+    private Sprite sprite = new Sprite();
 
-    private Transform lastTransform;
-    private boolean isDirty;
+    private transient Transform lastTransform;
+    private transient boolean isDirty = true;
 
-    public SpriteRenderer(Vector4f color) {
-        this.color = color;
-        this.sprite = new Sprite(null);
-        this.isDirty = true;
-    }
-
-    public SpriteRenderer(Sprite sprite) {
-        this.sprite = sprite;
-        this.color = new Vector4f(1, 1, 1, 1);
-        this.isDirty = true;
-    }
-
-    public SpriteRenderer(Vector4f color, Sprite sprite) {
-        this.color = color;
-        this.sprite = sprite;
-        this.isDirty = true;
+    public SpriteRenderer() {
     }
 
     @Override
@@ -57,7 +41,8 @@ public class SpriteRenderer extends Component {
     @Override
     public void imgui() {
         float[] imColor = {color.x, color.y, color.z, color.w};
-        if (ImGui.colorPicker4("ColorPicker: ", imColor)) {
+        ImGui.text("ColorPicker : ");
+        if (ImGui.colorPicker4("", imColor)) {
             this.color.set(imColor[0], imColor[1], imColor[2], imColor[3]);
             this.isDirty = true;
         }
@@ -96,4 +81,17 @@ public class SpriteRenderer extends Component {
     public Vector4f getColor() {
         return color;
     }
+
+    public Sprite getSprite() {
+        return sprite;
+    }
+
+    public Transform getLastTransform() {
+        return lastTransform;
+    }
+
+    public void setLastTransform(Transform lastTransform) {
+        this.lastTransform = lastTransform;
+    }
+
 }
