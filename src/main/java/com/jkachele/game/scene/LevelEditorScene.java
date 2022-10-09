@@ -7,12 +7,10 @@
  ******************************************/
 package com.jkachele.game.scene;
 
-import com.jkachele.game.components.RigidBody;
-import com.jkachele.game.components.Sprite;
-import com.jkachele.game.components.SpriteRenderer;
-import com.jkachele.game.components.Spritesheet;
+import com.jkachele.game.components.*;
 import com.jkachele.game.engine.Camera;
 import com.jkachele.game.engine.GameObject;
+import com.jkachele.game.engine.Prefabs;
 import com.jkachele.game.engine.Transform;
 import com.jkachele.game.util.AssetPool;
 import com.jkachele.game.util.Color;
@@ -25,14 +23,13 @@ public class LevelEditorScene extends Scene {
     private GameObject obj1;
     private GameObject obj2;
     Spritesheet sprites;
-
-    public LevelEditorScene() {
-    }
+    MouseControls mouseControls;
 
     @Override
     public void init(boolean reset) {
         loadResources();
         this.camera = new Camera(new Vector2f());
+        mouseControls = new MouseControls();
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
         if (levelLoaded && !reset) {
             this.currentGameObject = gameObjects.get(0);
@@ -73,6 +70,8 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void update(float dt) {
+        mouseControls.update(dt);
+
         // Update all game objects in the scene
         for (GameObject gameObject : this.gameObjects) {
             gameObject.update(dt);
@@ -104,7 +103,9 @@ public class LevelEditorScene extends Scene {
             ImGui.pushID(i);
             if (ImGui.imageButton(id, spriteWidth, spriteHeight,
                     uvCoords[0].x, uvCoords[0].y, uvCoords[2].x, uvCoords[2].y)) {
-                System.out.println("Button " + i + " clicked");
+                GameObject object = Prefabs.generateSpriteObject(sprite, spriteWidth, spriteHeight);
+                // Attach this to the mouse cursor
+                mouseControls.pickupObject(object);
             }
             ImGui.popID();
 
