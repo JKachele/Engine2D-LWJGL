@@ -9,21 +9,21 @@ package com.jkachele.game.util;
 
 import org.joml.Vector4f;
 
-public class Color {
+public final class Color {
 
-    public static final Color WHITE         = new Color(1.0f, 1.0f, 1.0f);
-    public static final Color LIGHT_GRAY    = new Color(0.75f, 0.75f, 0.75f);
-    public static final Color GRAY          = new Color(0.5f, 0.5f, 0.5f);
-    public static final Color DARK_GRAY     = new Color(0.25f, 0.25f, 0.25f);
-    public static final Color BLACK         = new Color(0.0f, 0.0f, 0.0f);
-    public static final Color RED           = new Color(1.0f, 0.0f, 0.0f);
-    public static final Color GREEN         = new Color(0.0f, 1.0f, 0.0f);
-    public static final Color BLUE          = new Color(0.0f, 0.0f, 1.0f);
-    public static final Color YELLOW        = new Color(1.0f, 1.0f, 0.0f);
-    public static final Color CYAN          = new Color(0.0f, 1.0f, 1.0f);
-    public static final Color MAGENTA       = new Color(1.0f, 0.0f, 1.0f);
-    public static final Color ORANGE        = new Color(1.0f, 0.8f, 0.0f);
-    public static final Color PINK          = new Color(1.0f, 0.7f, 0.7f);
+    public static final Color WHITE         = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    public static final Color LIGHT_GRAY    = new Color(0.75f, 0.75f, 0.75f, 1.0f);
+    public static final Color GRAY          = new Color(0.5f, 0.5f, 0.5f, 1.0f);
+    public static final Color DARK_GRAY     = new Color(0.25f, 0.25f, 0.25f, 1.0f);
+    public static final Color BLACK         = new Color(0.0f, 0.0f, 0.0f, 1.0f);
+    public static final Color RED           = new Color(1.0f, 0.0f, 0.0f, 1.0f);
+    public static final Color GREEN         = new Color(0.0f, 1.0f, 0.0f, 1.0f);
+    public static final Color BLUE          = new Color(0.0f, 0.0f, 1.0f, 1.0f);
+    public static final Color YELLOW        = new Color(1.0f, 1.0f, 0.0f, 1.0f);
+    public static final Color CYAN          = new Color(0.0f, 1.0f, 1.0f, 1.0f);
+    public static final Color MAGENTA       = new Color(1.0f, 0.0f, 1.0f, 1.0f);
+    public static final Color ORANGE        = new Color(1.0f, 0.8f, 0.0f, 1.0f);
+    public static final Color PINK          = new Color(1.0f, 0.7f, 0.7f, 1.0f);
 
     private float red;
     private float green;
@@ -82,7 +82,7 @@ public class Color {
         return new float[]{red, green, blue, alpha};
     }
 
-    public Vector4f getVector() {
+    public Vector4f toVector() {
         return new Vector4f(red, green, blue, alpha);
     }
 

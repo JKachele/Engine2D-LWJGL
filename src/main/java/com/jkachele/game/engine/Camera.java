@@ -17,15 +17,9 @@ public class Camera {
     private Matrix4f inverseProjection;
     private Matrix4f inverseView;
     private Vector2f position;
-    private Vector2f camRangeX;
-    private Vector2f camRangeY;
 
-    // Virtual screen size of 1920 x 1080 pixels
-    private final float GRID_TILE_SIZE = 32.0f;
-    private final float GRID_WIDTH = 60.0f;
-    private final float GRID_HEIGHT = 33.75f;
-    private final float CAM_WIDTH_PIXELS = GRID_WIDTH * GRID_TILE_SIZE;
-    private final float CAM_HEIGHT_PIXELS = GRID_HEIGHT * GRID_TILE_SIZE;
+    // Virtual screen size of 1920 x 1080 pixels (60 x 33.75 grid of 32 pixel cells)
+    private final Vector2f PROJECTION_SIZE = new Vector2f(60.0f * 32.0f, 33.75f * 32.0f);
 
     public Camera(Vector2f cameraPosition) {
         this.position = cameraPosition;
@@ -34,14 +28,13 @@ public class Camera {
         this.inverseProjection = new Matrix4f();
         this.inverseView = new Matrix4f();
         adjustProjection();
-        setCameraRange();
     }
 
     public void adjustProjection() {
         projectionMatrix.identity();
         // Defines the size of the virtual screen the camera will output to
-        projectionMatrix.ortho(0.0f, CAM_WIDTH_PIXELS,        //Screen Width in "pixels"
-                0.0f, CAM_HEIGHT_PIXELS,                          // Screen Height in "pixels"
+        projectionMatrix.ortho(0.0f, PROJECTION_SIZE.x,        //Screen Width in "pixels"
+                0.0f, PROJECTION_SIZE.y,                          // Screen Height in "pixels"
                 0.0f, 100.0f);                               // Near and far clipping planes
         projectionMatrix.invert(inverseProjection);
     }
@@ -60,11 +53,6 @@ public class Camera {
         return this.viewMatrix;
     }
 
-    public void setCameraRange() {
-        camRangeX = new Vector2f(0 + this.position.x, CAM_WIDTH_PIXELS + this.position.x);
-        camRangeY = new Vector2f(0 + this.position.y, CAM_HEIGHT_PIXELS + this.position.y);
-    }
-
     public Matrix4f getProjectionMatrix() {
         return this.projectionMatrix;
     }
@@ -75,21 +63,11 @@ public class Camera {
 
     public void setPosition(Vector2f position) {
         this.position = position;
-        setCameraRange();
     }
 
     public void movePosition(float x, float y) {
         this.position.x += x;
         this.position.y += y;
-        setCameraRange();
-    }
-
-    public Vector2f getCamRangeX() {
-        return this.camRangeX;
-    }
-
-    public Vector2f getCamRangeY() {
-        return this.camRangeY;
     }
 
     public Matrix4f getInverseProjection() {
@@ -98,5 +76,9 @@ public class Camera {
 
     public Matrix4f getInverseView() {
         return this.inverseView;
+    }
+
+    public Vector2f getProjectionSize() {
+        return this.PROJECTION_SIZE;
     }
 }

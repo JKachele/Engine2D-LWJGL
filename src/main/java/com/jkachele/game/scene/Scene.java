@@ -67,11 +67,6 @@ public abstract class Scene {
             currentGameObject.imgui();
             ImGui.end();
         }
-        if(currentGameObject2 != null) {
-            ImGui.begin("Inspector2");
-            currentGameObject2.imgui();
-            ImGui.end();
-        }
         imgui();
     }
 

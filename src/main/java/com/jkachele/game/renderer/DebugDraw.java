@@ -9,6 +9,7 @@ package com.jkachele.game.renderer;
 
 import com.jkachele.game.engine.Window;
 import com.jkachele.game.util.AssetPool;
+import com.jkachele.game.util.Color;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -23,12 +24,12 @@ import static org.lwjgl.opengl.GL30.glGenVertexArrays;
 
 
 public class DebugDraw {
-    private static int maxLines = 500;
+    private static final int MAX_LINES = 500;
     private static List<Line2D> lines = new ArrayList<>();
 
     // 7 floats per vertex (x, y, z, r, g, b, a), 2 vertices per line
-    private static float[] vertexArray = new float[maxLines * 7 * 2];
-    private static Shader shader = AssetPool.getShader("assets/shader/debugLine2D.glsl");
+    private static float[] vertexArray = new float[MAX_LINES * 7 * 2];
+    private static Shader shader = AssetPool.getShader("assets/shaders/debugLine2D.glsl");
 
     private static int vaoID;
     private static int vboID;
@@ -47,13 +48,13 @@ public class DebugDraw {
 
         // Enable the vertex array attribute pointers
         // Position
-        glVertexAttribPointer(0, 3, GL_FLOAT, false, 6 * Float.BYTES, 0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 7 * Float.BYTES, 0);
         glEnableVertexAttribArray(0);
         // Color
-        glVertexAttribPointer(1, 4, GL_FLOAT, false, 6 * Float.BYTES, 3 * Float.BYTES);
+        glVertexAttribPointer(1, 4, GL_FLOAT, false, 7 * Float.BYTES, 3 * Float.BYTES);
         glEnableVertexAttribArray(1);
 
-        // TODO: SET LINE WIDTH
+        glLineWidth(2.0f);
     }
 
     public static void beginFrame() {
@@ -99,7 +100,7 @@ public class DebugDraw {
         glBindBuffer(GL_ARRAY_BUFFER, vboID);
         glBufferSubData(GL_ARRAY_BUFFER, 0, Arrays.copyOfRange(vertexArray, 0, lines.size() * 7 * 2));
 
-        // Use the shader
+        // Use our shader
         shader.use();
         shader.uploadMat4f("uProjection", Window.getCurrentScene().getCamera().getProjectionMatrix());
         shader.uploadMat4f("uView", Window.getCurrentScene().getCamera().getViewMatrix());
@@ -109,15 +110,33 @@ public class DebugDraw {
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
 
-        // Draw the batch of lines
+        // Draw the batch
         glDrawArrays(GL_LINES, 0, lines.size() * 7 * 2);
 
-        // Disable location
+        // Disable Location
         glDisableVertexAttribArray(0);
         glDisableVertexAttribArray(1);
         glBindVertexArray(0);
 
         // Unbind shader
         shader.detach();
+    }
+
+    // =========================================================
+    // Add Line2D methods
+    // =========================================================
+    public static void addLine2D(Vector2f start, Vector2f end, Vector4f color, int lifetime) {
+        if (lines.size() >= MAX_LINES) {
+            return;
+        }
+        DebugDraw.lines.add(new Line2D(start, end, color, lifetime));
+    }
+
+    public static void addLine2D(Vector2f start, Vector2f end, Vector4f color) {
+        addLine2D(start, end, color, 1);
+    }
+
+    public static void addLine2D(Vector2f start, Vector2f end) {
+        addLine2D(start, end, Color.GREEN.toVector(), 1);
     }
 }

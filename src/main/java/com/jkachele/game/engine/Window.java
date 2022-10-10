@@ -70,6 +70,7 @@ public final class Window {
         glfwDefaultWindowHints();
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);               // Window will remain hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);              // Window will be resizeable
+        //glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);              // Window will be maximized after creation
 
         // Create the window
         glfwWindow = glfwCreateWindow(Window.width, Window.height, Window.title, NULL, NULL);
