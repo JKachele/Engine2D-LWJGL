@@ -139,4 +139,23 @@ public class DebugDraw {
     public static void addLine2D(Vector2f start, Vector2f end) {
         addLine2D(start, end, Color.GREEN.toVector(), 1);
     }
+
+    // =========================================================
+    // Add Box2D methods
+    // =========================================================
+    public static void addBox2D(Vector2f center, Vector2f dimension, float rotation, Vector4f color, int lifetime) {
+        // obtain the bottom left and top right by substring or adding half of the dimension
+        Vector2f min = new Vector2f(center).sub(new Vector2f(dimension).div(2.0f));
+        Vector2f max = new Vector2f(center).add(new Vector2f(dimension).div(2.0f));
+        Vector2f[] vertices = {
+                new Vector2f(min.x, min.y),     // Bottom left
+                new Vector2f(min.x, max.y),     // Top left
+                new Vector2f(max.x, max.y),     // Top right
+                new Vector2f(max.x, min.y),     // Bottom right
+        };
+    }
+
+    // =========================================================
+    // Add Circle2D methods
+    // =========================================================
 }

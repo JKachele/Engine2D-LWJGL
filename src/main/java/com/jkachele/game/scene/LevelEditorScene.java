@@ -37,7 +37,7 @@ public class LevelEditorScene extends Scene {
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
         marioSprites = AssetPool.getSpritesheet("assets/images/spritesheets/characters.png");
         if (levelLoaded && !reset) {
-            //this.currentGameObject = gameObjects.get(0);
+            this.currentGameObject = gameObjects.get(0);
             return;
         }
     }
