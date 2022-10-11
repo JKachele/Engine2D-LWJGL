@@ -9,6 +9,7 @@ package com.jkachele.game.physics2d.primitives;
 
 import com.jkachele.game.physics2d.rigidbody.RigidBody2D;
 //import com.jkachele.game.util.GameMath;
+import com.jkachele.game.util.Constants;
 import org.joml.Vector2f;
 
 @SuppressWarnings("all")
@@ -16,7 +17,6 @@ public class Box2D {
     private Vector2f size = new Vector2f();
     private Vector2f halfSize = new Vector2f();
     private RigidBody2D rigidBody = new RigidBody2D();
-    private final float EPSILON = 0.00000001f;
 
     public Box2D(Vector2f min, Vector2f max) {
         this.size = new Vector2f(max).sub(min);
@@ -45,7 +45,7 @@ public class Box2D {
                 new Vector2f(max.x, min.y),
         };
 
-        if (Math.abs(rigidBody.getRotationDeg()) > EPSILON) {    // (rigidBody.getRotationDeg() != 0.0f)
+        if (Constants.floatEquality(rigidBody.getRotationDeg(), 0)) {    // (rigidBody.getRotationDeg() != 0.0f)
             for (Vector2f vertex : vertices) {
                 // TODO:IMPLEMENT THIS
                 // Rotates point(Vector2f) around the center(Vector2f) by the rotation angle(float)

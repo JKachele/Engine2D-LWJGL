@@ -13,7 +13,8 @@ import java.lang.reflect.Type;
 
 public class ComponentDeserializer implements JsonSerializer<Component>, JsonDeserializer<Component> {
     @Override
-    public Component deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+    public Component deserialize(JsonElement json, Type typeOfT,
+                                 JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObj = json.getAsJsonObject();
         String type = jsonObj.get("type").getAsString();
         JsonElement properties = jsonObj.get("properties");

@@ -30,6 +30,7 @@ public abstract class Component {
 
     }
 
+    // Uses Java reflection to get the fields of components to be able to edit them in ImGUI
     public void imgui() {
         try {
             Field[] fields = this.getClass().getDeclaredFields();

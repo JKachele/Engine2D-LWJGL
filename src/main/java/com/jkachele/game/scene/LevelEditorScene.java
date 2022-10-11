@@ -13,7 +13,7 @@ import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.Prefabs;
 import com.jkachele.game.engine.Transform;
 import com.jkachele.game.util.AssetPool;
-import com.jkachele.game.util.Settings;
+import com.jkachele.game.util.Constants;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
@@ -89,7 +89,7 @@ public class LevelEditorScene extends Scene {
             ImGui.pushID(i);
             if (ImGui.imageButton(id, spriteWidth, spriteHeight,
                     uvCoords[2].x, uvCoords[0].y, uvCoords[0].x, uvCoords[2].y)) {
-                GameObject object = Prefabs.generateSpriteObject(sprite, Settings.GRID_WIDTH, Settings.GRID_HEIGHT);
+                GameObject object = Prefabs.generateSpriteObject(sprite, Constants.GRID_WIDTH, Constants.GRID_HEIGHT);
                 // Attach this to the mouse cursor
                 levelEditorComponents.getComponent(MouseControls.class).pickupObject(object);
             }

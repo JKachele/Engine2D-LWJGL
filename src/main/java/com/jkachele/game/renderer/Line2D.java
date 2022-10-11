@@ -23,6 +23,11 @@ public class Line2D {
         this.lifetime = lifetime;
     }
 
+    public Line2D(Vector2f start, Vector2f end) {
+        this.start = start;
+        this.end = end;
+    }
+
     public int beginFrame() {
         this.lifetime--;
         return lifetime;
