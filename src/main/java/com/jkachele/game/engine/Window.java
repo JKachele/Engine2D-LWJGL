@@ -26,7 +26,7 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public final class Window {
+public enum Window {;
 
     private static int width;
     private static int height;
@@ -38,9 +38,13 @@ public final class Window {
 
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
-    private static String glslVersion = null;
+    //private static String glslVersion = null;
 
     private static Scene currentScene = null;
+
+    private Window() {
+        throw new AssertionError();
+    }
 
     public static void init(int width, int height, String title, Color backgroundColor, boolean reset) {
         Window.width = width;

@@ -7,16 +7,7 @@
  ******************************************/
 package com.jkachele.game.util;
 
-public final class Constants {
+public enum Constants {;
     public static final int GRID_WIDTH = 32;
     public static final int GRID_HEIGHT = 32;
-    public static final float EPSILON = 0.00000001f;
-
-    public static boolean floatEquality(float x, float y, float epsilon) {
-        return Math.abs(x - y) < epsilon;
-    }
-
-    public static boolean floatEquality(float x, float y) {
-        return Math.abs(x - y) < EPSILON;
-    }
 }

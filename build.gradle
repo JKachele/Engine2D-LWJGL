@@ -5,15 +5,6 @@ plugins {
 group 'com.jkachele'
 version '1.0-SNAPSHOT'
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
-}
-
-test {
-    useJUnitPlatform()
-}
-
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
 project.ext.lwjglNatives = "natives-windows"
@@ -51,4 +42,7 @@ dependencies {
 
     // GSON
     implementation 'com.google.code.gson:gson:2.9.1'
+
+    //JUnit
+    testImplementation('junit:junit:4.13.2')
 }

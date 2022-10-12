@@ -8,8 +8,7 @@
 package com.jkachele.game.physics2d.primitives;
 
 import com.jkachele.game.physics2d.rigidbody.RigidBody2D;
-//import com.jkachele.game.util.GameMath;
-import com.jkachele.game.util.Constants;
+import com.jkachele.game.util.GameMath;
 import org.joml.Vector2f;
 
 @SuppressWarnings("all")
@@ -45,14 +44,18 @@ public class Box2D {
                 new Vector2f(max.x, min.y),
         };
 
-        if (Constants.floatEquality(rigidBody.getRotationDeg(), 0)) {    // (rigidBody.getRotationDeg() != 0.0f)
+        if (GameMath.floatEquality(rigidBody.getRotationDeg(), 0)) {    // (rigidBody.getRotationDeg() != 0.0f)
             for (Vector2f vertex : vertices) {
                 // TODO:IMPLEMENT THIS
                 // Rotates point(Vector2f) around the center(Vector2f) by the rotation angle(float)
-                //GameMath.rotate(vertex, this.rigidBody.getPosition(), this.rigidBody.getRotationDeg());
+                GameMath.rotate(vertex, this.rigidBody.getPosition(), this.rigidBody.getRotationDeg());
             }
         }
 
         return vertices;
+    }
+
+    public RigidBody2D getRigidBody() {
+        return rigidBody;
     }
 }
