@@ -19,16 +19,16 @@ public class IntersectionDetector2D {
     // =========================================================
     // Point Vs. Primitive Tests
     // =========================================================
-    public static boolean pointOnLine(Vector2f point, Line2D line) {
+    public static boolean pointOnLine(Vector2f point, Line2D line2D) {
         // Form the equation y = mx + b equation for the line
-        float dy = line.getEnd().y - line.getStart().y;
-        float dx = line.getEnd().x - line.getStart().x;
+        float dy = line2D.getEnd().y - line2D.getStart().y;
+        float dx = line2D.getEnd().x - line2D.getStart().x;
         if (GameMath.floatEquality(dx, 0)) {
-            return GameMath.floatEquality(point.x, line.getStart().x);
+            return GameMath.floatEquality(point.x, line2D.getStart().x);
         }
         float m = dy / dx;
 
-        float b = line.getEnd().y - (m * line.getEnd().x);
+        float b = line2D.getEnd().y - (m * line2D.getEnd().x);
 
         // TODO: CHECK IF POINT IS WITHIN THE LIMITS OF THE SEGMENT
 
@@ -43,27 +43,33 @@ public class IntersectionDetector2D {
         return centerToPoint.lengthSquared() <= circle.getRadius() * circle.getRadius();
     }
 
-    public static boolean pointInAABB2D(Vector2f point, AABB2D box) {
-        Vector2f min = box.getMin();
-        Vector2f max = box.getMax();
+    public static boolean pointInAABB2D(Vector2f point, AABB2D aabb2D) {
+        Vector2f min = aabb2D.getMin();
+        Vector2f max = aabb2D.getMax();
 
         return (point.x >= min.x) && (point.x <= max.x) &&
                 (point.y >= min.y) && (point.y <= max.y);
     }
 
-    public static boolean pointInBox2D(Vector2f point, Box2D box) {
+    public static boolean pointInBox2D(Vector2f point, Box2D box2D) {
         // Translate the point into the box's local coordinate space
         Vector2f localPoint = new Vector2f(point);
-        GameMath.rotate(localPoint, box.getRigidBody().getPosition(),
-                box.getRigidBody().getRotationDeg());
+        GameMath.rotate(localPoint, box2D.getRigidBody().getPosition(),
+                box2D.getRigidBody().getRotationDeg());
 
-        Vector2f min = box.getMin();
-        Vector2f max = box.getMax();
+        Vector2f min = box2D.getMin();
+        Vector2f max = box2D.getMax();
 
         return (localPoint.x >= min.x) && (localPoint.x <= max.x) &&
                 (localPoint.y >= min.y) && (localPoint.y <= max.y);
     }
 
+    /**
+     * Go here: <a href="https://youtu.be/Yx1fo2YLJOs">...</a> for explanation
+     * @param line Line2D Object
+     * @param circle Circle Object
+     * @return Boolean if the line intersects with the box
+     */
     // =========================================================
     // Line Vs. Primitive Tests
     // =========================================================
@@ -91,7 +97,10 @@ public class IntersectionDetector2D {
     }
 
     /**
-     * Go To: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
+     * Go here: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
+     * @param line Line2D Object
+     * @param box AABB2D Object
+     * @return Boolean if the line intersects with the box
      */
     public static boolean lineVsAABB2D(Line2D line, AABB2D box) {
         if (pointInAABB2D(line.getStart(), box) || pointInAABB2D(line.getEnd(), box)) {
@@ -120,7 +129,10 @@ public class IntersectionDetector2D {
     }
 
     /**
-     * Go To: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
+     * Go here: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
+     * @param line Line2D Object
+     * @param box Box2D Object
+     * @return Boolean if the line intersects with the box
      */
     public static boolean lineVsBox2D(Line2D line, Box2D box) {
         float theta = box.getRigidBody().getRotationDeg();
