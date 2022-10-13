@@ -7,33 +7,46 @@
  ******************************************/
 package com.jkachele.game.physics2d.rigidbody;
 
-import com.jkachele.game.physics2d.primitives.AABB2D;
-import com.jkachele.game.physics2d.primitives.Box2D;
-import com.jkachele.game.physics2d.primitives.Circle;
-import com.jkachele.game.renderer.Line2D;
+import com.jkachele.game.physics2d.primitives.*;
 import com.jkachele.game.util.GameMath;
 import org.joml.Math;
 import org.joml.Vector2f;
 
+@SuppressWarnings("DuplicatedCode")
 public class IntersectionDetector2D {
     // =========================================================
     // Point Vs. Primitive Tests
     // =========================================================
-    public static boolean pointOnLine(Vector2f point, Line2D line2D) {
+    public static boolean pointOnLine(Vector2f point, Line2D line) {
+        if (GameMath.vector2fEquality(point, line.getStart()) ||
+                GameMath.vector2fEquality(point, line.getEnd())) {
+            return true;
+        }
+
         // Form the equation y = mx + b equation for the line
-        float dy = line2D.getEnd().y - line2D.getStart().y;
-        float dx = line2D.getEnd().x - line2D.getStart().x;
+        float dy = line.getEnd().y - line.getStart().y;
+        float dx = line.getEnd().x - line.getStart().x;
         if (GameMath.floatEquality(dx, 0)) {
-            return GameMath.floatEquality(point.x, line2D.getStart().x);
+            return GameMath.floatEquality(point.x, line.getStart().x);
         }
         float m = dy / dx;
 
-        float b = line2D.getEnd().y - (m * line2D.getEnd().x);
-
-        // TODO: CHECK IF POINT IS WITHIN THE LIMITS OF THE SEGMENT
+        float b = line.getEnd().y - (m * line.getEnd().x);
 
         // Check the point to line equation using floating point equality
-        return (GameMath.floatEquality(point.y, m * point.x + b));
+        if (GameMath.floatEquality(point.y, m * point.x + b)) {
+            // Check if the point is between the endpoints of the line
+            Vector2f startToPoint = new Vector2f(point).sub(line.getStart());
+            Vector2f startToEnd = new Vector2f(line.getEnd()).sub(line.getStart());
+
+            float startToPointDot = startToEnd.dot(startToPoint);
+            float startToEndDot = startToEnd.dot(startToEnd);
+
+            // If the first dot product is > 0, and < second dot product the point is between the endpoints
+            return ((startToPointDot > 0) && (startToPointDot < startToEndDot));
+        }
+
+        return false;
     }
 
     public static boolean pointInCircle(Vector2f point, Circle circle) {
@@ -146,5 +159,134 @@ public class IntersectionDetector2D {
         AABB2D aabb = new AABB2D(box.getMin(), box.getMax());
 
         return lineVsAABB2D(localLine, aabb);
+    }
+
+    // =========================================================
+    // Raycasting
+    // =========================================================
+    public static boolean raycast(Circle circle, Ray2D ray, RayCastResult result) {
+        RayCastResult.reset(result);
+
+        Vector2f originToCircle = new Vector2f(circle.getCenter()).sub(ray.getOrigin());
+        float radiusSquared = circle.getRadius() * circle.getRadius();
+        float originToCircleSquared = originToCircle.lengthSquared();
+
+        // Project the vector from the ray origin onto the direction of the ray
+        float a = originToCircle.dot(ray.getDirection());
+        float bSq = originToCircleSquared - (a * a);
+        if (radiusSquared - bSq < 0.0f) {
+            return false;
+        }
+
+        float f = Math.sqrt(radiusSquared - bSq);   // Why rayCasts are slow
+        float t;
+
+        if (originToCircleSquared < radiusSquared) {
+            // Ray starts inside circle
+            t = a + f;
+        } else {
+            t = a - f;
+        }
+
+        if (result != null) {
+            Vector2f point = new Vector2f(ray.getOrigin()
+                    .add(new Vector2f(ray.getDirection()).mul(t)));
+            Vector2f normal = new Vector2f(point).sub(circle.getCenter());
+            normal.normalize();
+            result.init(point, normal, t, true);
+        }
+
+        return true;
+    }
+
+    public static boolean raycast(AABB2D box, Ray2D ray, RayCastResult result) {
+        RayCastResult.reset(result);
+
+        Vector2f unitVector = ray.getDirection();
+        unitVector.normalize();
+        unitVector.x = (unitVector.x != 0) ? 1.0f / unitVector.x : 0.0f;
+        unitVector.y = (unitVector.y!= 0)? 1.0f / unitVector.y :0.0f;
+
+        Vector2f min = box.getMin();
+        min.sub(ray.getOrigin()).mul(unitVector);
+        Vector2f max = box.getMax();
+        max.sub(ray.getOrigin()).mul(unitVector);
+
+        float tMin = Math.max(Math.min(min.x, max.x), Math.min(min.y, max.y));
+        float tMax = Math.min(Math.max(min.x, max.x), Math.min(min.y, max.y));
+
+        if (tMax < 0.0f || tMin > tMax) {
+            return false;
+        }
+
+        float t = (tMin < 0f) ? tMax : tMin;
+        boolean hit = t > 0f;
+        if (!hit) {
+            return false;
+        }
+
+        if (result != null) {
+            Vector2f point = new Vector2f(ray.getOrigin()
+                    .add(new Vector2f(ray.getDirection()).mul(t)));
+            Vector2f normal = new Vector2f(ray.getOrigin()).sub(point);
+            normal.normalize();
+
+            result.init(point, normal, t, true);
+        }
+
+        return true;
+    }
+
+    public static boolean raycast(Box2D box, Ray2D ray, RayCastResult result) {
+        RayCastResult.reset(result);
+
+        Vector2f xAxis = new Vector2f(1, 0);
+        Vector2f yAxis = new Vector2f(0, 1);
+        Vector2f halfSize = box.getHalfSize();
+        GameMath.rotate(xAxis, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
+        GameMath.rotate(yAxis, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
+
+        Vector2f p = new Vector2f(box.getRigidBody().getPosition()).sub(ray.getOrigin());
+
+        // Project the direction of the ray onto each axis of the box
+        Vector2f f = new Vector2f(xAxis.dot(ray.getDirection()), yAxis.dot(ray.getDirection()));
+
+        // Project p onto each axis of the box
+        Vector2f e = new Vector2f(xAxis.dot(p), yAxis.dot(p));
+
+        float[] tArray = {0, 0, 0, 0};
+
+        for (int i = 0; i < 2; i++) {
+            if (GameMath.floatEquality(f.get(i), 0)) {
+                // If the ray is parallel to the current axis, and the ray isn't inside the box, there is no hit
+                if (-e.get(i) - halfSize.get(i) > 0 || -e.get(i) - halfSize.get(i) < 0) {
+                    return false;
+                }
+                // Set f to small size to avoid divide by zero errors
+                f.setComponent(i, 0.00001f);
+            }
+            tArray[i * 2] = (e.get(i) + halfSize.get(i)) / f.get(i);     // tMax for the axis
+            tArray[i * 2 + 1] = (e.get(i) - halfSize.get(i)) / f.get(i); // tMin for the axis
+        }
+
+        float tMin = Math.max(Math.min(tArray[0], tArray[1]), Math.min(tArray[2], tArray[3]));
+        float tMax = Math.min(Math.max(tArray[0], tArray[1]), Math.max(tArray[2], tArray[3]));
+
+        float t = (tMin < 0f) ? tMax : tMin;
+        boolean hit = t > 0f;
+        if (!hit) {
+            return false;
+        }
+
+        if (result != null) {
+            Vector2f point = new Vector2f(ray.getOrigin()
+                    .add(new Vector2f(ray.getDirection()).mul(t)));
+            Vector2f normal = new Vector2f(ray.getOrigin()).sub(point);
+            normal.normalize();
+
+            result.init(point, normal, t, true);
+        }
+
+        return true;
     }
 }

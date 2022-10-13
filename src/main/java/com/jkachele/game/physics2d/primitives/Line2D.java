@@ -5,7 +5,7 @@
  *Date----------10/9/2022
  *License-------GNU GENERAL PUBLIC LICENSE
  ******************************************/
-package com.jkachele.game.renderer;
+package com.jkachele.game.physics2d.primitives;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;

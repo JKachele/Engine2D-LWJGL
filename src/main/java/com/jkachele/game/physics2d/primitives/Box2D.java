@@ -58,4 +58,8 @@ public class Box2D {
     public RigidBody2D getRigidBody() {
         return rigidBody;
     }
+
+    public Vector2f getHalfSize() {
+        return this.halfSize;
+    }
 }
