@@ -53,7 +53,7 @@ public class IntersectionDetector2D {
         Vector2f circleCenter = circle.getCenter();
         Vector2f centerToPoint = new Vector2f(point).sub(circleCenter);
 
-        return centerToPoint.lengthSquared() <= circle.getRadius() * circle.getRadius();
+        return centerToPoint.lengthSquared() <= circle.getRadiusSquared();
     }
 
     public static boolean pointInAABB2D(Vector2f point, AABB2D aabb2D) {
@@ -67,7 +67,7 @@ public class IntersectionDetector2D {
     public static boolean pointInBox2D(Vector2f point, Box2D box2D) {
         // Translate the point into the box's local coordinate space
         Vector2f localPoint = new Vector2f(point);
-        GameMath.rotate(localPoint, box2D.getRigidBody().getPosition(),
+        GameMath.rotate(localPoint, box2D.getCenter(),
                 box2D.getRigidBody().getRotationDeg());
 
         Vector2f min = box2D.getMin();
@@ -149,7 +149,7 @@ public class IntersectionDetector2D {
      */
     public static boolean lineVsBox2D(Line2D line, Box2D box) {
         float theta = box.getRigidBody().getRotationDeg();
-        Vector2f center = box.getRigidBody().getPosition();
+        Vector2f center = box.getCenter();
         Vector2f localStart = new Vector2f(line.getStart());
         Vector2f localEnd = new Vector2f(line.getEnd());
         GameMath.rotate(localStart, center, theta);
@@ -162,13 +162,79 @@ public class IntersectionDetector2D {
     }
 
     // =========================================================
+    // Circle Vs. Primitive Tests
+    // =========================================================
+    public static boolean circleVsLine(Circle circle, Line2D line) {
+        return lineVsCircle(line, circle);
+    }
+
+    public static boolean circleVsCircle(Circle circle1, Circle circle2) {
+        Vector2f vectorBetweenCenters = new Vector2f(circle1.getCenter()).sub(circle2.getCenter());
+        float radiusSum = circle1.getRadius() + circle2.getRadius();
+
+        return vectorBetweenCenters.lengthSquared() <= radiusSum * radiusSum;
+    }
+
+    public static boolean CircleVsAABB2D(Circle circle, AABB2D box) {
+        Vector2f min = box.getMin();
+        Vector2f max = box.getMax();
+
+        Vector2f closestPointToCircle = new Vector2f(circle.getCenter());
+
+        if (closestPointToCircle.x < min.x) {
+            closestPointToCircle.x = min.x;
+        } else if (closestPointToCircle.x > max.x) {
+            closestPointToCircle.x = max.x;
+        }
+
+        if (closestPointToCircle.y < min.y) {
+            closestPointToCircle.y = min.y;
+        } else if (closestPointToCircle.y > max.y) {
+            closestPointToCircle.y = max.y;
+        }
+
+        Vector2f circleToBox = new Vector2f(circle.getCenter()).sub(closestPointToCircle);
+
+        return circleToBox.lengthSquared() <= circle.getRadiusSquared();
+    }
+
+    public static boolean CircleVsBox2D(Circle circle, Box2D box) {
+        // Treat the box like an AABB after rotating the components
+        Vector2f min = new Vector2f();
+        Vector2f max = new Vector2f(box.getHalfSize()).mul(2.0f);
+
+        // Create a circle in the box's local space
+        Vector2f r = new Vector2f(circle.getCenter()).sub(box.getCenter());
+        GameMath.rotate(r, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
+        Vector2f localCirclePos = new Vector2f(r).add(box.getHalfSize());
+
+        Vector2f closestPointToCircle = new Vector2f(localCirclePos);
+
+        if (closestPointToCircle.x < min.x) {
+            closestPointToCircle.x = min.x;
+        } else if (closestPointToCircle.x > max.x) {
+            closestPointToCircle.x = max.x;
+        }
+
+        if (closestPointToCircle.y < min.y) {
+            closestPointToCircle.y = min.y;
+        } else if (closestPointToCircle.y > max.y) {
+            closestPointToCircle.y = max.y;
+        }
+
+        Vector2f circleToBox = new Vector2f(localCirclePos).sub(closestPointToCircle);
+
+        return circleToBox.lengthSquared() <= circle.getRadiusSquared();
+    }
+
+    // =========================================================
     // Raycasting
     // =========================================================
     public static boolean raycast(Circle circle, Ray2D ray, RayCastResult result) {
         RayCastResult.reset(result);
 
         Vector2f originToCircle = new Vector2f(circle.getCenter()).sub(ray.getOrigin());
-        float radiusSquared = circle.getRadius() * circle.getRadius();
+        float radiusSquared = circle.getRadiusSquared();
         float originToCircleSquared = originToCircle.lengthSquared();
 
         // Project the vector from the ray origin onto the direction of the ray
@@ -246,7 +312,7 @@ public class IntersectionDetector2D {
         GameMath.rotate(xAxis, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
         GameMath.rotate(yAxis, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
 
-        Vector2f p = new Vector2f(box.getRigidBody().getPosition()).sub(ray.getOrigin());
+        Vector2f p = new Vector2f(box.getCenter()).sub(ray.getOrigin());
 
         // Project the direction of the ray onto each axis of the box
         Vector2f f = new Vector2f(xAxis.dot(ray.getDirection()), yAxis.dot(ray.getDirection()));

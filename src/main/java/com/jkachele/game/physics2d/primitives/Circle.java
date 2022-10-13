@@ -18,6 +18,10 @@ public class Circle {
         return radius;
     }
 
+    public float getRadiusSquared() {
+        return radius * radius;
+    }
+
     public void setRadius(float radius) {
         this.radius = radius;
     }

@@ -62,4 +62,8 @@ public class Box2D {
     public Vector2f getHalfSize() {
         return this.halfSize;
     }
+
+    public Vector2f getCenter() {
+        return this.rigidBody.getPosition();
+    }
 }
