@@ -119,6 +119,9 @@ public class IntersectionDetector2D {
         return (t > 0.0f) && (t * t < line.lengthSquared());
     }
 
+    /**
+     * Go To: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
+     */
     public static boolean lineVsBox2D(Line2D line, Box2D box) {
         float theta = box.getRigidBody().getRotationDeg();
         Vector2f center = box.getRigidBody().getPosition();
