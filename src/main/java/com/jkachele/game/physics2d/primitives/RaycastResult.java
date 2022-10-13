@@ -1,6 +1,6 @@
 /******************************************
  *Project-------Learn-LWJGL
- *File----------RayCastResult.java
+ *File----------RaycastResult.java
  *Author--------Justin Kachele
  *Date----------10/13/2022
  *License-------GNU GENERAL PUBLIC LICENSE
@@ -9,13 +9,13 @@ package com.jkachele.game.physics2d.primitives;
 
 import org.joml.Vector2f;
 
-public class RayCastResult {
+public class RaycastResult {
     private Vector2f point;
     private Vector2f normal;
     private float t;
     private boolean hit;
 
-    public RayCastResult() {
+    public RaycastResult() {
         point = new Vector2f();
         normal = new Vector2f();
         t = -1;
@@ -29,7 +29,7 @@ public class RayCastResult {
         this.hit = hit;
     }
 
-    public static void reset(RayCastResult result) {
+    public static void reset(RaycastResult result) {
         if (result != null) {
             result.point.zero();
             result.normal.set(0, 0);

@@ -164,10 +164,22 @@ public class IntersectionDetector2D {
     // =========================================================
     // Circle Vs. Primitive Tests
     // =========================================================
+    /**
+     * Tests if a circle intersects a line
+     * @param circle Circle Object
+     * @param line Line2D Object
+     * @return Boolean if the line intersects with the circle
+     */
     public static boolean circleVsLine(Circle circle, Line2D line) {
         return lineVsCircle(line, circle);
     }
 
+    /**
+     * Tests if 2 circles are intersecting
+     * @param circle1 Circle Object
+     * @param circle2 Circle Object
+     * @return Boolean if the 2 circles intersect
+     */
     public static boolean circleVsCircle(Circle circle1, Circle circle2) {
         Vector2f vectorBetweenCenters = new Vector2f(circle1.getCenter()).sub(circle2.getCenter());
         float radiusSum = circle1.getRadius() + circle2.getRadius();
@@ -175,6 +187,12 @@ public class IntersectionDetector2D {
         return vectorBetweenCenters.lengthSquared() <= radiusSum * radiusSum;
     }
 
+    /**
+     * Tests if a circle is intersecting with an AABB
+     * @param circle Circle Object
+     * @param box AABB2D Object
+     * @return Boolean if the circle intersects with the box
+     */
     public static boolean CircleVsAABB2D(Circle circle, AABB2D box) {
         Vector2f min = box.getMin();
         Vector2f max = box.getMax();
@@ -198,6 +216,12 @@ public class IntersectionDetector2D {
         return circleToBox.lengthSquared() <= circle.getRadiusSquared();
     }
 
+    /**
+     *  Tests if a circle is intersecting with a Box2D
+     * @param circle Circle Object
+     * @param box Box2D Object
+     * @return Boolean if the circle intersects with the box
+     */
     public static boolean CircleVsBox2D(Circle circle, Box2D box) {
         // Treat the box like an AABB after rotating the components
         Vector2f min = new Vector2f();
@@ -230,8 +254,15 @@ public class IntersectionDetector2D {
     // =========================================================
     // Raycasting
     // =========================================================
-    public static boolean raycast(Circle circle, Ray2D ray, RayCastResult result) {
-        RayCastResult.reset(result);
+    /**
+     * Tests if the raycast intersects with a circle
+     * @param circle Circle to test the raycast against
+     * @param ray The ray to be cast
+     * @param result RaycastResult object to hold results of the raycast. Null if not needed
+     * @return Boolean of the raycast intersected with the circle
+     */
+    public static boolean raycast(Circle circle, Ray2D ray, RaycastResult result) {
+        RaycastResult.reset(result);
 
         Vector2f originToCircle = new Vector2f(circle.getCenter()).sub(ray.getOrigin());
         float radiusSquared = circle.getRadiusSquared();
@@ -265,8 +296,15 @@ public class IntersectionDetector2D {
         return true;
     }
 
-    public static boolean raycast(AABB2D box, Ray2D ray, RayCastResult result) {
-        RayCastResult.reset(result);
+    /**
+     * Tests if the raycast intersects with an AABB
+     * @param box AABB2D to test the raycast against
+     * @param ray The ray to be cast
+     * @param result RaycastResult object to hold results of the raycast. Null if not needed
+     * @return Boolean of the raycast intersected with the AABB
+     */
+    public static boolean raycast(AABB2D box, Ray2D ray, RaycastResult result) {
+        RaycastResult.reset(result);
 
         Vector2f unitVector = ray.getDirection();
         unitVector.normalize();
@@ -303,8 +341,15 @@ public class IntersectionDetector2D {
         return true;
     }
 
-    public static boolean raycast(Box2D box, Ray2D ray, RayCastResult result) {
-        RayCastResult.reset(result);
+    /**
+     * Tests if the raycast intersects with a Box2D
+     * @param box Box2D to test the raycast against
+     * @param ray The ray to be cast
+     * @param result RaycastResult object to hold results of the raycast. Null if not needed
+     * @return Boolean of the raycast intersected with the Box2D
+     */
+    public static boolean raycast(Box2D box, Ray2D ray, RaycastResult result) {
+        RaycastResult.reset(result);
 
         Vector2f xAxis = new Vector2f(1, 0);
         Vector2f yAxis = new Vector2f(0, 1);
