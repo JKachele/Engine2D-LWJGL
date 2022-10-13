@@ -12,6 +12,7 @@ import com.jkachele.game.physics2d.primitives.Box2D;
 import com.jkachele.game.physics2d.primitives.Circle;
 import com.jkachele.game.renderer.Line2D;
 import com.jkachele.game.util.GameMath;
+import org.joml.Math;
 import org.joml.Vector2f;
 
 public class IntersectionDetector2D {
@@ -28,6 +29,8 @@ public class IntersectionDetector2D {
         float m = dy / dx;
 
         float b = line.getEnd().y - (m * line.getEnd().x);
+
+        // TODO: CHECK IF POINT IS WITHIN THE LIMITS OF THE SEGMENT
 
         // Check the point to line equation using floating point equality
         return (GameMath.floatEquality(point.y, m * point.x + b));
@@ -87,11 +90,46 @@ public class IntersectionDetector2D {
         return pointInCircle(closestPoint, circle);
     }
 
+    /**
+     * Go To: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
+     */
     public static boolean lineVsAABB2D(Line2D line, AABB2D box) {
-        return false;
+        if (pointInAABB2D(line.getStart(), box) || pointInAABB2D(line.getEnd(), box)) {
+            return true;
+        }
+        Vector2f unitVector = new Vector2f(line.getEnd()).sub(line.getStart());
+        unitVector.normalize();
+        unitVector.x = (unitVector.x != 0) ? 1.0f / unitVector.x : 0.0f;
+        unitVector.y = (unitVector.y!= 0)? 1.0f / unitVector.y :0.0f;
+
+        Vector2f min = box.getMin();
+        min.sub(line.getStart()).mul(unitVector);
+        Vector2f max = box.getMax();
+        max.sub(line.getStart()).mul(unitVector);
+
+        float tMin = Math.max(Math.min(min.x, max.x), Math.min(min.y, max.y));
+        float tMax = Math.min(Math.max(min.x, max.x), Math.min(min.y, max.y));
+
+        if (tMax < 0.0f || tMin > tMax) {
+            return false;
+        }
+
+        float t = (tMin < 0f) ? tMax : tMin;
+
+        return (t > 0.0f) && (t * t < line.lengthSquared());
     }
 
-    public static  boolean lineVsBox2D(Line2D line, Box2D box) {
-        return false;
+    public static boolean lineVsBox2D(Line2D line, Box2D box) {
+        float theta = box.getRigidBody().getRotationDeg();
+        Vector2f center = box.getRigidBody().getPosition();
+        Vector2f localStart = new Vector2f(line.getStart());
+        Vector2f localEnd = new Vector2f(line.getEnd());
+        GameMath.rotate(localStart, center, theta);
+        GameMath.rotate(localEnd, center, theta);
+
+        Line2D localLine = new Line2D(localStart, localEnd);
+        AABB2D aabb = new AABB2D(box.getMin(), box.getMax());
+
+        return lineVsAABB2D(localLine, aabb);
     }
 }

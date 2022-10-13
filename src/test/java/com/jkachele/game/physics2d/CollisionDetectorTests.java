@@ -12,6 +12,7 @@ import com.jkachele.game.renderer.Line2D;
 import org.joml.Vector2f;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertTrue;
 
 
@@ -37,5 +38,12 @@ public class CollisionDetectorTests {
         Vector2f point = new Vector2f(0, 5);
         assertTrue(IntersectionDetector2D.pointOnLine(point, line));
     }
+
+//    @Test
+//    public void pointOffLine2DShouldReturnFalseTest() {
+//        Line2D line = new Line2D(new Vector2f(0, 0), new Vector2f(12, 4));
+//        Vector2f point = new Vector2f(24, 8);
+//        assertFalse(IntersectionDetector2D.pointOnLine(point, line));
+//    }
 
 }
