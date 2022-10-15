@@ -42,10 +42,6 @@ public enum Window {;
 
     private static Scene currentScene = null;
 
-    private Window() {
-        throw new AssertionError();
-    }
-
     public static void init(int width, int height, String title, Color backgroundColor, boolean reset) {
         Window.width = width;
         Window.height = height;

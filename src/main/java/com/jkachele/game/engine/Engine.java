@@ -65,7 +65,7 @@ public class Engine implements Runnable{
             Window.getImGuiLayer().update(dt, Window.getCurrentScene());
             glfwSwapBuffers(Window.getGlfwWindow());
 
-            //System.out.println(fps(dt));
+            System.out.print("\r" + fps(dt));
 
             endTime = (float)glfwGetTime();
             dt = endTime - beginTime;

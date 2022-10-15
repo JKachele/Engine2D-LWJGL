@@ -17,6 +17,12 @@ public class IntersectionDetector2D {
     // =========================================================
     // Point Vs. Primitive Tests
     // =========================================================
+    /**
+     * Tests if a point intersects with a Line2D Object.
+     * @param point Vector2F Object
+     * @param line Line2D Object
+     * @return Boolean if the point is on the line
+     */
     public static boolean pointOnLine(Vector2f point, Line2D line) {
         if (GameMath.vector2fEquality(point, line.getStart()) ||
                 GameMath.vector2fEquality(point, line.getEnd())) {
@@ -49,6 +55,12 @@ public class IntersectionDetector2D {
         return false;
     }
 
+    /**
+     * Tests if a Point intersects with a Circle Object.
+     * @param point Vector2f object
+     * @param circle Circle object
+     * @return Boolean if the point is inside the circle
+     */
     public static boolean pointInCircle(Vector2f point, Circle circle) {
         Vector2f circleCenter = circle.getCenter();
         Vector2f centerToPoint = new Vector2f(point).sub(circleCenter);
@@ -56,36 +68,49 @@ public class IntersectionDetector2D {
         return centerToPoint.lengthSquared() <= circle.getRadiusSquared();
     }
 
-    public static boolean pointInAABB2D(Vector2f point, AABB2D aabb2D) {
-        Vector2f min = aabb2D.getMin();
-        Vector2f max = aabb2D.getMax();
+    /**
+     * Tests if a Point intersects with an AABB Object.
+     * @param point Vector2f object
+     * @param box AABB2D object
+     * @return Boolean if the point is inside the box
+     */
+    public static boolean pointInAABB2D(Vector2f point, AABB2D box) {
+        Vector2f min = box.getMin();
+        Vector2f max = box.getMax();
 
         return (point.x >= min.x) && (point.x <= max.x) &&
                 (point.y >= min.y) && (point.y <= max.y);
     }
 
-    public static boolean pointInBox2D(Vector2f point, Box2D box2D) {
+    /**
+     * Tests if a Point intersects with a Box2D Object.
+     * @param point Vector2f object
+     * @param box Box2D object
+     * @return Boolean if the point is inside the box
+     */
+    public static boolean pointInBox2D(Vector2f point, Box2D box) {
         // Translate the point into the box's local coordinate space
         Vector2f localPoint = new Vector2f(point);
-        GameMath.rotate(localPoint, box2D.getCenter(),
-                box2D.getRigidBody().getRotationDeg());
+        GameMath.rotate(localPoint, box.getCenter(),
+                box.getRigidBody().getRotationDeg());
 
-        Vector2f min = box2D.getMin();
-        Vector2f max = box2D.getMax();
+        Vector2f min = box.getMin();
+        Vector2f max = box.getMax();
 
         return (localPoint.x >= min.x) && (localPoint.x <= max.x) &&
                 (localPoint.y >= min.y) && (localPoint.y <= max.y);
     }
 
+    // =========================================================
+    // Line Vs. Primitive Tests
+    // =========================================================
     /**
+     * Tests if a Line2D object intersects with a Circle Object.
      * Go here: <a href="https://youtu.be/Yx1fo2YLJOs">...</a> for explanation
      * @param line Line2D Object
      * @param circle Circle Object
      * @return Boolean if the line intersects with the box
      */
-    // =========================================================
-    // Line Vs. Primitive Tests
-    // =========================================================
     public static boolean lineVsCircle(Line2D line, Circle circle) {
         if (pointInCircle(line.getStart(), circle) || pointInCircle(line.getEnd(), circle)) {
             return true;
@@ -110,6 +135,7 @@ public class IntersectionDetector2D {
     }
 
     /**
+     * Tests if a Line2D object intersects with an AABB2D Object.
      * Go here: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
      * @param line Line2D Object
      * @param box AABB2D Object
@@ -142,6 +168,7 @@ public class IntersectionDetector2D {
     }
 
     /**
+     * Tests if a Line2D object intersects with a Box2D Object.
      * Go here: <a href="https://youtu.be/eo_hrg6kVA8">...</a> for explanation
      * @param line Line2D Object
      * @param box Box2D Object
@@ -399,5 +426,141 @@ public class IntersectionDetector2D {
         }
 
         return true;
+    }
+
+    // =========================================================
+    // AABB2D Vs. Primitive Tests
+    // =========================================================
+    /**
+     * Tests if a circle is intersecting with an AABB
+     * @param circle Circle Object
+     * @param box AABB2D Object
+     * @return Boolean if the circle intersects with the box
+     */
+    public static boolean aabb2DVsCircle(AABB2D box, Circle circle) {
+        return CircleVsAABB2D(circle, box);
+    }
+    /**
+     * Tests if an AABB2D object intersects with another AABB2D Object using the Separating Axis Theorem.
+     * Go here: <a href="https://youtu.be/Nm1Cgmbg5SQ">...</a> for explanation
+     * @param box1 AABB2D Object
+     * @param box2 AABB2D Object
+     * @return Boolean if the AABBs intersect
+     */
+    public static boolean aabb2DVsAABB2D(AABB2D box1, AABB2D box2) {
+        // AABB aligned on (1, 0) and (0, 1) axes
+        Vector2f[] axesToTest = {new Vector2f(1, 0), new Vector2f(0, 1)};
+        for (Vector2f axisToTest : axesToTest) {
+            if (!overlapOnAxis(box1, box2, axisToTest)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Tests if an AABB2D object intersects with a Box2D Object using the Separating Axis Theorem.
+     * Go here: <a href="https://youtu.be/Nm1Cgmbg5SQ">...</a> for explanation
+     * @param aabb AABB2D Object
+     * @param box Box2D Object
+     * @return Boolean if the AABB intersects with the box
+     */
+    public static boolean aabb2DVsBox2D(AABB2D aabb, Box2D box) {
+        Vector2f[] axesToTest = {
+                new Vector2f(1, 0), new Vector2f(0, 1),
+                new Vector2f(1, 0), new Vector2f(0, 1)
+        };
+        GameMath.rotate(axesToTest[2], new Vector2f(0, 0), box.getRigidBody().getRotationDeg());
+        GameMath.rotate(axesToTest[3], new Vector2f(0, 0), box.getRigidBody().getRotationDeg());
+
+        for (Vector2f axisToTest : axesToTest) {
+            if (!overlapOnAxis(aabb, box, axisToTest)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // =========================================================
+    // Separating Axis Theorem Helper Methods
+    // =========================================================
+    private static boolean overlapOnAxis(AABB2D box1, AABB2D box2, Vector2f axis) {
+        axis.normalize();
+
+        Vector2f interval1 = getInterval(box1, axis);
+        Vector2f interval2 = getInterval(box2, axis);
+
+        return ((interval2.x <= interval1.y) && (interval1.x <= interval2.y));
+    }
+
+    private static boolean overlapOnAxis(AABB2D box1, Box2D box2, Vector2f axis) {
+        axis.normalize();
+
+        Vector2f interval1 = getInterval(box1, axis);
+        Vector2f interval2 = getInterval(box2, axis);
+
+        return ((interval2.x <= interval1.y) && (interval1.x <= interval2.y));
+    }
+
+    private static boolean overlapOnAxis(Box2D box1, Box2D box2, Vector2f axis) {
+        axis.normalize();
+
+        Vector2f interval1 = getInterval(box1, axis);
+        Vector2f interval2 = getInterval(box2, axis);
+
+        return ((interval2.x <= interval1.y) && (interval1.x <= interval2.y));
+    }
+
+    private static Vector2f getInterval(AABB2D rect, Vector2f axis) {
+        Vector2f result = new Vector2f(0, 0);
+
+        Vector2f min = rect.getMin();
+        Vector2f max = rect.getMax();
+
+        Vector2f[] vertices = {
+                new Vector2f(min.x, min.y),     // Bottom left
+                new Vector2f(min.x, max.y),     // Top left
+                new Vector2f(max.x, max.y),     // Top right
+                new Vector2f(max.x, min.y),     // Bottom right
+        };
+
+        result.x = axis.dot(vertices[0]);
+        result.y = axis.dot(vertices[0]);
+        for (int i = 1; i < vertices.length; i++) {
+            float projection = axis.dot(vertices[i]);
+            if (projection < result.x) {
+                result.x = projection;
+            }
+            if (projection > result.y) {
+                result.y = projection;
+            }
+        }
+
+        return result;
+    }
+
+    private static Vector2f getInterval(Box2D rect, Vector2f axis) {
+        Vector2f result = new Vector2f(0, 0);
+
+        Vector2f min = rect.getMin();
+        Vector2f max = rect.getMax();
+
+        Vector2f[] vertices = rect.getVertices();
+
+        result.x = axis.dot(vertices[0]);
+        result.y = axis.dot(vertices[0]);
+        for (int i = 1; i < vertices.length; i++) {
+            float projection = axis.dot(vertices[i]);
+            if (projection < result.x) {
+                result.x = projection;
+            }
+            if (projection > result.y) {
+                result.y = projection;
+            }
+        }
+
+        return result;
     }
 }

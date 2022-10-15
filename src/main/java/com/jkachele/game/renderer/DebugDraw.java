@@ -11,6 +11,7 @@ import com.jkachele.game.engine.Window;
 import com.jkachele.game.physics2d.primitives.Line2D;
 import com.jkachele.game.util.AssetPool;
 import com.jkachele.game.util.Color;
+import com.jkachele.game.util.GameMath;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -154,9 +155,63 @@ public class DebugDraw {
                 new Vector2f(max.x, max.y),     // Top right
                 new Vector2f(max.x, min.y),     // Bottom right
         };
+
+        if (rotation != 0.0f) {
+            for (Vector2f vertex : vertices) {
+                GameMath.rotate(vertex, center, rotation);
+            }
+        }
+
+        addLine2D(vertices[0], vertices[1], color, lifetime);
+        addLine2D(vertices[1], vertices[2], color, lifetime);
+        addLine2D(vertices[2], vertices[3], color, lifetime);
+        addLine2D(vertices[3], vertices[0], color, lifetime);
+    }
+
+    public static void addBox2D(Vector2f center, Vector2f dimension, float rotation, Vector4f color) {
+        addBox2D(center, dimension, rotation, color, 1);
+    }
+
+    public static void addBox2D(Vector2f center, Vector2f dimension, float rotation) {
+        addBox2D(center, dimension, rotation, Color.GREEN.toVector(), 1);
+    }
+
+    public static void addBox2D(Vector2f center, Vector2f dimension) {
+        addBox2D(center, dimension, 0, Color.GREEN.toVector(), 1);
     }
 
     // =========================================================
     // Add Circle2D methods
     // =========================================================
+    public static void addCircle(Vector2f center, float radius, Vector4f color, int segmentNum, int lifetime) {
+        Vector2f[] points = new Vector2f[segmentNum];
+        float increment = (float)360 / segmentNum;
+        float currentAngle = 0.0f;
+
+        for (int i = 0; i < segmentNum; i++) {
+            Vector2f temp = new Vector2f(radius, 0);
+            GameMath.rotate(temp, new Vector2f(0, 0), currentAngle);
+            points[i] = new Vector2f(center).add(temp);
+
+            if (i > 0) {
+                addLine2D(points[i - 1], points[i], color, lifetime);
+            }
+
+            currentAngle += increment;
+        }
+        addLine2D(points[segmentNum - 1], points[0], color, lifetime);
+    }
+
+    public static void addCircle(Vector2f center, float radius, Vector4f color, int segmentNum) {
+        addCircle(center, radius, color, segmentNum, 1);
+    }
+
+    public static void addCircle(Vector2f center, float radius, Vector4f color) {
+        addCircle(center, radius, color, 32, 1);
+    }
+
+    public static void addCircle(Vector2f center, float radius) {
+        addCircle(center, radius, Color.GREEN.toVector(), 32, 1);
+    }
+
 }

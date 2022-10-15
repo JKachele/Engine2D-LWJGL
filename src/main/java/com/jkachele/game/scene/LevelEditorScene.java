@@ -12,7 +12,9 @@ import com.jkachele.game.engine.Camera;
 import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.Prefabs;
 import com.jkachele.game.engine.Transform;
+import com.jkachele.game.renderer.DebugDraw;
 import com.jkachele.game.util.AssetPool;
+import com.jkachele.game.util.Color;
 import com.jkachele.game.util.Constants;
 import imgui.ImGui;
 import imgui.ImVec2;
@@ -25,7 +27,7 @@ public class LevelEditorScene extends Scene {
     private GameObject obj3;
     Spritesheet sprites;
     Spritesheet marioSprites;
-   GameObject levelEditorComponents;
+    GameObject levelEditorComponents;
 
     @Override
     public void init(boolean reset) {
@@ -54,9 +56,19 @@ public class LevelEditorScene extends Scene {
         AssetPool.getTexture("assets/images/blendImageG.png");
     }
 
+    float x = 0.0f;
+    float y = 0.0f;
+    float angle = 0.0f;
     @Override
     public void update(float dt) {
         levelEditorComponents.update(dt);
+
+        DebugDraw.addBox2D(new Vector2f(200, 200), new Vector2f(128, 64), angle, Color.BLUE.toVector(), 1);
+        angle += 30.0f * dt;
+
+        DebugDraw.addCircle(new Vector2f(x, y), 64, Color.GREEN.toVector(), 32, 1);
+        x += 50.0f * dt;
+        y += 50.0f * dt;
 
         // Update all game objects in the scene
         for (GameObject gameObject : this.gameObjects) {
