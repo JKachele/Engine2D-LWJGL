@@ -16,13 +16,30 @@ import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.stb.STBImage.*;
 
 public class Texture {
-    private String filePath;
+    private String filepath;
     private int id;
     private int width;
     private int height;
 
+    public Texture() {
+        this.id = -1;
+        this.width = -1;
+        this.height = -1;
+    }
+
+    public Texture(int width, int height) {
+        this.filepath = "Generated";
+
+        // Generate the texture on GPU
+        id = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, id);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height,
+                0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    }
+
     public void init(String filePath) {
-        this.filePath = filePath;
+        this.filepath = filePath;
 
         // Generate the texture on GPU
         id = glGenTextures();
@@ -65,12 +82,17 @@ public class Texture {
         // Clean up to prevent memory leaks
         stbi_image_free(image);
     }
+
     public void bind() {
         glBindTexture(GL_TEXTURE_2D, id);
     }
 
     public void unbind() {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    public String getFilepath() {
+        return filepath;
     }
 
     public int getWidth() {
@@ -83,5 +105,13 @@ public class Texture {
 
     public int getID() {
         return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (!(o instanceof Texture oTex)) return false;
+        return oTex.getWidth() == this.width && oTex.getHeight() == this.height && oTex.getID() == this.id &&
+                oTex.getFilepath().equals(this.filepath);
     }
 }

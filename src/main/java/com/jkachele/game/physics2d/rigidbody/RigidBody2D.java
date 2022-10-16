@@ -14,6 +14,15 @@ public class RigidBody2D extends Component {
     private Vector2f position = new Vector2f();
     private float rotationDeg = 0.0f;
 
+    public void setTransform(Vector2f position, float rotation) {
+        this.position.set(position);
+        this.rotationDeg = rotation;
+    }
+
+    public void setTransform(Vector2f position) {
+        this.position.set(position);
+    }
+
     public Vector2f getPosition() {
         return position;
     }

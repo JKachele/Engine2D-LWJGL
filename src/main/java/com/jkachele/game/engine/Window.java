@@ -8,6 +8,7 @@
 
 package com.jkachele.game.engine;
 
+import com.jkachele.game.renderer.Framebuffer;
 import com.jkachele.game.scene.LevelEditorScene;
 import com.jkachele.game.scene.LevelScene;
 import com.jkachele.game.scene.Scene;
@@ -35,6 +36,7 @@ public enum Window {;
     private static Color backgroundColor;
     private static boolean reset;
     private static ImGuiLayer imGuiLayer;
+    private static Framebuffer framebuffer;
 
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -118,6 +120,8 @@ public enum Window {;
         Window.imGuiLayer = new ImGuiLayer(Window.glfwWindow);
         Window.imGuiLayer.initImGui();
 
+        Window.framebuffer = new Framebuffer(3840, 2160);
+
         // Initialize first scene
         Window.changeScene(0);
     }
@@ -182,5 +186,9 @@ public enum Window {;
 
     public static ImGuiLayer getImGuiLayer() {
         return imGuiLayer;
+    }
+
+    public static Framebuffer getFramebuffer() {
+        return framebuffer;
     }
 }

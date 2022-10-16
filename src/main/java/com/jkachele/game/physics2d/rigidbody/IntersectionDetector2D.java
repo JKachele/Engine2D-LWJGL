@@ -94,8 +94,8 @@ public class IntersectionDetector2D {
         GameMath.rotate(localPoint, box.getCenter(),
                 box.getRigidBody().getRotationDeg());
 
-        Vector2f min = box.getMin();
-        Vector2f max = box.getMax();
+        Vector2f min = box.getLocalMin();
+        Vector2f max = box.getLocalMax();
 
         return (localPoint.x >= min.x) && (localPoint.x <= max.x) &&
                 (localPoint.y >= min.y) && (localPoint.y <= max.y);
@@ -183,7 +183,7 @@ public class IntersectionDetector2D {
         GameMath.rotate(localEnd, center, theta);
 
         Line2D localLine = new Line2D(localStart, localEnd);
-        AABB2D aabb = new AABB2D(box.getMin(), box.getMax());
+        AABB2D aabb = new AABB2D(box.getLocalMin(), box.getLocalMax());
 
         return lineVsAABB2D(localLine, aabb);
     }
@@ -544,8 +544,8 @@ public class IntersectionDetector2D {
     private static Vector2f getInterval(Box2D rect, Vector2f axis) {
         Vector2f result = new Vector2f(0, 0);
 
-        Vector2f min = rect.getMin();
-        Vector2f max = rect.getMax();
+        Vector2f min = rect.getLocalMin();
+        Vector2f max = rect.getLocalMax();
 
         Vector2f[] vertices = rect.getVertices();
 

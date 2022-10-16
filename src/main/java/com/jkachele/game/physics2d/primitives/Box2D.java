@@ -25,17 +25,17 @@ public class Box2D {
     public Box2D() {
     }
 
-    public Vector2f getMin() {
+    public Vector2f getLocalMin() {
         return new Vector2f(this.rigidBody.getPosition()).sub(this.halfSize);
     }
 
-    public Vector2f getMax() {
+    public Vector2f getLocalMax() {
         return new Vector2f(this.rigidBody.getPosition()).add(this.halfSize);
     }
 
     public Vector2f[] getVertices() {
-        Vector2f min = getMin();
-        Vector2f max = getMax();
+        Vector2f min = getLocalMin();
+        Vector2f max = getLocalMax();
 
         Vector2f[] vertices = {
                 new Vector2f(min.x, min.y),
@@ -46,7 +46,6 @@ public class Box2D {
 
         if (GameMath.floatEquality(rigidBody.getRotationDeg(), 0)) {    // (rigidBody.getRotationDeg() != 0.0f)
             for (Vector2f vertex : vertices) {
-                // TODO:IMPLEMENT THIS
                 // Rotates point(Vector2f) around the center(Vector2f) by the rotation angle(float)
                 GameMath.rotate(vertex, this.rigidBody.getPosition(), this.rigidBody.getRotationDeg());
             }
@@ -57,6 +56,14 @@ public class Box2D {
 
     public RigidBody2D getRigidBody() {
         return rigidBody;
+    }
+
+    public void setRigidBody(RigidBody2D rigidBody) {
+        this.rigidBody = rigidBody;
+    }
+
+    public void setSize(Vector2f size) {
+        this.size = size;
     }
 
     public Vector2f getHalfSize() {

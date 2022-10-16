@@ -57,10 +57,14 @@ public class Engine implements Runnable{
                     backgroundColor.getBlue(), backgroundColor.getAlpha());
             glClear(GL_COLOR_BUFFER_BIT);
 
+            // Render the scene into the framebuffer
+            Window.getFramebuffer().bind();
             if(dt >= 0) {
                 DebugDraw.draw();
                 Window.getCurrentScene().update(dt);
             }
+            // Render ImGUI into the window
+            Window.getFramebuffer().unbind();
 
             Window.getImGuiLayer().update(dt, Window.getCurrentScene());
             glfwSwapBuffers(Window.getGlfwWindow());

@@ -12,7 +12,7 @@ import org.joml.Vector2f;
 
 public class Circle {
     private float radius = 1.0f;
-    private RigidBody2D rigidBody2D = new RigidBody2D();
+    private RigidBody2D rigidBody = new RigidBody2D();
 
     public float getRadius() {
         return radius;
@@ -27,10 +27,18 @@ public class Circle {
     }
 
     public Vector2f getCenter() {
-        return rigidBody2D.getPosition();
+        return rigidBody.getPosition();
     }
 
     public void setCenter(Vector2f center) {
-        rigidBody2D.setPosition(center);
+        rigidBody.setPosition(center);
+    }
+
+    public RigidBody2D getRigidBody() {
+        return rigidBody;
+    }
+
+    public void setRigidBody(RigidBody2D rigidBody) {
+        this.rigidBody = rigidBody;
     }
 }
