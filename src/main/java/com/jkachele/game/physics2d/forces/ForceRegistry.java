@@ -38,4 +38,11 @@ public class ForceRegistry {
             registration.forceGenerator.updateForce(registration.rigidbody, dt);
         }
     }
+
+    // TODO: Implement me
+//    public void zeroForces() {
+//        for (ForceRegistration registration : registry) {
+//            registration.rigidbody.zeroForces();
+//        }
+//    }
 }

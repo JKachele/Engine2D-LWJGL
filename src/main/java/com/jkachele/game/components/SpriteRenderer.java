@@ -94,4 +94,7 @@ public class SpriteRenderer extends Component {
         this.lastTransform = lastTransform;
     }
 
+    public void setTexture(Texture texture) {
+        this.sprite.setTexture(texture);
+    }
 }

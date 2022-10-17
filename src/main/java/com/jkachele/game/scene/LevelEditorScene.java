@@ -7,10 +7,7 @@
  ******************************************/
 package com.jkachele.game.scene;
 
-import com.jkachele.game.components.GridLines;
-import com.jkachele.game.components.MouseControls;
-import com.jkachele.game.components.Sprite;
-import com.jkachele.game.components.Spritesheet;
+import com.jkachele.game.components.*;
 import com.jkachele.game.engine.Camera;
 import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.Prefabs;
@@ -57,6 +54,15 @@ public class LevelEditorScene extends Scene {
                 new Spritesheet(AssetPool.getTexture("assets/images/spritesheets/characters.png"),
                         16, 16, 26, 0));
         AssetPool.getTexture("assets/images/blendImageG.png");
+
+        for (GameObject gameObject : gameObjects) {
+            if(gameObject.getComponent(SpriteRenderer.class) != null) {
+                SpriteRenderer sprite = gameObject.getComponent(SpriteRenderer.class);
+                if (sprite.getTexture() != null) {
+                    sprite.setTexture((AssetPool.getTexture(sprite.getTexture().getFilepath())));
+                }
+            }
+        }
     }
 
     float x = 0.0f;

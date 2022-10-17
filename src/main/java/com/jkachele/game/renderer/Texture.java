@@ -17,7 +17,7 @@ import static org.lwjgl.stb.STBImage.*;
 
 public class Texture {
     private String filepath;
-    private int id;
+    private transient int id;
     private int width;
     private int height;
 
