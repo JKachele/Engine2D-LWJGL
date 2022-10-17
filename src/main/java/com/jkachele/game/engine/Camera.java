@@ -40,15 +40,18 @@ public class Camera {
     }
 
     public Matrix4f getViewMatrix() {
-        // Camera looks at -1 in the Z direction
-        Vector3f cameraFront = new Vector3f(0.0f, 0.0f, -1.0f);
+        // Camera is located at the origin, 20 units back
+        Vector3f cameraPosition = new Vector3f(position.x, position.y, 20.0f);
+        // Camera looks at the origin
+        Vector3f cameraFront = new Vector3f(0.0f, 0.0f, 0.0f);
+        // Camera is oriented so up is in the Y direction
         Vector3f cameraUp = new Vector3f(0.0f, 1.0f, 0.0f);
 
         this.viewMatrix.identity();
         this.viewMatrix.lookAt(
-                new Vector3f(position.x, position.y, 20.0f),    // Where the camera is in world space
-                cameraFront.add(position.x, position.y, 0.0f),
-                cameraUp); // Where is the camera pointing
+                cameraPosition,     // Where the camera is in world space
+                cameraFront,        // Where the camera is pointing
+                cameraUp);          // How the camera is oriented
         this.viewMatrix.invert(inverseView);
         return this.viewMatrix;
     }

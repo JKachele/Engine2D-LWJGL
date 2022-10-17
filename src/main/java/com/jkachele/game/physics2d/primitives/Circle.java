@@ -7,12 +7,12 @@
  ******************************************/
 package com.jkachele.game.physics2d.primitives;
 
-import com.jkachele.game.physics2d.rigidbody.RigidBody2D;
+import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
 import org.joml.Vector2f;
 
 public class Circle {
     private float radius = 1.0f;
-    private RigidBody2D rigidBody = new RigidBody2D();
+    private Rigidbody2D rigidbody = new Rigidbody2D();
 
     public float getRadius() {
         return radius;
@@ -27,18 +27,18 @@ public class Circle {
     }
 
     public Vector2f getCenter() {
-        return rigidBody.getPosition();
+        return rigidbody.getPosition();
     }
 
     public void setCenter(Vector2f center) {
-        rigidBody.setPosition(center);
+        rigidbody.setTransform(center);
     }
 
-    public RigidBody2D getRigidBody() {
-        return rigidBody;
+    public Rigidbody2D getRigidbody() {
+        return rigidbody;
     }
 
-    public void setRigidBody(RigidBody2D rigidBody) {
-        this.rigidBody = rigidBody;
+    public void setRigidbody(Rigidbody2D rigidbody) {
+        this.rigidbody = rigidbody;
     }
 }

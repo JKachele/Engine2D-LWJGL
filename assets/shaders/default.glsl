@@ -1,8 +1,8 @@
 #type vertex
-#version 330 core
+#version 460 core
 layout (location=0) in vec3 aPos;       // Position
 layout (location=1) in vec4 aColor;     // Color
-layout (location=2) in vec2 aUVCoords;        // UV Coordinates
+layout (location=2) in vec2 aUVCoords;  // UV Coordinates
 layout (location=3) in float aTexID;    // Texture ID
 
 uniform mat4 uProjection;
@@ -20,7 +20,7 @@ void main() {
 }
 
 #type fragment
-#version 330 core
+#version 460 core
 
 in vec4 fColor;
 in vec2 fUVCoords;

@@ -92,7 +92,7 @@ public class IntersectionDetector2D {
         // Translate the point into the box's local coordinate space
         Vector2f localPoint = new Vector2f(point);
         GameMath.rotate(localPoint, box.getCenter(),
-                box.getRigidBody().getRotationDeg());
+                box.getRigidbody().getRotationDeg());
 
         Vector2f min = box.getLocalMin();
         Vector2f max = box.getLocalMax();
@@ -175,7 +175,7 @@ public class IntersectionDetector2D {
      * @return Boolean if the line intersects with the box
      */
     public static boolean lineVsBox2D(Line2D line, Box2D box) {
-        float theta = box.getRigidBody().getRotationDeg();
+        float theta = box.getRigidbody().getRotationDeg();
         Vector2f center = box.getCenter();
         Vector2f localStart = new Vector2f(line.getStart());
         Vector2f localEnd = new Vector2f(line.getEnd());
@@ -256,7 +256,7 @@ public class IntersectionDetector2D {
 
         // Create a circle in the box's local space
         Vector2f r = new Vector2f(circle.getCenter()).sub(box.getCenter());
-        GameMath.rotate(r, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
+        GameMath.rotate(r, new Vector2f(0, 0), -box.getRigidbody().getRotationDeg());
         Vector2f localCirclePos = new Vector2f(r).add(box.getHalfSize());
 
         Vector2f closestPointToCircle = new Vector2f(localCirclePos);
@@ -381,8 +381,8 @@ public class IntersectionDetector2D {
         Vector2f xAxis = new Vector2f(1, 0);
         Vector2f yAxis = new Vector2f(0, 1);
         Vector2f halfSize = box.getHalfSize();
-        GameMath.rotate(xAxis, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
-        GameMath.rotate(yAxis, new Vector2f(0, 0), -box.getRigidBody().getRotationDeg());
+        GameMath.rotate(xAxis, new Vector2f(0, 0), -box.getRigidbody().getRotationDeg());
+        GameMath.rotate(yAxis, new Vector2f(0, 0), -box.getRigidbody().getRotationDeg());
 
         Vector2f p = new Vector2f(box.getCenter()).sub(ray.getOrigin());
 
@@ -471,8 +471,8 @@ public class IntersectionDetector2D {
                 new Vector2f(1, 0), new Vector2f(0, 1),
                 new Vector2f(1, 0), new Vector2f(0, 1)
         };
-        GameMath.rotate(axesToTest[2], new Vector2f(0, 0), box.getRigidBody().getRotationDeg());
-        GameMath.rotate(axesToTest[3], new Vector2f(0, 0), box.getRigidBody().getRotationDeg());
+        GameMath.rotate(axesToTest[2], new Vector2f(0, 0), box.getRigidbody().getRotationDeg());
+        GameMath.rotate(axesToTest[3], new Vector2f(0, 0), box.getRigidbody().getRotationDeg());
 
         for (Vector2f axisToTest : axesToTest) {
             if (!overlapOnAxis(aabb, box, axisToTest)) {

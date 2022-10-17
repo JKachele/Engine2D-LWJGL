@@ -11,7 +11,7 @@ import com.jkachele.game.physics2d.primitives.Box2D;
 import com.jkachele.game.physics2d.primitives.Circle;
 import com.jkachele.game.physics2d.primitives.Line2D;
 import com.jkachele.game.physics2d.rigidbody.IntersectionDetector2D;
-import com.jkachele.game.physics2d.rigidbody.RigidBody2D;
+import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
 import org.joml.Vector2f;
 import org.junit.Test;
 
@@ -98,7 +98,7 @@ public class CollisionDetectorTests {
         assertFalse(IntersectionDetector2D.pointOnLine(point, line));
     }
 
-//    TODO: SHOULD THESE BE IMPLEMENTED
+//    TODO: Closest point to line
 //    @Test
 //    public void closestPointToLineTestOne() {
 //        Line2D line = new Line2D(new Vector2f(0, 0), new Vector2f(12, 4));
@@ -168,7 +168,7 @@ public class CollisionDetectorTests {
     // =========================================================================================================
     // Ray2DCast IntersectionDetector2D tests
     // =========================================================================================================
-    // TODO: SHOULD THESE BE IMPLEMENTED?
+    // TODO: Closest point to ray
 //    @Test
 //    public void pointOnRayShouldReturnTrueTestOne() {
 //        Ray2D ray = new Ray2D(new Vector2f(0), new Vector2f(0.948683f, 0.316228f));
@@ -306,8 +306,8 @@ public class CollisionDetectorTests {
     public void pointInCircleShouldReturnTrueTestOne() {
         Circle circle = new Circle();
         circle.setRadius(5f);
-        RigidBody2D body = new RigidBody2D();
-        circle.setRigidBody(body);
+        Rigidbody2D body = new Rigidbody2D();
+        circle.setRigidbody(body);
 
         Vector2f point = new Vector2f(3, -2);
 
@@ -319,8 +319,8 @@ public class CollisionDetectorTests {
     public void pointInCircleShouldReturnTrueTestTwo() {
         Circle circle = new Circle();
         circle.setRadius(5f);
-        RigidBody2D body = new RigidBody2D();
-        circle.setRigidBody(body);
+        Rigidbody2D body = new Rigidbody2D();
+        circle.setRigidbody(body);
 
         Vector2f point = new Vector2f(-4.9f, 0);
 
@@ -332,8 +332,8 @@ public class CollisionDetectorTests {
     public void pointInCircleShouldReturnFalseTestOne() {
         Circle circle = new Circle();
         circle.setRadius(5f);
-        RigidBody2D body = new RigidBody2D();
-        circle.setRigidBody(body);
+        Rigidbody2D body = new Rigidbody2D();
+        circle.setRigidbody(body);
 
         Vector2f point = new Vector2f(-6, -6);
 
@@ -345,9 +345,9 @@ public class CollisionDetectorTests {
     public void pointInCircleShouldReturnTrueTestFour() {
         Circle circle = new Circle();
         circle.setRadius(5f);
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10));
-        circle.setRigidBody(body);
+        circle.setRigidbody(body);
 
         Vector2f point = new Vector2f(3 + 10, -2 + 10);
 
@@ -359,9 +359,9 @@ public class CollisionDetectorTests {
     public void pointInCircleShouldReturnTrueTestFive() {
         Circle circle = new Circle();
         circle.setRadius(5f);
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10));
-        circle.setRigidBody(body);
+        circle.setRigidbody(body);
 
         Vector2f point = new Vector2f(-4.9f + 10, 10);
 
@@ -373,9 +373,9 @@ public class CollisionDetectorTests {
     public void pointInCircleShouldReturnFalseTestTwo() {
         Circle circle = new Circle();
         circle.setRadius(5f);
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10));
-        circle.setRigidBody(body);
+        circle.setRigidbody(body);
 
         Vector2f point = new Vector2f(-6 + 10, -6 + 10);
 
@@ -383,7 +383,7 @@ public class CollisionDetectorTests {
         assertFalse(result);
     }
 
-//    TODO: IMPLEMENT THESE
+//    TODO: Closest point to circle
 //    @Test
 //    public void closestPointToCircleTestOne() {
 //        Circle circle = new Circle();
@@ -453,8 +453,8 @@ public class CollisionDetectorTests {
     public void pointInBox2DShouldReturnTrueTestOne() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
-        box.setRigidBody(body);
+        Rigidbody2D body = new Rigidbody2D();
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(4, 4.3f);
 
@@ -465,8 +465,8 @@ public class CollisionDetectorTests {
     public void pointInBox2DShouldReturnTrueTestTwo() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
-        box.setRigidBody(body);
+        Rigidbody2D body = new Rigidbody2D();
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-4.9f, -4.9f);
 
@@ -477,8 +477,8 @@ public class CollisionDetectorTests {
     public void pointInBox2DShouldReturnFalseTestOne() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
-        box.setRigidBody(body);
+        Rigidbody2D body = new Rigidbody2D();
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(0, 5.1f);
 
@@ -489,9 +489,9 @@ public class CollisionDetectorTests {
     public void pointInBox2DShouldReturnTrueTestThree() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10));
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(4 + 10, 4.3f + 10);
 
@@ -502,9 +502,9 @@ public class CollisionDetectorTests {
     public void pointInBox2DShouldReturnTrueTestFour() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10));
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-4.9f + 10, -4.9f + 10);
 
@@ -515,9 +515,9 @@ public class CollisionDetectorTests {
     public void pointInBox2DShouldReturnFalseTestTwo() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10));
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(10, 5.1f + 10);
 
@@ -528,9 +528,9 @@ public class CollisionDetectorTests {
     public void pointInRotatedBox2DShouldReturnTrueTestOne() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(0), 45);
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-1, -1);
 
@@ -541,9 +541,9 @@ public class CollisionDetectorTests {
     public void pointInRotatedShouldReturnTrueTestTwo() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(0), 45);
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-3.43553390593f, 3.43553390593f);
 
@@ -554,9 +554,9 @@ public class CollisionDetectorTests {
     public void pointInRotatedShouldReturnFalseTestOne() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10), 45);
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-3.63553390593f, 3.63553390593f);
 
@@ -567,9 +567,9 @@ public class CollisionDetectorTests {
     public void pointInRotatedBox2DShouldReturnTrueTestThree() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10), 45);
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-1 + 10, -1 + 10);
 
@@ -580,9 +580,9 @@ public class CollisionDetectorTests {
     public void pointInRotatedShouldReturnTrueTestFour() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10), 45);
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-3.43553390593f + 10, 3.43553390593f + 10);
 
@@ -593,9 +593,9 @@ public class CollisionDetectorTests {
     public void pointInRotatedShouldReturnFalseTestTwo() {
         Box2D box = new Box2D();
         box.setSize(new Vector2f(10));
-        RigidBody2D body = new RigidBody2D();
+        Rigidbody2D body = new Rigidbody2D();
         body.setTransform(new Vector2f(10), 45);
-        box.setRigidBody(body);
+        box.setRigidbody(body);
 
         Vector2f point = new Vector2f(-3.63553390593f + 10, 3.63553390593f + 10);
 
@@ -603,7 +603,7 @@ public class CollisionDetectorTests {
     }
 
 
-//    TODO: IMPLEMENT THESE FUNCTIONS
+//    TODO: Closest point to box2D
 //    @Test
 //    public void closestPointToBox2DTestOne() {
 //        Box2D box = new Box2D();

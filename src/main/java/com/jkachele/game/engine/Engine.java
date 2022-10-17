@@ -58,7 +58,7 @@ public class Engine implements Runnable{
             glClear(GL_COLOR_BUFFER_BIT);
 
             // Render the scene into the framebuffer
-            Window.getFramebuffer().bind();
+//            Window.getFramebuffer().bind();
             if(dt >= 0) {
                 DebugDraw.draw();
                 Window.getCurrentScene().update(dt);
@@ -77,6 +77,7 @@ public class Engine implements Runnable{
         }
 
         Window.getCurrentScene().saveExit();
+        glfwTerminate();
     }
 
     private static String fps(float dt) {
