@@ -66,7 +66,8 @@ public class Engine implements Runnable{
             // Render ImGUI into the window
             Window.getFramebuffer().unbind();
 
-            Window.getImGuiLayer().update(dt, Window.getCurrentScene());
+//            Window.getImGuiLayer().update(dt, Window.getCurrentScene());
+
             glfwSwapBuffers(Window.getGlfwWindow());
 
             System.out.print("\r" + fps(dt));

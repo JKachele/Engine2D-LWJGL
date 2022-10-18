@@ -40,7 +40,6 @@ public enum Window {;
 
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
-    //private static String glslVersion = null;
 
     private static Scene currentScene = null;
 
