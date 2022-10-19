@@ -120,6 +120,7 @@ public enum Window {;
         Window.imGuiLayer.initImGui();
 
         Window.framebuffer = new Framebuffer(3840, 2160);
+        glViewport(0, 0, 3840, 2160);
 
         // Initialize first scene
         Window.changeScene(0);
@@ -154,7 +155,7 @@ public enum Window {;
     }
 
     public static void framebufferSizeCallback(long window, int width, int height) {
-        glViewport(0, 0, width, height);
+        glViewport(0, 0, 3840, 2160);
     }
 
     public static void clear() {

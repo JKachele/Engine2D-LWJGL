@@ -7,6 +7,7 @@
  ******************************************/
 package com.jkachele.game.engine;
 
+import com.jkachele.game.editor.GameViewWindow;
 import com.jkachele.game.scene.Scene;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
@@ -191,6 +192,7 @@ public class ImGuiLayer {
         setupDockspace();
         currentScene.sceneImGui();
         ImGui.showDemoWindow();
+        GameViewWindow.imgui();
         ImGui.end();
         ImGui.render();
 

@@ -50,6 +50,9 @@ public class Engine implements Runnable{
             // invoked during this call.
             glfwPollEvents();
 
+            // Render the scene into the framebuffer
+            Window.getFramebuffer().bind();
+
             DebugDraw.beginFrame();
 
             // Set the clear color
@@ -57,8 +60,6 @@ public class Engine implements Runnable{
                     backgroundColor.getBlue(), backgroundColor.getAlpha());
             glClear(GL_COLOR_BUFFER_BIT);
 
-            // Render the scene into the framebuffer
-//            Window.getFramebuffer().bind();
             if(dt >= 0) {
                 DebugDraw.draw();
                 Window.getCurrentScene().update(dt);
@@ -66,10 +67,11 @@ public class Engine implements Runnable{
             // Render ImGUI into the window
             Window.getFramebuffer().unbind();
 
-//            Window.getImGuiLayer().update(dt, Window.getCurrentScene());
+            Window.getImGuiLayer().update(dt, Window.getCurrentScene());
 
             glfwSwapBuffers(Window.getGlfwWindow());
 
+            // Print the current FPS to the console
             System.out.print("\r" + fps(dt));
 
             endTime = (float)glfwGetTime();

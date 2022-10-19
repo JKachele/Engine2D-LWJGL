@@ -8,12 +8,12 @@
 package com.jkachele.game.scene;
 
 import com.jkachele.game.components.*;
-import com.jkachele.game.engine.*;
+import com.jkachele.game.engine.Camera;
+import com.jkachele.game.engine.GameObject;
+import com.jkachele.game.engine.Prefabs;
+import com.jkachele.game.engine.Transform;
 import com.jkachele.game.physics2d.PhysicsSystem2D;
-import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
-import com.jkachele.game.renderer.DebugDraw;
 import com.jkachele.game.util.AssetPool;
-import com.jkachele.game.util.Color;
 import com.jkachele.game.util.Constants;
 import imgui.ImGui;
 import imgui.ImVec2;
@@ -24,27 +24,12 @@ public class LevelEditorScene extends Scene {
     Spritesheet marioSprites;
     GameObject levelEditorComponents;
     PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 20.0f, new Vector2f(0, -20));
-    DebugObject obj1;
-    DebugObject obj2;
 
     @Override
     public void init(boolean reset) {
         levelEditorComponents = new GameObject("LevelEditor", new Transform(), 0);
         levelEditorComponents.addComponent(new MouseControls());
-        //levelEditorComponents.addComponent(new GridLines());
-
-        obj1 = new DebugObject("Box2D-1", new Transform(new Vector2f(100, 1000)), 0);
-        Rigidbody2D rigidBody1 = new Rigidbody2D();
-        rigidBody1.setRawTransform(obj1.transform);
-        rigidBody1.setMass(100);
-        obj2 = new DebugObject("Box2D-2", new Transform(new Vector2f(500, 1000)), 0);
-        Rigidbody2D rigidBody2 = new Rigidbody2D();
-        rigidBody2.setRawTransform(obj2.transform);
-        rigidBody2.setMass(200);
-        rigidBody2.addVelocity(new Vector2f(100, 0));
-
-        physics.addRigidBody(rigidBody1);
-        physics.addRigidBody(rigidBody2);
+        levelEditorComponents.addComponent(new GridLines());
 
         loadResources();
         this.camera = new Camera(new Vector2f());
@@ -88,10 +73,6 @@ public class LevelEditorScene extends Scene {
             gameObject.update(dt);
         }
 
-        DebugDraw.addBox2D(obj1.transform.position, new Vector2f(128, 128), 0.0f, Color.RED.toVector());
-        DebugDraw.addBox2D(obj2.transform.position, new Vector2f(128, 128), 0.0f, Color.BLUE.toVector());
-        physics.update(dt);
-
         // Render the scene
         this.renderer.render();
     }
@@ -131,9 +112,7 @@ public class LevelEditorScene extends Scene {
             if (i + 1 < sprites.size() && nextButtonX2 < windowX2) {
                 ImGui.sameLine();
             }
-
         }
-
         ImGui.end();
     }
 }
