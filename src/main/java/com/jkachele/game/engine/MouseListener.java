@@ -15,23 +15,17 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseListener {
     private static MouseListener instance;
-    private static double scrollX, scrollY;
-    private static double posX,posY;
-    private static double lastX, lastY;
+    private static double scrollX = 0.0;
+    private static double scrollY = 0.0;
+    private static double posX = 0.0;
+    private static double posY = 0.0;
+    private static double lastX = 0.0;
+    private static double lastY = 0.0;
     private static boolean[] mouseButtonPressed = new boolean[9];
     private static boolean isDragging;
 
     private static  Vector2f gameViewportPos = new Vector2f();
     private static Vector2f gameViewportSize = new Vector2f();
-    
-    public static void init() {
-        MouseListener.scrollX = 0.0;
-        MouseListener.scrollY = 0.0;
-        MouseListener.posX = 0.0;
-        MouseListener.posY = 0.0;
-        MouseListener.lastX = 0.0;
-        MouseListener.lastY = 0.0;
-    }
 
     public static void mousePosCallback(long window, double posX, double posY) {
         MouseListener.lastX = MouseListener.posX;

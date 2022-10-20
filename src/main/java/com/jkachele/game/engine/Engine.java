@@ -14,26 +14,11 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Engine implements Runnable{
-    private int width;
-    private int height;
-    private String title;
-    private Color backgroundColor;
-    private boolean reset;
 
     private final Thread GAME_LOOP_THREAD;
 
     public Engine(int width, int height, String title, Color backgroundColor, boolean reset) {
-        this.width = width;
-        this.height = height;
-        this.title = title;
-        this.backgroundColor = backgroundColor;
-        this.reset = reset;
         GAME_LOOP_THREAD = new Thread(this, "GAME_LOOP_THREAD");
-
-    }
-
-    private void init() {
-        MouseListener.init();
         Window.init(width, height, title, backgroundColor, reset);
     }
 
