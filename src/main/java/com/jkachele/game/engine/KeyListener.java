@@ -11,33 +11,26 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class KeyListener {
     private static KeyListener instance;
-    private boolean[] keyPressed = new boolean[350];
+    private static boolean[] keyPressed = new boolean[350];
 
     private KeyListener() {
     }
 
-    public static KeyListener getInstance() {
-        if (KeyListener.instance == null) {
-            KeyListener.instance = new KeyListener();
-        }
-        return KeyListener.instance;
-    }
-
     public static void keyCallback(long window, int key, int scancode, int action, int mods) {
         if (action == GLFW_PRESS) {
-            if (key < getInstance().keyPressed.length && key >= 0) {
-                getInstance().keyPressed[key] = true;
+            if (key < KeyListener.keyPressed.length && key >= 0) {
+                KeyListener.keyPressed[key] = true;
             }
         } else if (action == GLFW_RELEASE) {
-            if (key < getInstance().keyPressed.length && key >= 0) {
-                getInstance().keyPressed[key] = false;
+            if (key < KeyListener.keyPressed.length && key >= 0) {
+                KeyListener.keyPressed[key] = false;
             }
         }
     }
 
     public static boolean isKeyPressed(int keyCode) {
-        if (keyCode < getInstance().keyPressed.length && keyCode >= 0) {
-            return getInstance().keyPressed[keyCode];
+        if (keyCode < KeyListener.keyPressed.length && keyCode >= 0) {
+            return KeyListener.keyPressed[keyCode];
         } else {
             System.err.println("Invalid key pressed");
             return false;

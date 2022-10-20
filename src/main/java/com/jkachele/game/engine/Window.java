@@ -90,7 +90,10 @@ public enum Window {;
             Window.width = width;
             Window.height = height;
         });
-        glfwSetFramebufferSizeCallback(glfwWindow, Window::framebufferSizeCallback);
+        glfwSetFramebufferSizeCallback(glfwWindow, (window, width, height) -> {
+            //glViewport(0, 0, width, height);
+            glViewport(0, 0, 3840, 2160);
+        });
 
         // Center the window on the primary monitor
         GLFWVidMode vidMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
@@ -152,11 +155,6 @@ public enum Window {;
         }
         currentScene.init(Window.reset);
         currentScene.start();
-    }
-
-    public static void framebufferSizeCallback(long window, int width, int height) {
-        //glViewport(0, 0, width, height);
-        glViewport(0, 0, 3840, 2160);
     }
 
     public static void clear() {
