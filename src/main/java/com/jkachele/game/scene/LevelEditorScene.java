@@ -10,10 +10,7 @@ package com.jkachele.game.scene;
 import com.jkachele.game.components.*;
 import com.jkachele.game.engine.*;
 import com.jkachele.game.physics2d.PhysicsSystem2D;
-import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
-import com.jkachele.game.renderer.DebugDraw;
 import com.jkachele.game.util.AssetPool;
-import com.jkachele.game.util.Color;
 import com.jkachele.game.util.Constants;
 import imgui.ImGui;
 import imgui.ImVec2;
@@ -31,20 +28,20 @@ public class LevelEditorScene extends Scene {
     public void init(boolean reset) {
         levelEditorComponents = new GameObject("LevelEditor", new Transform(), 0);
         levelEditorComponents.addComponent(new MouseControls());
-        //levelEditorComponents.addComponent(new GridLines());
+        levelEditorComponents.addComponent(new GridLines());
 
-        obj1 = new DebugObject("Box2D-1", new Transform(new Vector2f(100, 1000)), 0);
-        Rigidbody2D rigidBody1 = new Rigidbody2D();
-        rigidBody1.setRawTransform(obj1.transform);
-        rigidBody1.setMass(100);
-        obj2 = new DebugObject("Box2D-2", new Transform(new Vector2f(500, 1000)), 0);
-        Rigidbody2D rigidBody2 = new Rigidbody2D();
-        rigidBody2.setRawTransform(obj2.transform);
-        rigidBody2.setMass(200);
-        rigidBody2.addVelocity(new Vector2f(100, 0));
-
-        physics.addRigidBody(rigidBody1);
-        physics.addRigidBody(rigidBody2);
+//        obj1 = new DebugObject("Box2D-1", new Transform(new Vector2f(100, 1000)), 0);
+//        Rigidbody2D rigidBody1 = new Rigidbody2D();
+//        rigidBody1.setRawTransform(obj1.transform);
+//        rigidBody1.setMass(100);
+//        obj2 = new DebugObject("Box2D-2", new Transform(new Vector2f(500, 1000)), 0);
+//        Rigidbody2D rigidBody2 = new Rigidbody2D();
+//        rigidBody2.setRawTransform(obj2.transform);
+//        rigidBody2.setMass(200);
+//        rigidBody2.addVelocity(new Vector2f(100, 0));
+//
+//        physics.addRigidBody(rigidBody1);
+//        physics.addRigidBody(rigidBody2);
 
         loadResources();
         this.camera = new Camera(new Vector2f());
@@ -88,17 +85,13 @@ public class LevelEditorScene extends Scene {
             gameObject.update(dt);
         }
 
-        DebugDraw.addBox2D(obj1.transform.position, new Vector2f(128, 128), 0.0f, Color.RED.toVector());
-        DebugDraw.addBox2D(obj2.transform.position, new Vector2f(128, 128), 0.0f, Color.BLUE.toVector());
-        physics.update(dt);
-
         // Render the scene
         this.renderer.render();
     }
 
     @Override
     public void imgui() {
-        ImGui.begin("Test Window");
+        ImGui.begin("Scene Sprites");
 
         ImVec2 windowPos = new ImVec2();
         ImGui.getWindowPos(windowPos);
