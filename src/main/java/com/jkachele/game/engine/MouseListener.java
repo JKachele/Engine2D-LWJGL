@@ -7,132 +7,143 @@
  ******************************************/
 package com.jkachele.game.engine;
 
+import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
 public class MouseListener {
     private static MouseListener instance;
-    private double scrollX, scrollY;
-    private double posX,posY;
-    private double lastX, lastY;
-    private boolean[] mouseButtonPressed = new boolean[9];
-    private boolean isDragging;
+    private static double scrollX, scrollY;
+    private static double posX,posY;
+    private static double lastX, lastY;
+    private static boolean[] mouseButtonPressed = new boolean[9];
+    private static boolean isDragging;
 
-    private MouseListener() {
-        this.scrollX = 0.0;
-        this.scrollY = 0.0;
-        this.posX = 0.0;
-        this.posY = 0.0;
-        this.lastX = 0.0;
-        this.lastY = 0.0;
-    }
-
-    public static MouseListener getInstance() {
-        if(MouseListener.instance ==  null) {
-            MouseListener.instance = new MouseListener();
-        }
-        return MouseListener.instance;
+    private static  Vector2f gameViewportPos = new Vector2f();
+    private static Vector2f gameViewportSize = new Vector2f();
+    
+    public static void init() {
+        MouseListener.scrollX = 0.0;
+        MouseListener.scrollY = 0.0;
+        MouseListener.posX = 0.0;
+        MouseListener.posY = 0.0;
+        MouseListener.lastX = 0.0;
+        MouseListener.lastY = 0.0;
     }
 
     public static void mousePosCallback(long window, double posX, double posY) {
-        getInstance().lastX = getInstance().posX;
-        getInstance().lastX = getInstance().posX;
-        getInstance().posX = posX;
-        getInstance().posY = posY;
-        getInstance().isDragging = isButtonPressed();
+        MouseListener.lastX = MouseListener.posX;
+        MouseListener.posX = posX;
+        MouseListener.posY = posY;
+        MouseListener.isDragging = isButtonPressed();
     }
 
     public static void mouseButtonCallback(long window, int button, int action, int mods) {
         //if mouse button is pressed, set element of array to true
         if(action == GLFW_PRESS) {
             //check if button pressed is valid
-            if(button < getInstance().mouseButtonPressed.length) {
-                getInstance().mouseButtonPressed[button] = true;
+            if(button < MouseListener.mouseButtonPressed.length) {
+                MouseListener.mouseButtonPressed[button] = true;
             }
         } else if(action == GLFW_RELEASE) {
-            if(button < getInstance().mouseButtonPressed.length) {
-                getInstance().mouseButtonPressed[button] = false;
-                getInstance().isDragging = false;
+            if(button < MouseListener.mouseButtonPressed.length) {
+                MouseListener.mouseButtonPressed[button] = false;
+                MouseListener.isDragging = false;
             }
         }
     }
 
     public static void mouseScrollCallback(long window, double xOffset, double yOffset) {
-        getInstance().scrollX = xOffset;
-        getInstance().scrollY = yOffset;
+        MouseListener.scrollX = xOffset;
+        MouseListener.scrollY = yOffset;
     }
 
     public static void endFrame() {
-        getInstance().scrollX = 0.0;
-        getInstance().scrollY = 0.0;
-        getInstance().lastX = getInstance().posX;
-        getInstance().lastY = getInstance().posY;
+        MouseListener.scrollX = 0.0;
+        MouseListener.scrollY = 0.0;
+        MouseListener.lastX = MouseListener.posX;
+        MouseListener.lastY = MouseListener.posY;
     }
 
     public static float getX() {
-        return (float) getInstance().posX;
+        return (float) MouseListener.posX;
     }
 
     public static float getY() {
-        return (float) getInstance().posY;
-    }
-
-    // Convert mouse coordinates to world coordinates
-    public static float getOrthoX() {
-        float currentX = getX();
-        currentX = (currentX / (float)Window.getWidth()) * 2 - 1;
-        Vector4f tmp = new Vector4f(currentX, 0, 0, 1);
-        tmp.mul(Window.getCurrentScene().getCamera().getInverseProjection())
-                .mul(Window.getCurrentScene().getCamera().getInverseView());
-        currentX = tmp.x;
-        return currentX;
-    }
-
-    public static float getOrthoY() {
-        float currentY = Window.getHeight() - getY();
-        currentY = (currentY / (float)Window.getHeight()) * 2 - 1;
-        Vector4f tmp = new Vector4f(0, currentY, 0, 1);
-        tmp.mul(Window.getCurrentScene().getCamera().getInverseProjection())
-                .mul(Window.getCurrentScene().getCamera().getInverseView());
-        currentY = tmp.y;
-        return currentY;
+        return (float) MouseListener.posY;
     }
 
     public static float getDX() {
-        return (float) (getInstance().lastX - getInstance().posX);
+        return (float) (MouseListener.lastX - MouseListener.posX);
     }
 
     public static float getDY() {
-        return (float) (getInstance().lastY - getInstance().posY);
+        return (float) (MouseListener.lastY - MouseListener.posY);
     }
 
     public static float getScrollX() {
-        return (float) getInstance().scrollX;
+        return (float) MouseListener.scrollX;
     }
 
     public static float getScrollY() {
-        return (float) getInstance().scrollY;
+        return (float) MouseListener.scrollY;
     }
 
     public static boolean isDragging() {
-        return getInstance().isDragging;
+        return MouseListener.isDragging;
+    }
+
+    public static void setGameViewportPos(Vector2f gameViewportPos) {
+        MouseListener.gameViewportPos.set(gameViewportPos);
+    }
+
+    public static void setGameViewportSize(Vector2f gameViewportSize) {
+        MouseListener.gameViewportSize.set(gameViewportSize);
     }
 
     public static boolean isButtonPressed(int button) {
-        if (button < getInstance().mouseButtonPressed.length) {
-            return getInstance().mouseButtonPressed[button];
+        if (button < MouseListener.mouseButtonPressed.length) {
+            return MouseListener.mouseButtonPressed[button];
         } else {
             return false;
         }
     }
 
     private static boolean isButtonPressed() {
-        for (int i = 0; i < getInstance().mouseButtonPressed.length; i++) {
-            if (getInstance().mouseButtonPressed[i]) {
+        for (int i = 0; i < MouseListener.mouseButtonPressed.length; i++) {
+            if (MouseListener.mouseButtonPressed[i]) {
                 return true;
             }
         }
         return false;
+    }
+
+    // Convert mouse coordinates to game viewport coordinates
+    public static float getOrthoX() {
+        float currentX = getX() - MouseListener.gameViewportPos.x;
+        currentX = (currentX / MouseListener.gameViewportSize.x) * 2 - 1;
+        Vector4f tmp = new Vector4f(currentX, 0, 0, 1);
+        
+        Camera camera = Window.getCurrentScene().getCamera();
+        Matrix4f viewProjection = new Matrix4f();
+        camera.getInverseView().mul(camera.getInverseProjection(), viewProjection);
+        tmp.mul(viewProjection);
+        currentX = tmp.x;
+        return currentX;
+    }
+
+    public static float getOrthoY() {
+        float currentY = getY() - MouseListener.gameViewportPos.y;
+        currentY = -((currentY / MouseListener.gameViewportSize.y) * 2 - 1);
+        Vector4f tmp = new Vector4f(0, currentY, 0, 1);
+        
+        Camera camera = Window.getCurrentScene().getCamera();
+        Matrix4f viewProjection = new Matrix4f();
+        camera.getInverseView().mul(camera.getInverseProjection(), viewProjection);
+        tmp.mul(viewProjection);
+        currentY = tmp.y;
+        return currentY;
     }
 }
