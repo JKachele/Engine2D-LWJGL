@@ -21,7 +21,6 @@ public class Texture {
     private int width;
     private int height;
 
-
     public Texture() {
         this.id = -1;
         this.width = -1;
