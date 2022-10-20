@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------CollisionDetectorTests.java
  *Author--------Justin Kachele
  *Date----------10/12/2022

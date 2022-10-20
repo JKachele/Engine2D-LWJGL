@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------Ray2D.java
  *Author--------Justin Kachele
  *Date----------10/13/2022

@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------Scene.java
  *Author--------Justin Kachele
  *Date----------9/25/2022

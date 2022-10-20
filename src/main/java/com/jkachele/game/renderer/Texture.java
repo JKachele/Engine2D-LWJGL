@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------Texture.java
  *Author--------Justin Kachele
  *Date----------10/2/2022

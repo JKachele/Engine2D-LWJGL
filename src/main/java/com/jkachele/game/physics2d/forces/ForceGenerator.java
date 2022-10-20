@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------ForceGenerator.java
  *Author--------Justin Kachele
  *Date----------10/17/2022

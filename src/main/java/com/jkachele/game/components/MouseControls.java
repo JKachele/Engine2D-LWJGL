@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------MouseControls.java
  *Author--------Justin Kachele
  *Date----------10/8/2022

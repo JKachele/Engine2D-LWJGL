@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------Framebuffer.java
  *Author--------Justin Kachele
  *Date----------10/15/2022

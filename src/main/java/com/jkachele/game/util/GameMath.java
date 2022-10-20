@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------JMath.java
  *Author--------Justin Kachele
  *Date----------10/10/2022

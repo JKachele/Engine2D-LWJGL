@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------ImGuiLayer.java
  *Author--------Justin Kachele
  *Date----------10/7/2022

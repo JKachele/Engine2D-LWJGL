@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------GridLines.java
  *Author--------Justin Kachele
  *Date----------10/9/2022

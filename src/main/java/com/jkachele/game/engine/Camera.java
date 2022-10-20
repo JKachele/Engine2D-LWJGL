@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------Camera.java
  *Author--------Justin Kachele
  *Date----------9/29/2022

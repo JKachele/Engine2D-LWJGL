@@ -1,5 +1,5 @@
 /******************************************
- *Project-------LWJGL-Game
+ *Project-------Engine2D-LWJGL
  *File----------Main.java
  *Author--------Justin Kachele
  *Date----------9/22/2022

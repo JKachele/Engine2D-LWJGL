@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------Line2D.java
  *Author--------Justin Kachele
  *Date----------10/9/2022

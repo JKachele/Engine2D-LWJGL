@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------Renderer.java
  *Author--------Justin Kachele
  *Date----------10/4/2022

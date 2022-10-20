@@ -1,5 +1,5 @@
 /******************************************
- *Project-------Learn-LWJGL
+ *Project-------Engine2D-LWJGL
  *File----------SpriteRenderer.java
  *Author--------Justin Kachele
  *Date----------10/3/2022
