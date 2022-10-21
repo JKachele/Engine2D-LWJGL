@@ -8,6 +8,9 @@
 package com.jkachele.game.engine;
 
 import com.jkachele.game.renderer.DebugDraw;
+import com.jkachele.game.renderer.Renderer;
+import com.jkachele.game.renderer.Shader;
+import com.jkachele.game.util.AssetPool;
 import com.jkachele.game.util.Color;
 
 import static org.lwjgl.glfw.GLFW.*;
@@ -42,27 +45,53 @@ public class Engine implements Runnable{
         float endTime;
         float dt = -1.0f;
 
+        Shader defaultShader = AssetPool.getShader("assets/shaders/default.glsl");
+        Shader pickingShader = AssetPool.getShader("assets/shaders/pickingShader.glsl");
+
         // Run the rendering loop until the user has attempted to close the window
         while (!glfwWindowShouldClose(Window.getGlfwWindow())) {
-            Color backgroundColor = Window.getBackgroundColor();
-
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
 
+            // Render pass 1: render to picking texture
+            glDisable(GL_BLEND);
+            Window.getPickingTexture().enableWriting();
+
+            glViewport(0, 0, Window.getFramebufferWidth(), Window.getFramebufferHeight());
+            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            Renderer.bindShader(pickingShader);
+            Window.getCurrentScene().render();
+
+            if (MouseListener.isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
+                int x = (int)MouseListener.getScreenX();
+                int y = (int)MouseListener.getScreenY();
+
+                System.out.print("\r" + Window.getPickingTexture().readPixel(x, y));
+            }
+
+            Window.getPickingTexture().disableWriting();
+            glEnable(GL_BLEND);
+
+            // Render pass 2: render actual scene to Screen
+            DebugDraw.beginFrame();
+
             // Render the scene into the framebuffer
             Window.getFramebuffer().bind();
 
-            DebugDraw.beginFrame();
-
             // Set the clear color
+            Color backgroundColor = Window.getBackgroundColor();
             glClearColor(backgroundColor.getRed(), backgroundColor.getGreen(),
                     backgroundColor.getBlue(), backgroundColor.getAlpha());
             glClear(GL_COLOR_BUFFER_BIT);
 
             if(dt >= 0) {
                 DebugDraw.draw();
+                Renderer.bindShader(defaultShader);
                 Window.getCurrentScene().update(dt);
+                Window.getCurrentScene().render();
             }
             // Render ImGUI into the window
             Window.getFramebuffer().unbind();

@@ -35,6 +35,7 @@ public abstract class Scene {
     protected GameObject currentGameObject2 = null;
 
     public abstract void update(float dt);
+    public abstract void render();
 
     public Scene() {
     }

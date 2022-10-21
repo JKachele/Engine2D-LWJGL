@@ -9,6 +9,7 @@
 package com.jkachele.game.engine;
 
 import com.jkachele.game.renderer.Framebuffer;
+import com.jkachele.game.renderer.PickingTexture;
 import com.jkachele.game.scene.LevelEditorScene;
 import com.jkachele.game.scene.LevelScene;
 import com.jkachele.game.scene.Scene;
@@ -37,9 +38,12 @@ public enum Window {;
     private static boolean reset;
     private static ImGuiLayer imGuiLayer;
     private static Framebuffer framebuffer;
+    private static PickingTexture pickingTexture;
 
     private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    private static final int framebufferWidth = 3840;
+    private static final int framebufferHeight = 2160;
 
     private static Scene currentScene = null;
 
@@ -92,7 +96,7 @@ public enum Window {;
         });
         glfwSetFramebufferSizeCallback(glfwWindow, (window, width, height) -> {
             //glViewport(0, 0, width, height);
-            glViewport(0, 0, 3840, 2160);
+            glViewport(0, 0, framebufferWidth, framebufferHeight);
         });
 
         // Center the window on the primary monitor
@@ -122,8 +126,9 @@ public enum Window {;
         Window.imGuiLayer = new ImGuiLayer(Window.glfwWindow);
         Window.imGuiLayer.initImGui();
 
-        Window.framebuffer = new Framebuffer(3840, 2160);
-        glViewport(0, 0, 3840, 2160);
+        Window.framebuffer = new Framebuffer(framebufferWidth, framebufferHeight);
+        Window.pickingTexture = new PickingTexture(framebufferWidth, framebufferHeight);
+        glViewport(0, 0, framebufferWidth, framebufferHeight);
 
         // Initialize first scene
         Window.changeScene(0);
@@ -175,6 +180,14 @@ public enum Window {;
         return Window.height;
     }
 
+    public static int getFramebufferWidth() {
+        return framebufferWidth;
+    }
+
+    public static int getFramebufferHeight() {
+        return framebufferHeight;
+    }
+
     public static long getGlfwWindow() {
         return glfwWindow;
     }
@@ -189,5 +202,9 @@ public enum Window {;
 
     public static Framebuffer getFramebuffer() {
         return framebuffer;
+    }
+
+    public static PickingTexture getPickingTexture() {
+        return pickingTexture;
     }
 }

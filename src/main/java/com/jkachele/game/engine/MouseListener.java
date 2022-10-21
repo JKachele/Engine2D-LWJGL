@@ -117,7 +117,7 @@ public class MouseListener {
     // Convert mouse coordinates to game viewport coordinates
     public static float getOrthoX() {
         float currentX = getX() - MouseListener.gameViewportPos.x;
-        currentX = (currentX / MouseListener.gameViewportSize.x) * 2 - 1;
+        currentX = (currentX / MouseListener.gameViewportSize.x) * 2.0f - 1.0f;
         Vector4f tmp = new Vector4f(currentX, 0, 0, 1);
         
         Camera camera = Window.getCurrentScene().getCamera();
@@ -130,7 +130,7 @@ public class MouseListener {
 
     public static float getOrthoY() {
         float currentY = getY() - MouseListener.gameViewportPos.y;
-        currentY = -((currentY / MouseListener.gameViewportSize.y) * 2 - 1);
+        currentY = -((currentY / MouseListener.gameViewportSize.y) * 2.0f - 1.0f);
         Vector4f tmp = new Vector4f(0, currentY, 0, 1);
         
         Camera camera = Window.getCurrentScene().getCamera();
@@ -138,6 +138,20 @@ public class MouseListener {
         camera.getInverseView().mul(camera.getInverseProjection(), viewProjection);
         tmp.mul(viewProjection);
         currentY = tmp.y;
+        return currentY;
+    }
+
+    public static float getScreenX() {
+        float currentX = getX() - MouseListener.gameViewportPos.x;
+        currentX = (currentX / MouseListener.gameViewportSize.x) * Window.getFramebufferWidth();
+
+        return currentX;
+    }
+
+    public static float getScreenY() {
+        float currentY = getY() - MouseListener.gameViewportPos.y;
+        currentY = Window.getFramebufferHeight() - ((currentY / MouseListener.gameViewportSize.y) * Window.getFramebufferHeight());
+
         return currentY;
     }
 }
