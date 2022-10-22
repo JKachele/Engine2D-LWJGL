@@ -19,7 +19,7 @@ public class CollisionManifold {
     private float collisionDepth;
 
     public CollisionManifold(Vector2f normal, float collisionDepth) {
-        this.isColliding = false;
+        this.isColliding = true;
         this.normal = normal;
         this.collisionDepth = collisionDepth;
         contactPoints = new ArrayList<>();

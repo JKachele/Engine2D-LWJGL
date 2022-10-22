@@ -10,7 +10,7 @@ package com.jkachele.game.physics2d.primitives;
 import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
 import org.joml.Vector2f;
 
-public class Circle {
+public class Circle extends Collider2D{
     private float radius = 1.0f;
     private Rigidbody2D rigidbody = new Rigidbody2D();
 

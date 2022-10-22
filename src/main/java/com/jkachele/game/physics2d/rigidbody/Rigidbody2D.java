@@ -9,10 +9,13 @@ package com.jkachele.game.physics2d.rigidbody;
 
 import com.jkachele.game.components.Component;
 import com.jkachele.game.engine.Transform;
+import com.jkachele.game.physics2d.primitives.Collider2D;
+import com.jkachele.game.util.GameMath;
 import org.joml.Vector2f;
 
 public class Rigidbody2D extends Component {
     private Transform rawTransform;
+    private Collider2D collider;
 
     private Vector2f position = new Vector2f();
     private float rotationDeg = 0.0f;
@@ -24,6 +27,7 @@ public class Rigidbody2D extends Component {
     private float angularVelocity = 0.0f;
     private float linearDamping = 0.0f;
     private float angularDamping = 0.0f;
+    private float COR = 1.0f;       // Coefficient of restitution
     private boolean fixedRotation = false;
 
     public void physicsUpdate(float dt) {
@@ -61,12 +65,24 @@ public class Rigidbody2D extends Component {
         linearVelocity.add(velocity);
     }
 
+    public boolean hasInfiniteMass() {
+        return GameMath.floatEquality(this.mass, 0);
+    }
+
     public Vector2f getPosition() {
         return position;
     }
 
     public float getRotationDeg() {
         return rotationDeg;
+    }
+
+    public float getCOR() {
+        return COR;
+    }
+
+    public void setCOR(float COR) {
+        this.COR = COR;
     }
 
     public void setTransform(Vector2f position, float rotation) {
@@ -87,6 +103,14 @@ public class Rigidbody2D extends Component {
         this.position.set(rawTransform.position);
     }
 
+    public Vector2f getLinearVelocity() {
+        return linearVelocity;
+    }
+
+    public void setLinearVelocity(Vector2f linearVelocity) {
+        this.linearVelocity = linearVelocity;
+    }
+
     public float getMass() {
         return mass;
     }
@@ -100,5 +124,13 @@ public class Rigidbody2D extends Component {
 
     public float getInverseMass() {
         return inverseMass;
+    }
+
+    public void setCollider(Collider2D collider) {
+        this.collider = collider;
+    }
+
+    public Collider2D getCollider() {
+        return this.collider;
     }
 }
