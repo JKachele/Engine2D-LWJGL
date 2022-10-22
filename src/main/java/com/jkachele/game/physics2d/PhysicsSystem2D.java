@@ -123,7 +123,7 @@ public class PhysicsSystem2D {
         // Linear velocity
         float invMass1 = r1.getInverseMass();
         float invMass2 = r2.getInverseMass();
-        float invMassSum = invMass2 + invMass2;
+        float invMassSum = invMass1 + invMass2;
 
         // 2 infinite mass objects
         if (GameMath.floatEquality(invMassSum, 0)) {
@@ -160,6 +160,5 @@ public class PhysicsSystem2D {
         if (addGravity) {
             this.forceRegistry.add(rigidBody, gravity);
         }
-
     }
 }

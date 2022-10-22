@@ -45,7 +45,7 @@ public class LevelEditorScene extends Scene {
         c1.setRigidbody(rigidBody1);
         rigidBody1.setCollider(c1);
 
-        obj2 = new DebugObject("Circle-2", new Transform(new Vector2f(100, 950)), 0);
+        obj2 = new DebugObject("Circle-2", new Transform(new Vector2f(100, 800)), 0);
         rigidBody2 = new Rigidbody2D();
         rigidBody2.setRawTransform(obj2.transform);
         rigidBody2.setMass(200);
