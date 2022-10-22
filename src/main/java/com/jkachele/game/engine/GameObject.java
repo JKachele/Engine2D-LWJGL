@@ -14,7 +14,7 @@ import java.util.List;
 
 public class GameObject {
     private static int ID_COUNTER = 0;
-    private int uid = -1;
+    private int uid;
 
     private String name;
     private List<Component> components;
@@ -26,6 +26,9 @@ public class GameObject {
         this.components = new ArrayList<>();
         this.transform = new Transform();
         this.zIndex = 0;
+
+        this.uid = ID_COUNTER;
+        ID_COUNTER++;
     }
 
     public GameObject(String name, Transform transform, int zIndex) {
