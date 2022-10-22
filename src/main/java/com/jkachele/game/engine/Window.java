@@ -123,12 +123,12 @@ public enum Window {;
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-        Window.imGuiLayer = new ImGuiLayer(Window.glfwWindow);
-        Window.imGuiLayer.initImGui();
-
         Window.framebuffer = new Framebuffer(framebufferWidth, framebufferHeight);
         Window.pickingTexture = new PickingTexture(framebufferWidth, framebufferHeight);
         glViewport(0, 0, framebufferWidth, framebufferHeight);
+
+        Window.imGuiLayer = new ImGuiLayer(Window.glfwWindow, pickingTexture);
+        Window.imGuiLayer.initImGui();
 
         // Initialize first scene
         Window.changeScene(0);

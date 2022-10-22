@@ -47,12 +47,6 @@ public class LevelEditorScene extends Scene {
         this.camera = new Camera(new Vector2f());
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
         marioSprites = AssetPool.getSpritesheet("assets/images/spritesheets/characters.png");
-        if (levelLoaded && !reset) {
-            if (!gameObjects.isEmpty()) {
-                this.currentGameObject = gameObjects.get(0);
-            }
-            return;
-        }
     }
 
     private void loadResources() {
@@ -93,7 +87,7 @@ public class LevelEditorScene extends Scene {
     }
 
     @Override
-    public void imgui() {
+    public void imGui() {
         ImGui.begin("Scene Sprites");
 
         ImVec2 windowPos = new ImVec2();

@@ -15,7 +15,6 @@ import com.jkachele.game.engine.Camera;
 import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.GameObjectDeserializer;
 import com.jkachele.game.renderer.Renderer;
-import imgui.ImGui;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public abstract class Scene {
 
@@ -31,8 +31,6 @@ public abstract class Scene {
     private boolean isRunning = false;
     protected boolean levelLoaded = false;
     protected List<GameObject> gameObjects = new ArrayList<>();
-    protected GameObject currentGameObject = null;
-    protected GameObject currentGameObject2 = null;
 
     public abstract void update(float dt);
     public abstract void render();
@@ -62,16 +60,14 @@ public abstract class Scene {
         }
     }
 
-    public void sceneImGui() {
-        if(currentGameObject != null) {
-            ImGui.begin("Inspector");
-            currentGameObject.imgui();
-            ImGui.end();
-        }
-        imgui();
+    public GameObject getGameObject(int gameObjectId) {
+        Optional<GameObject> result = this.gameObjects.stream()
+                .filter(gameObject -> gameObject.getUid() == gameObjectId)
+                .findFirst();
+        return result.orElse(null);
     }
 
-    public void imgui() {
+    public void imGui() {
 
     }
 

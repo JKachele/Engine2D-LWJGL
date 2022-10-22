@@ -15,14 +15,14 @@ import imgui.flag.ImGuiWindowFlags;
 import org.joml.Vector2f;
 
 public class GameViewWindow {
-    private static float minX;
-    private static float minY;
-    private static float maxX;
-    private static float maxY;
+    private float minX;
+    private float minY;
+    private float maxX;
+    private float maxY;
 
-    private static final float aspectRatio = 16.0f / 9.0f;
+    private final float aspectRatio = 16.0f / 9.0f;
 
-    public static void imgui() {
+    public void imgui() {
         ImGui.begin("Game Viewport",
                 ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
 
@@ -36,10 +36,10 @@ public class GameViewWindow {
         topLeft.x -= ImGui.getScrollX();
         topLeft.y -= ImGui.getScrollY();
 
-        minX = windowPos.x;
-        minY = windowPos.y;
-        maxX = windowPos.x + windowSize.x;
-        maxY = windowPos.y - windowSize.y;
+        minX = topLeft.x;
+        minY = topLeft.y;
+        maxX = topLeft.x + windowSize.x;
+        maxY = topLeft.y + windowSize.y;
 
         int textureID = Window.getFramebuffer().getTexture().getID();
         ImGui.image(textureID, windowSize.x, windowSize.y, 0, 1, 1, 0);
@@ -51,7 +51,7 @@ public class GameViewWindow {
         ImGui.end();
     }
 
-    private static ImVec2 getLargestSizeForViewport() {
+    private ImVec2 getLargestSizeForViewport() {
         ImVec2 windowSize = new ImVec2();
         ImGui.getContentRegionAvail(windowSize);
         windowSize.x -= ImGui.getScrollX();
@@ -69,7 +69,7 @@ public class GameViewWindow {
         return new ImVec2(aspectWidth, aspectHeight);
     }
 
-    private static ImVec2 getPositionForViewport(ImVec2 aspectSize) {
+    private ImVec2 getPositionForViewport(ImVec2 aspectSize) {
         ImVec2 windowSize = new ImVec2();
         ImGui.getContentRegionAvail(windowSize);
         windowSize.x -= ImGui.getScrollX();
@@ -81,7 +81,7 @@ public class GameViewWindow {
         return new ImVec2(viewportX + ImGui.getCursorPosX(), viewportY + ImGui.getCursorPosY());
     }
 
-    public static boolean getWantCaptureMouse() {
+    public boolean getWantCaptureMouse() {
         return  MouseListener.getX() >= minX &&
                 MouseListener.getX() <= maxX &&
                 MouseListener.getY() >= minY &&

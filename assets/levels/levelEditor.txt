@@ -1,6 +1,6 @@
 [
   {
-    "uid": 1,
+    "uid": 0,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -8,8 +8,8 @@
         "properties": {
           "color": {
             "x": 1.0,
-            "y": 1.0,
-            "z": 1.0,
+            "y": 0.99999,
+            "z": 0.99999,
             "w": 1.0
           },
           "sprite": {
@@ -45,8 +45,8 @@
     ],
     "transform": {
       "position": {
-        "x": 704.0,
-        "y": 544.0
+        "x": 448.0,
+        "y": 672.0
       },
       "scale": {
         "x": 32.0,
@@ -56,7 +56,7 @@
     "zIndex": 0
   },
   {
-    "uid": 2,
+    "uid": 1,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -76,33 +76,89 @@
             },
             "uvCoords": [
               {
-                "x": 0.71428573,
+                "x": 0.2857143,
                 "y": 0.5
               },
               {
-                "x": 0.71428573,
+                "x": 0.2857143,
                 "y": 0.41666666
               },
               {
-                "x": 0.5714286,
+                "x": 0.14285715,
                 "y": 0.41666666
               },
               {
-                "x": 0.5714286,
+                "x": 0.14285715,
                 "y": 0.5
               }
             ],
             "width": 16.0,
             "height": 16.0
           },
-          "uid": 3
+          "uid": 5
         }
       }
     ],
     "transform": {
       "position": {
         "x": 576.0,
-        "y": 480.0
+        "y": 704.0
+      },
+      "scale": {
+        "x": 32.0,
+        "y": 32.0
+      }
+    },
+    "zIndex": 0
+  },
+  {
+    "uid": 2,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "com.jkachele.game.components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 0.99999,
+            "z": 0.99999,
+            "w": 1.0
+          },
+          "sprite": {
+            "texture": {
+              "filepath": "assets/images/spritesheets/decorationsAndBlocks.png",
+              "width": 112,
+              "height": 192
+            },
+            "uvCoords": [
+              {
+                "x": 0.2857143,
+                "y": 0.41666666
+              },
+              {
+                "x": 0.2857143,
+                "y": 0.33333334
+              },
+              {
+                "x": 0.14285715,
+                "y": 0.33333334
+              },
+              {
+                "x": 0.14285715,
+                "y": 0.41666666
+              }
+            ],
+            "width": 16.0,
+            "height": 16.0
+          },
+          "uid": 8
+        }
+      }
+    ],
+    "transform": {
+      "position": {
+        "x": 672.0,
+        "y": 704.0
       },
       "scale": {
         "x": 32.0,

@@ -65,13 +65,6 @@ public class Engine implements Runnable{
             Renderer.bindShader(pickingShader);
             Window.getCurrentScene().render();
 
-            if (MouseListener.isButtonPressed(GLFW_MOUSE_BUTTON_LEFT)) {
-                int x = (int)MouseListener.getScreenX();
-                int y = (int)MouseListener.getScreenY();
-
-                System.out.print("\r" + Window.getPickingTexture().readPixel(x, y));
-            }
-
             Window.getPickingTexture().disableWriting();
             glEnable(GL_BLEND);
 

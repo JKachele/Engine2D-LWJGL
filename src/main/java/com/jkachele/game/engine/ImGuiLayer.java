@@ -8,6 +8,8 @@
 package com.jkachele.game.engine;
 
 import com.jkachele.game.editor.GameViewWindow;
+import com.jkachele.game.editor.PropertiesWindow;
+import com.jkachele.game.renderer.PickingTexture;
 import com.jkachele.game.scene.Scene;
 import imgui.ImFontAtlas;
 import imgui.ImFontConfig;
@@ -26,16 +28,20 @@ import static org.lwjgl.glfw.GLFW.*;
 public class ImGuiLayer {
 
     private long glfwWindow;
-
-    public ImGuiLayer(long glfwWindow) {
-        this.glfwWindow = glfwWindow;
-    }
+    private GameViewWindow gameViewWindow;
+    private PropertiesWindow propertiesWindow;
 
     // Mouse cursors provided by GLFW
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+
+    public ImGuiLayer(long glfwWindow, PickingTexture pickingTexture) {
+        this.glfwWindow = glfwWindow;
+        this.gameViewWindow = new GameViewWindow();
+        this.propertiesWindow = new PropertiesWindow(pickingTexture);
+    }
 
     // Initialize Dear ImGui.
     public void initImGui() {
@@ -133,7 +139,7 @@ public class ImGuiLayer {
                 ImGui.setWindowFocus(null);
             }
 
-            if (!io.getWantCaptureMouse() || !GameViewWindow.getWantCaptureMouse()) {
+            if (!io.getWantCaptureMouse() || gameViewWindow.getWantCaptureMouse()) {
                 MouseListener.mouseButtonCallback(w, button, action, mods);
             }
         });
@@ -190,9 +196,11 @@ public class ImGuiLayer {
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
         setupDockspace();
-        currentScene.sceneImGui();
+        currentScene.imGui();
+        propertiesWindow.update(dt, currentScene);
+        propertiesWindow.imGui();
         ImGui.showDemoWindow();
-        GameViewWindow.imgui();
+        gameViewWindow.imgui();
         ImGui.end();
         ImGui.render();
 
@@ -252,5 +260,9 @@ public class ImGuiLayer {
 
         // Dockspace
         ImGui.dockSpace(ImGui.getID("Dockspace"));
+    }
+
+    public GameViewWindow getGameViewWindow() {
+        return gameViewWindow;
     }
 }
