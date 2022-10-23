@@ -29,9 +29,11 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init(boolean reset) {
+        this.camera = new Camera(new Vector2f(-250, 0));
         levelEditorComponents = new GameObject("LevelEditor", new Transform(), 0);
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
+        levelEditorComponents.addComponent(new EditorCamera(this.camera));
 
 //        obj1 = new DebugObject("Circle-1", new Transform(new Vector2f(100, 1000)), 0);
 //        rigidBody1 = new Rigidbody2D();
@@ -55,7 +57,6 @@ public class LevelEditorScene extends Scene {
 //        physics.addRigidBody(rigidBody2, false);
 
         loadResources();
-        this.camera = new Camera(new Vector2f());
         sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
         marioSprites = AssetPool.getSpritesheet("assets/images/spritesheets/characters.png");
     }
@@ -84,6 +85,7 @@ public class LevelEditorScene extends Scene {
     @Override
     public void update(float dt) {
         levelEditorComponents.update(dt);
+        this.camera.adjustProjection();
 
         // Update all game objects in the scene
         for (GameObject gameObject : this.gameObjects) {

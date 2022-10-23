@@ -17,6 +17,7 @@ public class Camera {
     private Matrix4f inverseProjection;
     private Matrix4f inverseView;
     private Vector2f position;
+    private float zoom = 1.0f;
 
     // Virtual screen size of 1920 x 1080 pixels (60 x 33.75 grid of 32 pixel cells)
     private final Vector2f PROJECTION_SIZE = new Vector2f(60.0f * 32.0f, 33.75f * 32.0f);
@@ -32,18 +33,18 @@ public class Camera {
 
     public void adjustProjection() {
         projectionMatrix.identity();
-        // Defines the size of the virtual screen the camera will output to
-        projectionMatrix.ortho(0.0f, PROJECTION_SIZE.x,        //Screen Width in "pixels"
-                0.0f, PROJECTION_SIZE.y,                          // Screen Height in "pixels"
-                0.0f, 100.0f);                               // Near and far clipping planes
+        // Defines the size of the virtual screen the camera will output to accounting for the zoom factor
+        projectionMatrix.ortho(0.0f, PROJECTION_SIZE.x * this.zoom,        //Screen Width in "pixels"
+                                    0.0f, PROJECTION_SIZE.y * this.zoom,        // Screen Height in "pixels"
+                                    0.0f, 100.0f);                             // Near and far clipping planes
         projectionMatrix.invert(inverseProjection);
     }
 
     public Matrix4f getViewMatrix() {
         // Camera is located at the origin, 20 units back
         Vector3f cameraPosition = new Vector3f(position.x, position.y, 20.0f);
-        // Camera looks at the origin
-        Vector3f cameraFront = new Vector3f(0.0f, 0.0f, 0.0f);
+        // Camera looks in the direction of negative Z
+        Vector3f cameraFront = new Vector3f(position.x, position.y, -1.0f);
         // Camera is oriented so up is in the Y direction
         Vector3f cameraUp = new Vector3f(0.0f, 1.0f, 0.0f);
 
@@ -65,7 +66,7 @@ public class Camera {
     }
 
     public void setPosition(Vector2f position) {
-        this.position = position;
+        this.position.set(position);
     }
 
     public void movePosition(float x, float y) {
@@ -83,5 +84,17 @@ public class Camera {
 
     public Vector2f getProjectionSize() {
         return this.PROJECTION_SIZE;
+    }
+
+    public float getZoom() {
+        return zoom;
+    }
+
+    public void setZoom(float zoom) {
+        this.zoom = zoom;
+    }
+
+    public void addZoom(float value) {
+        this.zoom += value;
     }
 }

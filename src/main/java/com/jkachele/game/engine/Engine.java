@@ -93,6 +93,8 @@ public class Engine implements Runnable{
 
             glfwSwapBuffers(Window.getGlfwWindow());
 
+            MouseListener.endFrame();
+
             // Print the current FPS to the console
             System.out.print("\r" + fps(dt));
 

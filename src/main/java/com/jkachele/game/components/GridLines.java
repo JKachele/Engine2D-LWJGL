@@ -7,6 +7,7 @@
  ******************************************/
 package com.jkachele.game.components;
 
+import com.jkachele.game.engine.Camera;
 import com.jkachele.game.engine.Window;
 import com.jkachele.game.renderer.DebugDraw;
 import com.jkachele.game.util.Color;
@@ -17,17 +18,19 @@ public class GridLines extends Component {
 
     @Override
     public void update(float dt) {
-        Vector2f cameraPos = Window.getCurrentScene().getCamera().getPosition();
-        Vector2f projectionSize = Window.getCurrentScene().getCamera().getProjectionSize();
+        Camera camera = Window.getCurrentScene().getCamera();
+
+        Vector2f cameraPos = camera.getPosition();
+        Vector2f projectionSize = camera.getProjectionSize();
 
         int firstX = ((int)(cameraPos.x / Constants.GRID_WIDTH) - 1) * Constants.GRID_WIDTH;
         int firstY = ((int)(cameraPos.y / Constants.GRID_HEIGHT) - 1) * Constants.GRID_HEIGHT;
 
-        int width = (int)projectionSize.x + Constants.GRID_WIDTH * 2;
-        int height = (int)projectionSize.y + Constants.GRID_HEIGHT * 2;
+        int width = (int)(projectionSize.x * camera.getZoom()) + Constants.GRID_WIDTH * 2;
+        int height = (int)(projectionSize.y * camera.getZoom()) + Constants.GRID_HEIGHT * 2;
 
-        int numVerticalLines = width / Constants.GRID_WIDTH + 2;
-        int numHorizontalLines = height / Constants.GRID_HEIGHT + 2;
+        int numVerticalLines = (int)(projectionSize.x * camera.getZoom())/ Constants.GRID_WIDTH + 2;
+        int numHorizontalLines = (int)(projectionSize.y * camera.getZoom()) / Constants.GRID_HEIGHT + 2;
 
         int maxLines = Math.max(numVerticalLines, numHorizontalLines);
         for (int i = 0; i < maxLines; i++) {
