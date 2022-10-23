@@ -8,6 +8,8 @@
 package com.jkachele.game.components;
 
 import com.jkachele.game.engine.Window;
+import com.jkachele.game.renderer.DebugDraw;
+import com.jkachele.game.util.Color;
 import com.jkachele.game.util.Constants;
 import org.joml.Vector2f;
 
@@ -32,12 +34,12 @@ public class GridLines extends Component {
             int x = firstX + (Constants.GRID_WIDTH * i);
             int y = firstY + (Constants.GRID_HEIGHT * i);
 
-//            if (i < numVerticalLines) {
-//                DebugDraw.addLine2D(new Vector2f(x, firstY), new Vector2f(x, firstY + height), Color.DARK_GRAY.toVector());
-//            }
-//            if (i < numHorizontalLines) {
-//                DebugDraw.addLine2D(new Vector2f(firstX, y), new Vector2f(firstX + width, y), Color.DARK_GRAY.toVector());
-//            }
+            if (i < numVerticalLines) {
+                DebugDraw.addLine2D(new Vector2f(x, firstY), new Vector2f(x, firstY + height), Color.DARK_GRAY.toVector());
+            }
+            if (i < numHorizontalLines) {
+                DebugDraw.addLine2D(new Vector2f(firstX, y), new Vector2f(firstX + width, y), Color.DARK_GRAY.toVector());
+            }
         }
     }
 }

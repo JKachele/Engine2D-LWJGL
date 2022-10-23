@@ -84,7 +84,7 @@ public class Engine implements Runnable{
                 DebugDraw.draw();
                 Renderer.bindShader(defaultShader);
                 Window.getCurrentScene().update(dt);
-//                Window.getCurrentScene().render();
+                Window.getCurrentScene().render();
             }
             // Render ImGUI into the window
             Window.getFramebuffer().unbind();

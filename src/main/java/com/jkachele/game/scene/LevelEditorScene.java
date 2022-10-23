@@ -10,11 +10,8 @@ package com.jkachele.game.scene;
 import com.jkachele.game.components.*;
 import com.jkachele.game.engine.*;
 import com.jkachele.game.physics2d.PhysicsSystem2D;
-import com.jkachele.game.physics2d.primitives.Circle;
 import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
-import com.jkachele.game.renderer.DebugDraw;
 import com.jkachele.game.util.AssetPool;
-import com.jkachele.game.util.Color;
 import com.jkachele.game.util.Constants;
 import imgui.ImGui;
 import imgui.ImVec2;
@@ -36,26 +33,26 @@ public class LevelEditorScene extends Scene {
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
 
-        obj1 = new DebugObject("Circle-1", new Transform(new Vector2f(100, 1000)), 0);
-        rigidBody1 = new Rigidbody2D();
-        rigidBody1.setRawTransform(obj1.transform);
-        rigidBody1.setMass(100);
-        Circle c1 = new Circle();
-        c1.setRadius(10.0f);
-        c1.setRigidbody(rigidBody1);
-        rigidBody1.setCollider(c1);
-
-        obj2 = new DebugObject("Circle-2", new Transform(new Vector2f(100, 800)), 0);
-        rigidBody2 = new Rigidbody2D();
-        rigidBody2.setRawTransform(obj2.transform);
-        rigidBody2.setMass(200);
-        Circle c2 = new Circle();
-        c2.setRadius(20.0f);
-        c2.setRigidbody(rigidBody2);
-        rigidBody2.setCollider(c2);
-
-        physics.addRigidBody(rigidBody1, true);
-        physics.addRigidBody(rigidBody2, false);
+//        obj1 = new DebugObject("Circle-1", new Transform(new Vector2f(100, 1000)), 0);
+//        rigidBody1 = new Rigidbody2D();
+//        rigidBody1.setRawTransform(obj1.transform);
+//        rigidBody1.setMass(100);
+//        Circle c1 = new Circle();
+//        c1.setRadius(10.0f);
+//        c1.setRigidbody(rigidBody1);
+//        rigidBody1.setCollider(c1);
+//
+//        obj2 = new DebugObject("Circle-2", new Transform(new Vector2f(100, 800)), 0);
+//        rigidBody2 = new Rigidbody2D();
+//        rigidBody2.setRawTransform(obj2.transform);
+//        rigidBody2.setMass(200);
+//        Circle c2 = new Circle();
+//        c2.setRadius(20.0f);
+//        c2.setRigidbody(rigidBody2);
+//        rigidBody2.setCollider(c2);
+//
+//        physics.addRigidBody(rigidBody1, true);
+//        physics.addRigidBody(rigidBody2, false);
 
         loadResources();
         this.camera = new Camera(new Vector2f());
@@ -93,9 +90,9 @@ public class LevelEditorScene extends Scene {
             gameObject.update(dt);
         }
 
-        DebugDraw.addCircle(obj1.transform.position, 10.0f, Color.RED.toVector());
-        DebugDraw.addCircle(obj2.transform.position, 20.0f, Color.BLUE.toVector());
-        physics.update(dt);
+//        DebugDraw.addCircle(obj1.transform.position, 10.0f, Color.RED.toVector());
+//        DebugDraw.addCircle(obj2.transform.position, 20.0f, Color.BLUE.toVector());
+//        physics.update(dt);
     }
 
     @Override
