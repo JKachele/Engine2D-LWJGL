@@ -23,6 +23,7 @@ public class EditorCamera extends Component{
     private float dragSensitivity = 30.0f;
     private float scrollSensitivity = 0.1f;
     private float lerpTime = 0.0f;
+    private float maxZoomOut = 2.75f;
 
     public EditorCamera(Camera levelEditorCamera) {
         this.levelEditorCamera = levelEditorCamera;
@@ -54,7 +55,13 @@ public class EditorCamera extends Component{
             float addValue = (float)Math.pow(Math.abs(MouseListener.getScrollY() * scrollSensitivity),
                     1 / levelEditorCamera.getZoom());
             addValue *= -Math.signum(MouseListener.getScrollY());
-            levelEditorCamera.addZoom(addValue);
+
+            // Limit zoom out
+            if (levelEditorCamera.getZoom() + addValue <= maxZoomOut) {
+                levelEditorCamera.addZoom(addValue);
+            } else {
+                levelEditorCamera.setZoom(maxZoomOut);
+            }
         }
 
         if (KeyListener.isKeyPressed(GLFW_KEY_HOME)) {

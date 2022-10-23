@@ -20,7 +20,8 @@ public class Camera {
     private float zoom = 1.0f;
 
     // Virtual screen size of 1920 x 1080 pixels (60 x 33.75 grid of 32 pixel cells)
-    private final Vector2f PROJECTION_SIZE = new Vector2f(60.0f * 32.0f, 33.75f * 32.0f);
+    private final Vector2f projectionSize = new Vector2f(1920, 1080);
+    private Vector2f currentProjSize = new Vector2f(projectionSize);
 
     public Camera(Vector2f cameraPosition) {
         this.position = cameraPosition;
@@ -32,11 +33,12 @@ public class Camera {
     }
 
     public void adjustProjection() {
+        currentProjSize = new Vector2f(projectionSize).mul(zoom);
         projectionMatrix.identity();
         // Defines the size of the virtual screen the camera will output to accounting for the zoom factor
-        projectionMatrix.ortho(0.0f, PROJECTION_SIZE.x * this.zoom,        //Screen Width in "pixels"
-                                    0.0f, PROJECTION_SIZE.y * this.zoom,        // Screen Height in "pixels"
-                                    0.0f, 100.0f);                             // Near and far clipping planes
+        projectionMatrix.ortho(0.0f, currentProjSize.x,        //Screen Width in "pixels"
+                                    0.0f, currentProjSize.y,        // Screen Height in "pixels"
+                                    0.0f, 100.0f);             // Near and far clipping planes
         projectionMatrix.invert(inverseProjection);
     }
 
@@ -83,7 +85,11 @@ public class Camera {
     }
 
     public Vector2f getProjectionSize() {
-        return this.PROJECTION_SIZE;
+        return this.projectionSize;
+    }
+
+    public Vector2f getCurrentProjSize() {
+        return currentProjSize;
     }
 
     public float getZoom() {

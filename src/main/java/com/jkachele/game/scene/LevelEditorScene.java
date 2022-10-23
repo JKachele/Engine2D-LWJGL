@@ -29,7 +29,7 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init(boolean reset) {
-        this.camera = new Camera(new Vector2f(-250, 0));
+        this.camera = new Camera(new Vector2f(0, 0));
         levelEditorComponents = new GameObject("LevelEditor", new Transform(), 0);
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
@@ -91,6 +91,9 @@ public class LevelEditorScene extends Scene {
         for (GameObject gameObject : this.gameObjects) {
             gameObject.update(dt);
         }
+
+        System.out.print("\rMousePos: (" + MouseListener.getOrthoX() + ", " + MouseListener.getOrthoY() +
+                "), Screen Size: " + camera.getCurrentProjSize().x + ", " + camera.getCurrentProjSize().y + ")");
 
 //        DebugDraw.addCircle(obj1.transform.position, 10.0f, Color.RED.toVector());
 //        DebugDraw.addCircle(obj2.transform.position, 20.0f, Color.BLUE.toVector());
