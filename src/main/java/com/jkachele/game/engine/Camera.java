@@ -18,6 +18,7 @@ public class Camera {
     private Matrix4f inverseView;
     private Vector2f position;
     private float zoom = 1.0f;
+    private final float maxZoomOut = 2.75f;
 
     // Virtual screen size of 1920 x 1080 pixels (60 x 33.75 grid of 32 pixel cells)
     private final Vector2f projectionSize = new Vector2f(1920, 1080);
@@ -101,6 +102,10 @@ public class Camera {
     }
 
     public void addZoom(float value) {
-        this.zoom += value;
+        if (this.zoom + value <= maxZoomOut) {
+            this.zoom += value;
+        } else {
+            this.zoom = maxZoomOut;
+        }
     }
 }

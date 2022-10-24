@@ -85,15 +85,11 @@ public class LevelEditorScene extends Scene {
     @Override
     public void update(float dt) {
         levelEditorComponents.update(dt);
-        this.camera.adjustProjection();
 
         // Update all game objects in the scene
         for (GameObject gameObject : this.gameObjects) {
             gameObject.update(dt);
         }
-
-        System.out.print("\rMousePos: (" + MouseListener.getOrthoX() + ", " + MouseListener.getOrthoY() +
-                "), Screen Size: " + camera.getCurrentProjSize().x + ", " + camera.getCurrentProjSize().y + ")");
 
 //        DebugDraw.addCircle(obj1.transform.position, 10.0f, Color.RED.toVector());
 //        DebugDraw.addCircle(obj2.transform.position, 20.0f, Color.BLUE.toVector());

@@ -141,6 +141,10 @@ public class MouseListener {
         return currentY;
     }
 
+    public static Vector2f getOrthoPos() {
+        return new Vector2f(getOrthoX(), getOrthoY());
+    }
+
     public static float getScreenX() {
         float currentX = getX() - MouseListener.gameViewportPos.x;
         currentX = (currentX / MouseListener.gameViewportSize.x) * Window.getFramebufferWidth();
@@ -153,5 +157,9 @@ public class MouseListener {
         currentY = Window.getFramebufferHeight() - ((currentY / MouseListener.gameViewportSize.y) * Window.getFramebufferHeight());
 
         return currentY;
+    }
+
+    public static Vector2f getScreenPos() {
+        return new Vector2f(getScreenX(), getScreenY());
     }
 }

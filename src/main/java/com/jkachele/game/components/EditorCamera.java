@@ -23,7 +23,6 @@ public class EditorCamera extends Component{
     private float dragSensitivity = 30.0f;
     private float scrollSensitivity = 0.1f;
     private float lerpTime = 0.0f;
-    private float maxZoomOut = 2.75f;
 
     public EditorCamera(Camera levelEditorCamera) {
         this.levelEditorCamera = levelEditorCamera;
@@ -32,6 +31,7 @@ public class EditorCamera extends Component{
 
     @Override
     public void update(float dt) {
+        // Pan camera
         if (MouseListener.isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT) && dragDebounce > 0) {
             this.clickOrigin = new Vector2f(MouseListener.getOrthoX(), MouseListener.getOrthoY());
             dragDebounce -= dt;
@@ -44,6 +44,9 @@ public class EditorCamera extends Component{
             levelEditorCamera.setPosition(newPosition);
 
             this.clickOrigin.lerp(mousePos, dt);
+
+            levelEditorCamera.adjustProjection();
+
             return;
         }
 
@@ -51,23 +54,41 @@ public class EditorCamera extends Component{
             dragDebounce = 0.1f;
         }
 
+        // Zoom camera
         if (MouseListener.getScrollY() != 0.0f) {
             float addValue = (float)Math.pow(Math.abs(MouseListener.getScrollY() * scrollSensitivity),
                     1 / levelEditorCamera.getZoom());
             addValue *= -Math.signum(MouseListener.getScrollY());
 
-            // Limit zoom out
-            if (levelEditorCamera.getZoom() + addValue <= maxZoomOut) {
-                levelEditorCamera.addZoom(addValue);
-            } else {
-                levelEditorCamera.setZoom(maxZoomOut);
-            }
+            levelEditorCamera.addZoom(addValue);
+
+            Vector2f mousePos = MouseListener.getScreenPos();
+            // Mouse position relative to the camera view on a normalized scale before the zoom
+            Vector2f normalMousePos = new Vector2f(mousePos).sub(levelEditorCamera.getPosition())
+                    .div(levelEditorCamera.getCurrentProjSize());
+
+            levelEditorCamera.adjustProjection();
+
+            // previous mouse position relative to the camera view on a normalized scale after the zoom
+            Vector2f normalMousePos2 = new Vector2f(mousePos).sub(levelEditorCamera.getPosition())
+                    .div(levelEditorCamera.getCurrentProjSize());
+
+            Vector2f normalNewCameraPos = new Vector2f(normalMousePos2).sub(normalMousePos);
+            Vector2f newCameraPos = new Vector2f(normalNewCameraPos).mul(levelEditorCamera.getCurrentProjSize());
+            newCameraPos.add(levelEditorCamera.getPosition());
+
+            System.out.print(levelEditorCamera.getPosition() + " -> ");
+
+            levelEditorCamera.setPosition(newCameraPos);
+
+            System.out.println(levelEditorCamera.getPosition());
         }
 
         if (KeyListener.isKeyPressed(GLFW_KEY_HOME)) {
             reset = true;
         }
 
+        // Move to home position
         if (reset) {
             Vector2f homePosition = levelEditorCamera.getPosition().lerp(new Vector2f(), lerpTime);
             levelEditorCamera.setPosition(homePosition);
@@ -83,6 +104,8 @@ public class EditorCamera extends Component{
                 this.lerpTime = 0.0f;
                 reset = false;
             }
+
+            levelEditorCamera.adjustProjection();
         }
     }
 }

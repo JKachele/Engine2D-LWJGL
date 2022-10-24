@@ -108,6 +108,6 @@ public class Engine implements Runnable{
     }
 
     private static String fps(float dt) {
-        return (1.0f / dt) + " FPS";
+        return String.format("FPS: %.2f", 1.0f / dt);
     }
 }
