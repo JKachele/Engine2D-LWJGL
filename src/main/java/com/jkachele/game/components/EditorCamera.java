@@ -73,6 +73,7 @@ public class EditorCamera extends Component{
             Vector2f normalMousePos2 = new Vector2f(mousePos).sub(levelEditorCamera.getPosition())
                     .div(levelEditorCamera.getCurrentProjSize());
 
+            // subtract the original normal vec to get the new position for the camera
             Vector2f normalNewCameraPos = new Vector2f(normalMousePos2).sub(normalMousePos);
             Vector2f newCameraPos = new Vector2f(normalNewCameraPos).mul(levelEditorCamera.getCurrentProjSize());
             newCameraPos.add(levelEditorCamera.getPosition());
