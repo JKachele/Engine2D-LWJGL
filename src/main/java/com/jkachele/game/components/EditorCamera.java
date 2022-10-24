@@ -3,7 +3,7 @@
  *File----------EditorCamera.java
  *Author--------Justin Kachele
  *Date----------10/22/2022
- *License-------GNU GENERAL PUBLIC LICENSE
+ *License-------MIT License
  ******************************************/
 package com.jkachele.game.components;
 

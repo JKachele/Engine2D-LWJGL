@@ -3,7 +3,7 @@
  *File----------DebugObject.java
  *Author--------Justin Kachele
  *Date----------10/18/2022
- *License-------GNU GENERAL PUBLIC LICENSE
+ *License-------MIT License
  ******************************************/
 package com.jkachele.game.engine;
 

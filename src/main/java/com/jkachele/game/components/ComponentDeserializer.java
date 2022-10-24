@@ -3,7 +3,7 @@
  *File----------ComponentDeserializer.java
  *Author--------Justin Kachele
  *Date----------10/8/2022
- *License-------GNU GENERAL PUBLIC LICENSE
+ *License-------MIT License
  ******************************************/
 package com.jkachele.game.components;
 

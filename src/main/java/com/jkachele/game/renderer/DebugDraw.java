@@ -3,7 +3,7 @@
  *File----------DebugDraw.java
  *Author--------Justin Kachele
  *Date----------10/9/2022
- *License-------GNU GENERAL PUBLIC LICENSE
+ *License-------MIT License
  ******************************************/
 package com.jkachele.game.renderer;
 
