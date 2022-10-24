@@ -62,7 +62,7 @@ public class EditorCamera extends Component{
 
             levelEditorCamera.addZoom(addValue);
 
-            Vector2f mousePos = MouseListener.getScreenPos();
+            Vector2f mousePos = MouseListener.getOrthoPos();
             // Mouse position relative to the camera view on a normalized scale before the zoom
             Vector2f normalMousePos = new Vector2f(mousePos).sub(levelEditorCamera.getPosition())
                     .div(levelEditorCamera.getCurrentProjSize());
@@ -77,11 +77,7 @@ public class EditorCamera extends Component{
             Vector2f newCameraPos = new Vector2f(normalNewCameraPos).mul(levelEditorCamera.getCurrentProjSize());
             newCameraPos.add(levelEditorCamera.getPosition());
 
-            System.out.print(levelEditorCamera.getPosition() + " -> ");
-
             levelEditorCamera.setPosition(newCameraPos);
-
-            System.out.println(levelEditorCamera.getPosition());
         }
 
         if (KeyListener.isKeyPressed(GLFW_KEY_HOME)) {
