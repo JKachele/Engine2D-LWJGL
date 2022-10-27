@@ -24,6 +24,7 @@ public final class Color {
     public static final Color MAGENTA       = new Color(1.0f, 0.0f, 1.0f, 1.0f);
     public static final Color ORANGE        = new Color(1.0f, 0.8f, 0.0f, 1.0f);
     public static final Color PINK          = new Color(1.0f, 0.7f, 0.7f, 1.0f);
+    public static final Color NULL          = new Color(0.0f, 0.0f, 0.0f, 0.0f);
 
     private float red;
     private float green;
@@ -100,5 +101,23 @@ public final class Color {
 
     public float getAlpha() {
         return alpha;
+    }
+
+    @SuppressWarnings("RedundantIfStatement")
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (getClass()!= o.getClass()) return false;
+        Color other = (Color) o;
+        if (Float.floatToIntBits(red) != Float.floatToIntBits(other.red))
+            return false;
+        if (Float.floatToIntBits(green)!= Float.floatToIntBits(other.green))
+            return false;
+        if (Float.floatToIntBits(blue)!= Float.floatToIntBits(other.blue))
+            return false;
+        if (Float.floatToIntBits(alpha)!= Float.floatToIntBits(other.alpha))
+            return false;
+        return true;
     }
 }

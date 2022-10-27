@@ -605,7 +605,7 @@ public class CollisionDetectorTests {
 
 //    TODO: Closest point to box2D
 //    @Test
-//    public void closestPointToBox2DTestOne() {
+//    public void closestPointToBox2dtestOne() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -619,7 +619,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToBox2DTestTwo() {
+//    public void closestPointToBox2dtestTwo() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -633,7 +633,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToBox2DTestThree() {
+//    public void closestPointToBox2dtestThree() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -647,7 +647,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToBox2DTestFour() {
+//    public void closestPointToBox2dtestFour() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -662,7 +662,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToBox2DTestFive() {
+//    public void closestPointToBox2dtestFive() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -677,7 +677,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToBox2DTestSix() {
+//    public void closestPointToBox2dtestSix() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -692,7 +692,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToRotatedBox2DTestOne() {
+//    public void closestPointToRotatedBox2dtestOne() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -707,7 +707,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToRotatedBox2DTestTwo() {
+//    public void closestPointToRotatedBox2dtestTwo() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -722,7 +722,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToRotatedBox2DTestThree() {
+//    public void closestPointToRotatedBox2dtestThree() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -737,7 +737,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToRotatedBox2DTestFour() {
+//    public void closestPointToRotatedBox2dtestFour() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -752,7 +752,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToRotatedBox2DTestFive() {
+//    public void closestPointToRotatedBox2dtestFive() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();
@@ -767,7 +767,7 @@ public class CollisionDetectorTests {
 //    }
 //
 //    @Test
-//    public void closestPointToRotatedBox2DTestSix() {
+//    public void closestPointToRotatedBox2dtestSix() {
 //        Box2D box = new Box2D();
 //        box.setSize(new Vector2f(10));
 //        RigidBody2D body = new RigidBody2D();

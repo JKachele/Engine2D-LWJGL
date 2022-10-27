@@ -10,6 +10,7 @@ package com.jkachele.game.components;
 import com.jkachele.game.engine.GameObject;
 import imgui.ImGui;
 import imgui.ImVec2;
+import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -54,41 +55,38 @@ public abstract class Component {
                 if (type == int.class) {
                     int val = (int)value;
                     int[] imInt = {val};
-                    ImGui.text(name);
-                    ImGui.sameLine();
-                    if (ImGui.dragInt("", imInt)) {
+                    if (ImGui.dragInt(name, imInt)) {
                         field.set(this, imInt[0]);
                     }
                 } else if (type == float.class) {
                     float val = (float) value;
                     float[] imFloat = {val};
-                    ImGui.text(name);
-                    ImGui.sameLine();
-                    if (ImGui.dragFloat("", imFloat)) {
+                    if (ImGui.dragFloat(name, imFloat)) {
                         field.set(this, imFloat[0]);
                     }
                 } else if (type == boolean.class) {
                     boolean val = (boolean) value;
-                    ImGui.text(name);
-                    ImGui.sameLine();
-                    if (ImGui.checkbox("", val)) {
+                    if (ImGui.checkbox(name, val)) {
                         field.set(this, !val);
+                    }
+                } else if (type == Vector2f.class) {
+                    Vector2f val = (Vector2f) value;
+                    float[] imVec = {val.x, val.y};
+                    if (ImGui.dragFloat2(name, imVec)) {
+                        val.set(imVec[0], imVec[1]);
+                        field.set(this, val);
                     }
                 } else if (type == Vector3f.class) {
                     Vector3f val = (Vector3f) value;
                     float[] imVec = {val.x, val.y, val.z};
-                    ImGui.text(name);
-                    ImGui.sameLine();
-                    if (ImGui.dragFloat3("", imVec)) {
+                    if (ImGui.dragFloat3(name, imVec)) {
                         val.set(imVec[0], imVec[1], imVec[2]);
                         field.set(this, val);
                     }
                 } else if (type == Vector4f.class) {
                     Vector4f val = (Vector4f) value;
                     float[] imVec = {val.x, val.y, val.z, val.w};
-                    ImGui.text(name);
-                    ImGui.sameLine();
-                    if (ImGui.dragFloat4("", imVec)) {
+                    if (ImGui.dragFloat4(name, imVec)) {
                         val.set(imVec[0], imVec[1], imVec[2], imVec[3]);
                         field.set(this, val);
                     }

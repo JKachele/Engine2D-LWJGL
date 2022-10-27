@@ -20,6 +20,7 @@ public class GameObject {
     private List<Component> components;
     public Transform transform;
     private int zIndex;
+    private boolean isTransient = false;
 
     public GameObject(String name) {
         this.name = name;
@@ -39,6 +40,10 @@ public class GameObject {
 
         this.uid = ID_COUNTER;
         ID_COUNTER++;
+    }
+
+    public static void init(int maxID) {
+        ID_COUNTER = maxID;
     }
 
     public void addComponent(Component component) {
@@ -87,10 +92,18 @@ public class GameObject {
         }
     }
 
-    public void imgui() {
+    public void imGui() {
         for (Component component : components) {
             component.imgui();
         }
+    }
+
+    public boolean isTransient() {
+        return isTransient;
+    }
+
+    public void setTransient(boolean isTransient) {
+        this.isTransient = isTransient;
     }
 
     public int zIndex() {
@@ -99,9 +112,5 @@ public class GameObject {
 
     public int getUid() {
         return this.uid;
-    }
-
-    public static void init(int maxID) {
-        ID_COUNTER = maxID;
     }
 }

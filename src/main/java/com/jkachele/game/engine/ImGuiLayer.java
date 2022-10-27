@@ -205,7 +205,7 @@ public class ImGuiLayer {
         endFrame();
     }
 
-    private void startFrame(final float deltaTime) {
+    private void startFrame(final float dt) {
         // Get window properties and mouse position
         float[] winWidth = {Window.getWidth()};
         float[] winHeight = {Window.getHeight()};
@@ -218,7 +218,7 @@ public class ImGuiLayer {
         io.setDisplaySize(winWidth[0], winHeight[0]);
         io.setDisplayFramebufferScale(1.0f, 1.0f);
         io.setMousePos((float) mousePosX[0], (float) mousePosY[0]);
-        io.setDeltaTime(deltaTime);
+        io.setDeltaTime(dt);
 
         // Update the mouse cursor
         final int imguiCursor = ImGui.getMouseCursor();
@@ -262,5 +262,9 @@ public class ImGuiLayer {
 
     public GameViewWindow getGameViewWindow() {
         return gameViewWindow;
+    }
+
+    public PropertiesWindow getPropertiesWindow() {
+        return propertiesWindow;
     }
 }

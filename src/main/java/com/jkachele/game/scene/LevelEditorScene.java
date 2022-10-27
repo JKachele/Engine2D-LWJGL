@@ -18,8 +18,12 @@ import imgui.ImVec2;
 import org.joml.Vector2f;
 
 public class LevelEditorScene extends Scene {
+    String spritesPath = "assets/images/spritesheets/decorationsAndBlocks.png";
     Spritesheet sprites;
+    String marioSpritesPath = "assets/images/spritesheets/characters.png";
     Spritesheet marioSprites;
+    String gizmosPath = "assets/images/gizmos.png";
+    Spritesheet gizmos;
     GameObject levelEditorComponents;
     PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -50));
     DebugObject obj1;
@@ -29,11 +33,19 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void init(boolean reset) {
+        loadResources();
+        sprites = AssetPool.getSpritesheet(spritesPath);
+        marioSprites = AssetPool.getSpritesheet(marioSpritesPath);
+        gizmos = AssetPool.getSpritesheet(gizmosPath);
+
         this.camera = new Camera(new Vector2f(0, 0));
         levelEditorComponents = new GameObject("LevelEditor", new Transform(), 0);
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
         levelEditorComponents.addComponent(new EditorCamera(this.camera));
+        levelEditorComponents.addComponent(new TranslateGizmo(gizmos.getSprite(1),
+                Window.getImGuiLayer().getPropertiesWindow()));
+        levelEditorComponents.start();
 
 //        obj1 = new DebugObject("Circle-1", new Transform(new Vector2f(100, 1000)), 0);
 //        rigidBody1 = new Rigidbody2D();
@@ -55,22 +67,17 @@ public class LevelEditorScene extends Scene {
 //
 //        physics.addRigidBody(rigidBody1, true);
 //        physics.addRigidBody(rigidBody2, false);
-
-        loadResources();
-        sprites = AssetPool.getSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png");
-        marioSprites = AssetPool.getSpritesheet("assets/images/spritesheets/characters.png");
     }
 
     private void loadResources() {
         AssetPool.getShader("assets/shaders/default.glsl");
 
-        AssetPool.addSpritesheet("assets/images/spritesheets/decorationsAndBlocks.png",
-                new Spritesheet(AssetPool.getTexture("assets/images/spritesheets/decorationsAndBlocks.png"),
+        AssetPool.addSpritesheet(spritesPath, new Spritesheet(AssetPool.getTexture(spritesPath),
                         16, 16, 81, 0));
-        AssetPool.addSpritesheet("assets/images/spritesheets/characters.png",
-                new Spritesheet(AssetPool.getTexture("assets/images/spritesheets/characters.png"),
+        AssetPool.addSpritesheet(marioSpritesPath, new Spritesheet(AssetPool.getTexture(marioSpritesPath),
                         16, 16, 26, 0));
-        AssetPool.getTexture("assets/images/blendImageG.png");
+        AssetPool.addSpritesheet(gizmosPath, new Spritesheet(AssetPool.getTexture(gizmosPath),
+                        24, 48, 2, 0));
 
         for (GameObject gameObject : gameObjects) {
             if(gameObject.getComponent(SpriteRenderer.class) != null) {
@@ -104,6 +111,10 @@ public class LevelEditorScene extends Scene {
 
     @Override
     public void imGui() {
+        ImGui.begin("Level Editor Stuff");
+        levelEditorComponents.imGui();
+        ImGui.end();
+
         ImGui.begin("Scene Sprites");
 
         ImVec2 windowPos = new ImVec2();

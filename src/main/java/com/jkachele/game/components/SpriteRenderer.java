@@ -9,6 +9,7 @@ package com.jkachele.game.components;
 
 import com.jkachele.game.engine.Transform;
 import com.jkachele.game.renderer.Texture;
+import com.jkachele.game.util.Color;
 import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
@@ -67,6 +68,14 @@ public class SpriteRenderer extends Component {
         if (!this.color.equals(color)) {
             this.isDirty = true;
             this.color.set(color);
+        }
+    }
+
+    public void setColor(Color color) {
+        // Set the dirty flag if the color was changed
+        if (!this.color.equals(color.toVector())) {
+            this.isDirty = true;
+            this.color.set(color.toVector());
         }
     }
 

@@ -79,7 +79,14 @@ public abstract class Scene {
                 .create();
         try {
             FileWriter writer = new FileWriter("assets/levels/levelEditor.txt", false);
-            writer.write(gson.toJson(this.gameObjects));
+            // Only serialize objects that are not transient
+            List<GameObject> gameObjectsToSerialize = new ArrayList<>();
+            for (GameObject gameObject : this.gameObjects) {
+                if (!gameObject.isTransient()) {
+                    gameObjectsToSerialize.add(gameObject);
+                }
+            }
+            writer.write(gson.toJson(gameObjectsToSerialize));
             writer.close();
         } catch (IOException e) {
             e.printStackTrace();

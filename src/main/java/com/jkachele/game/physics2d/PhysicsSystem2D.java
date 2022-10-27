@@ -35,7 +35,7 @@ public class PhysicsSystem2D {
 
     private final int impulseIterations = 6;
 
-    public PhysicsSystem2D(float fixedUpdateDt, Vector2f gravity) {
+    public PhysicsSystem2D(float fixedUpdatedt, Vector2f gravity) {
         this.forceRegistry = new ForceRegistry();
         this.gravity = new Gravity2D(gravity);
 
@@ -44,7 +44,7 @@ public class PhysicsSystem2D {
         this.rigidBodies2 = new ArrayList<>();
         this.collisions = new ArrayList<>();
 
-        this.fixedUpdateTime = fixedUpdateDt;
+        this.fixedUpdateTime = fixedUpdatedt;
     }
 
     public void update(float dt) {

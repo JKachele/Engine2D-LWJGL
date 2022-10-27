@@ -42,7 +42,7 @@ public class Engine implements Runnable{
 
     public void gameLoop() {
         float beginTime = (float)glfwGetTime();
-        float endTime;
+        float endtime;
         float dt = -1.0f;
 
         Shader defaultShader = AssetPool.getShader("assets/shaders/default.glsl");
@@ -98,9 +98,9 @@ public class Engine implements Runnable{
             // Print the current FPS to the console
             System.out.print("\r" + fps(dt));
 
-            endTime = (float)glfwGetTime();
-            dt = endTime - beginTime;
-            beginTime = endTime;
+            endtime = (float)glfwGetTime();
+            dt = endtime - beginTime;
+            beginTime = endtime;
         }
 
         Window.getCurrentScene().saveExit();
