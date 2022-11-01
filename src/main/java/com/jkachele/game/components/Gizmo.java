@@ -27,9 +27,9 @@ public class Gizmo extends Component{
     private Vector4f zColor = Color.GREEN.toVector();
     private Vector4f zColorHover = Color.GREEN.scale(0.25f).toVector();
 
-    private final Vector2f xOffset = new Vector2f(82, 8);
-    private final Vector2f yOffset = new Vector2f(24, 82);
-    private final Vector2f zOffset = new Vector2f(75, 65);
+    private final Vector2f xOffset = new Vector2f(59, 0);
+    private final Vector2f yOffset = new Vector2f(16, 59);
+    private final Vector2f zOffset = new Vector2f(54, 44);
     private int gizmoWidth = 16;
     private int gizmoHeight = 48;
     protected boolean xAxisActive = false;
