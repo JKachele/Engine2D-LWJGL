@@ -96,7 +96,7 @@ public class Engine implements Runnable{
             MouseListener.endFrame();
 
             // Print the current FPS to the console
-            System.out.print("\r" + fps(dt));
+//            System.out.print("\r" + fps(dt));
 
             endtime = (float)glfwGetTime();
             dt = endtime - beginTime;

@@ -21,6 +21,7 @@ public class GameObject {
     public Transform transform;
     private int zIndex;
     private boolean isTransient = false;
+    private boolean pickable = true;
 
     public GameObject(String name) {
         this.name = name;
@@ -86,9 +87,10 @@ public class GameObject {
         }
     }
 
+    @SuppressWarnings("ForLoopReplaceableByForEach")
     public void start() {
-        for (Component component : components) {
-            component.start();
+        for (int i=0; i < components.size(); i++) {
+            components.get(i).start();
         }
     }
 
@@ -106,11 +108,23 @@ public class GameObject {
         this.isTransient = isTransient;
     }
 
+    public boolean isPickable() {
+        return pickable;
+    }
+
+    public void setPickable(boolean pickable) {
+        this.pickable = pickable;
+    }
+
     public int zIndex() {
         return zIndex;
     }
 
     public int getUid() {
         return this.uid;
+    }
+
+    public String getName() {
+        return this.name;
     }
 }

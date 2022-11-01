@@ -46,21 +46,15 @@ public final class Color {
     }
 
     public Color darker() {
-        return new Color(Math.max(red - 0.01f, 0.0f), Math.max(green - 0.01f, 0.0f),
-                Math.max(blue - 0.01f, 0.0f), alpha);
+        return new Color(red * 0.75f, green * 0.75f, blue * 0.75f, alpha);
     }
 
-    public Color darker(float d) {
-        return new Color(Math.max(red - d, 0.0f), Math.max(green - d, 0.0f), Math.max(blue - d, 0.0f), alpha);
+    public Color scale(float d) {
+        return new Color(Math.min(red * d, 1.0f), Math.min(green * d, 1.0f), Math.min(blue * d, 1.0f), alpha);
     }
 
     public Color lighter() {
-        return new Color(Math.min(red + 0.01f, 1.0f), Math.min(green + 0.01f, 1.0f),
-                Math.min(blue + 0.01f, 1.0f), alpha);
-    }
-
-    public Color lighter(float d) {
-        return new Color(Math.min(red + d, 1.0f), Math.min(green + d, 1.0f), Math.min(blue + d, 1.0f), alpha);
+        return new Color(Math.min(red * 1.25f, 1.0f), Math.min(green * 1.25f, 1.0f), Math.min(blue * 1.25f, 1.0f), alpha);
     }
 
     public Color fadeToColor(Color target) {

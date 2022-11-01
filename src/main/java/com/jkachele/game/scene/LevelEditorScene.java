@@ -43,8 +43,7 @@ public class LevelEditorScene extends Scene {
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
         levelEditorComponents.addComponent(new EditorCamera(this.camera));
-        levelEditorComponents.addComponent(new TranslateGizmo(gizmos.getSprite(1),
-                Window.getImGuiLayer().getPropertiesWindow()));
+        levelEditorComponents.addComponent(new GizmoSystem(gizmos));
         levelEditorComponents.start();
 
 //        obj1 = new DebugObject("Circle-1", new Transform(new Vector2f(100, 1000)), 0);
@@ -77,7 +76,7 @@ public class LevelEditorScene extends Scene {
         AssetPool.addSpritesheet(marioSpritesPath, new Spritesheet(AssetPool.getTexture(marioSpritesPath),
                         16, 16, 26, 0));
         AssetPool.addSpritesheet(gizmosPath, new Spritesheet(AssetPool.getTexture(gizmosPath),
-                        24, 48, 2, 0));
+                        24, 48, 3, 0));
 
         for (GameObject gameObject : gameObjects) {
             if(gameObject.getComponent(SpriteRenderer.class) != null) {

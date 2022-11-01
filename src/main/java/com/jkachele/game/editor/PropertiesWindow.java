@@ -34,7 +34,12 @@ public class PropertiesWindow {
             int y = (int)MouseListener.getScreenY();
 
             int gameObjectID = pickingTexture.readPixel(x, y);
-            currentGameObject = currentScene.getGameObject(gameObjectID);
+            GameObject pickedObject = currentScene.getGameObject(gameObjectID);
+            if (pickedObject != null && pickedObject.isPickable()) {
+                currentGameObject = pickedObject;
+            } else if (pickedObject == null && !MouseListener.isDragging()) {
+                currentGameObject = null;
+            }
 
             this.debounceTime = 0.2f;
         }
