@@ -26,13 +26,8 @@ public class TranslateGizmo extends Gizmo {
                 activeGameObject.transform.position.y -= MouseListener.getWorldDY();
             }
             if (zAxisActive && !xAxisActive && !yAxisActive) {
-                float distance = (float)(Math.sqrt((MouseListener.getWorldDX() * MouseListener.getWorldDX()) +
-                        (MouseListener.getWorldDY() * MouseListener.getWorldDY())));
-                if (MouseListener.getWorldDX() < 0 || MouseListener.getWorldDY() < 0) {
-                    distance *= -1;
-                }
-                activeGameObject.transform.position.x -= distance;
-                activeGameObject.transform.position.y -= distance;
+                activeGameObject.transform.position.x -= MouseListener.getWorldDX();
+                activeGameObject.transform.position.y -= MouseListener.getWorldDY();
             }
         }
         super.update(dt);
