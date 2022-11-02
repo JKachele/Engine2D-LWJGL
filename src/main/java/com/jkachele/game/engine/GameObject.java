@@ -8,6 +8,8 @@
 package com.jkachele.game.engine;
 
 import com.jkachele.game.components.Component;
+import com.jkachele.game.components.Transform;
+import imgui.ImGui;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,26 +20,13 @@ public class GameObject {
 
     private String name;
     private List<Component> components;
-    public Transform transform;
-    private int zIndex;
+    public transient Transform transform;
     private boolean isTransient = false;
     private boolean pickable = true;
 
     public GameObject(String name) {
         this.name = name;
         this.components = new ArrayList<>();
-        this.transform = new Transform();
-        this.zIndex = 0;
-
-        this.uid = ID_COUNTER;
-        ID_COUNTER++;
-    }
-
-    public GameObject(String name, Transform transform, int zIndex) {
-        this.name = name;
-        this.components = new ArrayList<>();
-        this.transform = transform;
-        this.zIndex = zIndex;
 
         this.uid = ID_COUNTER;
         ID_COUNTER++;
@@ -96,7 +85,9 @@ public class GameObject {
 
     public void imGui() {
         for (Component component : components) {
-            component.imgui();
+            if (ImGui.collapsingHeader(component.getClass().getSimpleName())) {
+                component.imGui();
+            }
         }
     }
 
@@ -114,10 +105,6 @@ public class GameObject {
 
     public void setPickable(boolean pickable) {
         this.pickable = pickable;
-    }
-
-    public int zIndex() {
-        return zIndex;
     }
 
     public int getUid() {

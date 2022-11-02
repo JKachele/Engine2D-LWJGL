@@ -7,6 +7,8 @@
  ******************************************/
 package com.jkachele.game.engine;
 
+import com.jkachele.game.components.Transform;
+
 public class DebugObject {
     public Transform transform;
     private int zIndex;

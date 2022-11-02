@@ -12,7 +12,8 @@ import com.jkachele.game.engine.KeyListener;
 import com.jkachele.game.engine.MouseListener;
 import org.joml.Vector2f;
 
-import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.GLFW_KEY_HOME;
+import static org.lwjgl.glfw.GLFW.GLFW_MOUSE_BUTTON_RIGHT;
 
 public class EditorCamera extends Component{
     private Camera levelEditorCamera;

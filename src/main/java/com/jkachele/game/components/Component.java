@@ -7,6 +7,7 @@
  ******************************************/
 package com.jkachele.game.components;
 
+import com.jkachele.game.editor.GameImGui;
 import com.jkachele.game.engine.GameObject;
 import imgui.ImGui;
 import imgui.ImVec2;
@@ -32,7 +33,7 @@ public abstract class Component {
     }
 
     // Uses Java reflection to get the fields of components to be able to edit them in ImGUI
-    public void imgui() {
+    public void imGui() {
         try {
             Field[] fields = this.getClass().getDeclaredFields();
             for (Field field : fields) {
@@ -54,42 +55,24 @@ public abstract class Component {
 
                 if (type == int.class) {
                     int val = (int)value;
-                    int[] imInt = {val};
-                    if (ImGui.dragInt(name, imInt)) {
-                        field.set(this, imInt[0]);
-                    }
+                    field.set(this, GameImGui.dragInt(name, val));
                 } else if (type == float.class) {
                     float val = (float) value;
-                    float[] imFloat = {val};
-                    if (ImGui.dragFloat(name, imFloat)) {
-                        field.set(this, imFloat[0]);
-                    }
+                    field.set(this, GameImGui.dragFloat(name, val));
                 } else if (type == boolean.class) {
                     boolean val = (boolean) value;
-                    if (ImGui.checkbox(name, val)) {
+                    if (GameImGui.checkbox(name, val)) {
                         field.set(this, !val);
                     }
                 } else if (type == Vector2f.class) {
                     Vector2f val = (Vector2f) value;
-                    float[] imVec = {val.x, val.y};
-                    if (ImGui.dragFloat2(name, imVec)) {
-                        val.set(imVec[0], imVec[1]);
-                        field.set(this, val);
-                    }
+                    GameImGui.drawVec2Control(name, val);
                 } else if (type == Vector3f.class) {
                     Vector3f val = (Vector3f) value;
-                    float[] imVec = {val.x, val.y, val.z};
-                    if (ImGui.dragFloat3(name, imVec)) {
-                        val.set(imVec[0], imVec[1], imVec[2]);
-                        field.set(this, val);
-                    }
+                    GameImGui.drawVec3Control(name, val);
                 } else if (type == Vector4f.class) {
                     Vector4f val = (Vector4f) value;
-                    float[] imVec = {val.x, val.y, val.z, val.w};
-                    if (ImGui.dragFloat4(name, imVec)) {
-                        val.set(imVec[0], imVec[1], imVec[2], imVec[3]);
-                        field.set(this, val);
-                    }
+                    GameImGui.drawVec4Control(name, val);
                 }
 
 

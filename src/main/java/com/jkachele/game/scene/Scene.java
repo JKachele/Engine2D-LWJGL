@@ -14,6 +14,7 @@ import com.jkachele.game.components.ComponentDeserializer;
 import com.jkachele.game.engine.Camera;
 import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.GameObjectDeserializer;
+import com.jkachele.game.components.Transform;
 import com.jkachele.game.renderer.Renderer;
 
 import java.io.FileWriter;
@@ -69,6 +70,13 @@ public abstract class Scene {
 
     public void imGui() {
 
+    }
+
+    public GameObject createGameObject(String name) {
+        GameObject gameObject = new GameObject(name);
+        gameObject.addComponent(new Transform());
+        gameObject.transform = gameObject.getComponent(Transform.class);
+        return gameObject;
     }
 
     public void saveExit() {

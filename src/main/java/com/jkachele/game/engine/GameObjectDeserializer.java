@@ -9,6 +9,7 @@ package com.jkachele.game.engine;
 
 import com.google.gson.*;
 import com.jkachele.game.components.Component;
+import com.jkachele.game.components.Transform;
 
 import java.lang.reflect.Type;
 
@@ -19,14 +20,13 @@ public class GameObjectDeserializer implements JsonDeserializer<GameObject> {
         JsonObject jsonObject = json.getAsJsonObject();
         String name = jsonObject.get("name").getAsString();
         JsonArray components = jsonObject.getAsJsonArray("components");
-        Transform transform = context.deserialize(jsonObject.get("transform"), Transform.class);
-        int zIndex = context.deserialize(jsonObject.get("zIndex"), int.class);
 
-        GameObject go = new GameObject(name, transform, zIndex);
+        GameObject gameObject = new GameObject(name);
         for (JsonElement e : components) {
             Component c = context.deserialize(e, Component.class);
-            go.addComponent(c);
+            gameObject.addComponent(c);
         }
-        return go;
+        gameObject.transform = gameObject.getComponent(Transform.class);
+        return gameObject;
     }
 }

@@ -69,6 +69,10 @@ public class Gizmo extends Component{
         this.yObject.transform.rotation = 180;
         this.zObject.transform.rotation = 135;
 
+        this.xObject.transform.zIndex = 100;
+        this.yObject.transform.zIndex = 100;
+        this.zObject.transform.zIndex = 100;
+
         this.xObject.setTransient(true);
         this.yObject.setTransient(true);
         this.zObject.setTransient(true);

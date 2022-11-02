@@ -8,7 +8,7 @@
 package com.jkachele.game.physics2d.rigidbody;
 
 import com.jkachele.game.components.Component;
-import com.jkachele.game.engine.Transform;
+import com.jkachele.game.components.Transform;
 import com.jkachele.game.physics2d.primitives.Collider2D;
 import com.jkachele.game.util.GameMath;
 import org.joml.Vector2f;

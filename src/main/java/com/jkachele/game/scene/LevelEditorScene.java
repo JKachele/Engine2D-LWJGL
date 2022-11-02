@@ -39,7 +39,7 @@ public class LevelEditorScene extends Scene {
         gizmos = AssetPool.getSpritesheet(gizmosPath);
 
         this.camera = new Camera(new Vector2f(0, 0));
-        levelEditorComponents = new GameObject("LevelEditor", new Transform(), 0);
+        levelEditorComponents = this.createGameObject("Level Editor");
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
         levelEditorComponents.addComponent(new EditorCamera(this.camera));

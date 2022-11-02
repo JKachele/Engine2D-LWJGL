@@ -7,10 +7,9 @@
  ******************************************/
 package com.jkachele.game.components;
 
-import com.jkachele.game.engine.Transform;
+import com.jkachele.game.editor.GameImGui;
 import com.jkachele.game.renderer.Texture;
 import com.jkachele.game.util.Color;
-import imgui.ImGui;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
@@ -40,11 +39,8 @@ public class SpriteRenderer extends Component {
     }
 
     @Override
-    public void imgui() {
-        float[] imColor = {color.x, color.y, color.z, color.w};
-        ImGui.text("ColorPicker Object " + gameObject.getUid() + ": ");
-        if (ImGui.colorPicker4("", imColor)) {
-            this.color.set(imColor[0], imColor[1], imColor[2], imColor[3]);
+    public void imGui() {
+        if (GameImGui.colorPicker4("Color Picker", this.color)) {
             this.isDirty = true;
         }
     }
