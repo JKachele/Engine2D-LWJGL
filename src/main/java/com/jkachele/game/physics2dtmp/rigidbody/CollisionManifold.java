@@ -5,7 +5,7 @@
  *Date----------10/20/2022
  *License-------MIT License
  ******************************************/
-package com.jkachele.game.physics2d.rigidbody;
+package com.jkachele.game.physics2dtmp.rigidbody;
 
 import org.joml.Vector2f;
 

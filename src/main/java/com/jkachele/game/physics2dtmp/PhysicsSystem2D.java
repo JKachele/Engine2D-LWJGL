@@ -5,14 +5,14 @@
  *Date----------10/18/2022
  *License-------MIT License
  ******************************************/
-package com.jkachele.game.physics2d;
+package com.jkachele.game.physics2dtmp;
 
-import com.jkachele.game.physics2d.forces.ForceRegistry;
-import com.jkachele.game.physics2d.forces.Gravity2D;
-import com.jkachele.game.physics2d.primitives.Collider2D;
-import com.jkachele.game.physics2d.rigidbody.CollisionManifold;
-import com.jkachele.game.physics2d.rigidbody.Collisions;
-import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
+import com.jkachele.game.physics2dtmp.forces.ForceRegistry;
+import com.jkachele.game.physics2dtmp.forces.Gravity2D;
+import com.jkachele.game.physics2dtmp.primitives.Collider2D;
+import com.jkachele.game.physics2dtmp.rigidbody.CollisionManifold;
+import com.jkachele.game.physics2dtmp.rigidbody.Collisions;
+import com.jkachele.game.physics2dtmp.rigidbody.Rigidbody2D;
 import com.jkachele.game.util.GameMath;
 import org.joml.Vector2f;
 

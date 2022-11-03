@@ -5,7 +5,7 @@
  *Date----------10/13/2022
  *License-------MIT License
  ******************************************/
-package com.jkachele.game.physics2d.primitives;
+package com.jkachele.game.physics2dtmp.primitives;
 
 import org.joml.Vector2f;
 

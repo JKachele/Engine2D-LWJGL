@@ -5,11 +5,11 @@
  *Date----------10/11/2022
  *License-------MIT License
  ******************************************/
-package com.jkachele.game.physics2d.rigidbody;
+package com.jkachele.game.physics2dtmp.rigidbody;
 
 import com.jkachele.game.components.Component;
 import com.jkachele.game.components.Transform;
-import com.jkachele.game.physics2d.primitives.Collider2D;
+import com.jkachele.game.physics2dtmp.primitives.Collider2D;
 import com.jkachele.game.util.GameMath;
 import org.joml.Vector2f;
 

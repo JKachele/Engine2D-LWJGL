@@ -8,7 +8,7 @@
 package com.jkachele.game.renderer;
 
 import com.jkachele.game.engine.Window;
-import com.jkachele.game.physics2d.primitives.Line2D;
+import com.jkachele.game.physics2dtmp.primitives.Line2D;
 import com.jkachele.game.util.AssetPool;
 import com.jkachele.game.util.Color;
 import com.jkachele.game.util.GameMath;

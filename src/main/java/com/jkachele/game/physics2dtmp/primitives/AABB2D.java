@@ -5,9 +5,9 @@
  *Date----------10/11/2022
  *License-------MIT License
  ******************************************/
-package com.jkachele.game.physics2d.primitives;
+package com.jkachele.game.physics2dtmp.primitives;
 
-import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
+import com.jkachele.game.physics2dtmp.rigidbody.Rigidbody2D;
 import org.joml.Vector2f;
 
 // Axis Aligned Bounding Box

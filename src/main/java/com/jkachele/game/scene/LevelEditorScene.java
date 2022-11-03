@@ -9,8 +9,8 @@ package com.jkachele.game.scene;
 
 import com.jkachele.game.components.*;
 import com.jkachele.game.engine.*;
-import com.jkachele.game.physics2d.PhysicsSystem2D;
-import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
+import com.jkachele.game.physics2dtmp.PhysicsSystem2D;
+import com.jkachele.game.physics2dtmp.rigidbody.Rigidbody2D;
 import com.jkachele.game.util.AssetPool;
 import com.jkachele.game.util.Constants;
 import imgui.ImGui;

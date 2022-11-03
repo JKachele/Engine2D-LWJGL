@@ -5,13 +5,13 @@
  *Date----------10/12/2022
  *License-------MIT License
  ******************************************/
-package com.jkachele.game.physics2d;
+package com.jkachele.game.physics2dtmp;
 
-import com.jkachele.game.physics2d.primitives.Box2D;
-import com.jkachele.game.physics2d.primitives.Circle;
-import com.jkachele.game.physics2d.primitives.Line2D;
-import com.jkachele.game.physics2d.rigidbody.IntersectionDetector2D;
-import com.jkachele.game.physics2d.rigidbody.Rigidbody2D;
+import com.jkachele.game.physics2dtmp.primitives.Box2D;
+import com.jkachele.game.physics2dtmp.primitives.Circle;
+import com.jkachele.game.physics2dtmp.primitives.Line2D;
+import com.jkachele.game.physics2dtmp.rigidbody.IntersectionDetector2D;
+import com.jkachele.game.physics2dtmp.rigidbody.Rigidbody2D;
 import org.joml.Vector2f;
 import org.junit.Test;
 
