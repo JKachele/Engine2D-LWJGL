@@ -14,15 +14,15 @@ import org.joml.Vector2f;
 
 public class Rigidbody2D extends Component {
     private Vector2f velocity  = new Vector2f();
-    private float angularDamping = 0.8f;
-    private float linearDamping = 0.9f;
+    private float angularDamping = 0.8f;    // Angular Friction
+    private float linearDamping = 0.9f;     // Linear Friction
     private float mass = 0;
     private BodyType bodyType = BodyType.Dynamic;
 
     private boolean fixedRotation = false;
     private boolean continuousCollision = true;
 
-    private Body rawBody = null;
+    private transient Body rawBody = null;
 
     @Override
     public void update(float dt) {
@@ -30,6 +30,11 @@ public class Rigidbody2D extends Component {
             this.gameObject.transform.position.set(rawBody.getPosition().x, rawBody.getPosition().y);
             this.gameObject.transform.rotation = (float)Math.toDegrees(rawBody.getAngle());
         }
+    }
+
+    @Override
+    public void destroy() {
+        this.rawBody = null;
     }
 
     public Vector2f getVelocity() {

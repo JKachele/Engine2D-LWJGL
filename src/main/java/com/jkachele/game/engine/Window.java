@@ -8,11 +8,14 @@
 
 package com.jkachele.game.engine;
 
+import com.jkachele.game.observers.EventSystem;
+import com.jkachele.game.observers.Observer;
+import com.jkachele.game.observers.events.Event;
 import com.jkachele.game.renderer.Framebuffer;
 import com.jkachele.game.renderer.PickingTexture;
-import com.jkachele.game.scene.LevelEditorScene;
-import com.jkachele.game.scene.LevelScene;
+import com.jkachele.game.scene.LevelEditorSceneInitializer;
 import com.jkachele.game.scene.Scene;
+import com.jkachele.game.scene.SceneInitializer;
 import com.jkachele.game.util.Color;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
@@ -28,39 +31,53 @@ import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.system.MemoryUtil.NULL;
 
-public enum Window {;
+public class Window implements Observer {
+    private static Window instance = null;
 
-    private static int width;
-    private static int height;
-    private static String title;
-    private static long glfwWindow;
-    private static Color backgroundColor;
-    private static boolean reset;
-    private static ImGuiLayer imGuiLayer;
-    private static Framebuffer framebuffer;
-    private static PickingTexture pickingTexture;
+    private int width;
+    private int height;
+    private String title;
+    private long glfwWindow;
+    private Color backgroundColor;
+    private boolean reset;
+    private ImGuiLayer imGuiLayer;
+    private Framebuffer framebuffer;
+    private PickingTexture pickingTexture;
 
-    private static final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
-    private static final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
-    private static final int framebufferWidth = 3840;
-    private static final int framebufferHeight = 2160;
+    private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
+    private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    private final int framebufferWidth = 3840;
+    private final int framebufferHeight = 2160;
+    private final String levelEditorSceneLocation = "assets/levels/levelEditor.txt";
 
     private static Scene currentScene = null;
+    private boolean editorActive = false;
 
-    public static void init(int width, int height, String title, Color backgroundColor, boolean reset) {
-        Window.width = width;
-        Window.height = height;
-        Window.title = title;
-        Window.backgroundColor = backgroundColor;
-        Window.reset = reset;
+    // Singleton instance of Window: Only one instance of this class can be created
+    public static Window getInstance() {
+        if (instance == null) {
+            instance = new Window();
+        }
+        return instance;
     }
 
-    public static void start() {
+    private Window() {}
+
+    public void init(int width, int height, String title, Color backgroundColor, boolean reset) {
+        this.width = width;
+        this.height = height;
+        this.title = title;
+        this.backgroundColor = backgroundColor;
+        this.reset = reset;
+        EventSystem.addObserver(this);
+    }
+
+    public void start() {
         initWindow();
         initImGui();
     }
 
-    private static void initWindow() {
+    private void initWindow() {
         System.out.println("Hello LWJGL " + Version.getVersion() + "!");
 
         // Setup error callback to System.err
@@ -78,7 +95,7 @@ public enum Window {;
         //glfwWindowHint(GLFW_MAXIMIZED, GLFW_TRUE);              // Window will be maximized after creation
 
         // Create the window
-        glfwWindow = glfwCreateWindow(Window.width, Window.height, Window.title, NULL, NULL);
+        glfwWindow = glfwCreateWindow(this.width, this.height, this.title, NULL, NULL);
         if (glfwWindow == NULL) {
             throw new RuntimeException("Failed to create GLFW window");
         }
@@ -91,8 +108,8 @@ public enum Window {;
 
         // Setup Callback when window size changes
         glfwSetWindowSizeCallback(glfwWindow, (window, width, height) -> {
-            Window.width = width;
-            Window.height = height;
+            this.width = width;
+            this.height = height;
         });
         glfwSetFramebufferSizeCallback(glfwWindow, (window, width, height) -> {
             //glViewport(0, 0, width, height);
@@ -123,46 +140,41 @@ public enum Window {;
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-        Window.framebuffer = new Framebuffer(framebufferWidth, framebufferHeight);
-        Window.pickingTexture = new PickingTexture(framebufferWidth, framebufferHeight);
+        this.framebuffer = new Framebuffer(framebufferWidth, framebufferHeight);
+        this.pickingTexture = new PickingTexture(framebufferWidth, framebufferHeight);
         glViewport(0, 0, framebufferWidth, framebufferHeight);
 
-        Window.imGuiLayer = new ImGuiLayer(Window.glfwWindow, pickingTexture);
-        Window.imGuiLayer.initImGui();
+        this.imGuiLayer = new ImGuiLayer(this.glfwWindow, pickingTexture);
+        this.imGuiLayer.initImGui();
 
         // Initialize first scene
-        Window.changeScene(0);
+        Window.changeScene(new LevelEditorSceneInitializer());
     }
 
-    private static void initImGui() {
+    private void initImGui() {
     }
 
     public static Scene getCurrentScene() {
         return currentScene;
     }
 
-    public static void changeScene(int newScene) {
-        switch (newScene) {
-            case 0:
-                currentScene = new LevelEditorScene();
-                break;
-            case 1:
-                currentScene = new LevelScene();
-                break;
-            default:
-                assert false: "Unknown Scene '" + newScene + "'";
-                break;
+    public static void changeScene(SceneInitializer sceneInitializer) {
+
+        if (currentScene != null) {
+            currentScene.destroy();
         }
 
-        if (!Window.reset) {
+        Window.getInstance().getImGuiLayer().getPropertiesWindow().setCurrentGameObject(null);
+        currentScene = new Scene(sceneInitializer);
+        if (!Window.getInstance().isReset()) {
             // Load the current scene from the level.txt
-            currentScene.load();
+            currentScene.load(Window.getInstance().levelEditorSceneLocation);
         }
-        currentScene.init(Window.reset);
+        currentScene.init();
         currentScene.start();
     }
 
-    public static void clear() {
+    public void clear() {
         // Free the memory
         glfwFreeCallbacks(glfwWindow);
         glfwDestroyWindow(glfwWindow);
@@ -172,39 +184,76 @@ public enum Window {;
         Objects.requireNonNull(glfwSetErrorCallback(null)).free();
     }
 
-    public static int getWidth() {
-        return Window.width;
+    @Override
+    public void onNotify(GameObject gameObject, Event event) {
+        switch (event.eventType) {
+            case GameEngineStartPlay -> {
+                this.editorActive = true;
+                currentScene.save(levelEditorSceneLocation);
+                Window.changeScene(new LevelEditorSceneInitializer());
+            }
+            case GameEngineStopPlay -> {
+                this.editorActive = false;
+                Window.changeScene(new LevelEditorSceneInitializer());
+            }
+            case LoadLevel -> Window.changeScene(new LevelEditorSceneInitializer());
+            case SaveLevel -> Window.currentScene.save(levelEditorSceneLocation);
+        }
     }
 
-    public static int getHeight() {
-        return Window.height;
+    public int getWidth() {
+        return width;
     }
 
-    public static int getFramebufferWidth() {
-        return framebufferWidth;
+    public int getHeight() {
+        return height;
     }
 
-    public static int getFramebufferHeight() {
-        return framebufferHeight;
+    public String getTitle() {
+        return title;
     }
 
-    public static long getGlfwWindow() {
+    public long getGlfwWindow() {
         return glfwWindow;
     }
 
-    public static Color getBackgroundColor() {
+    public Color getBackgroundColor() {
         return backgroundColor;
     }
 
-    public static ImGuiLayer getImGuiLayer() {
+    public boolean isReset() {
+        return reset;
+    }
+
+    public ImGuiLayer getImGuiLayer() {
         return imGuiLayer;
     }
 
-    public static Framebuffer getFramebuffer() {
+    public Framebuffer getFramebuffer() {
         return framebuffer;
     }
 
-    public static PickingTexture getPickingTexture() {
+    public PickingTexture getPickingTexture() {
         return pickingTexture;
+    }
+
+    public ImGuiImplGlfw getImGuiGlfw() {
+        return imGuiGlfw;
+    }
+
+    public ImGuiImplGl3 getImGuiGl3() {
+        return imGuiGl3;
+    }
+
+    public int getFramebufferWidth() {
+        return framebufferWidth;
+    }
+
+    public int getFramebufferHeight() {
+        return framebufferHeight;
+    }
+
+    public boolean isEditorActive() {
+        return editorActive;
     }
 }

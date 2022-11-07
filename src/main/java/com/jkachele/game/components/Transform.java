@@ -49,6 +49,7 @@ public class Transform extends Component {
         GameImGui.drawVec2Control("Position", this.position);
         GameImGui.drawVec2Control("Scale", this.scale, 32.0f);
         this.rotation = GameImGui.dragFloat("Rotation", this.rotation);
+        this.zIndex = GameImGui.dragInt("Z Index", this.zIndex);
     }
 
     @Override

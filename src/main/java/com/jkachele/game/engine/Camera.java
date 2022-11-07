@@ -20,8 +20,10 @@ public class Camera {
     private float zoom = 1.0f;
     private final float maxZoomOut = 2.75f;
 
-    // Virtual screen size of 1920 x 1080 pixels (60 x 33.75 grid of 32 pixel cells)
-    private final Vector2f projectionSize = new Vector2f(1920, 1080);
+    // Virtual screen size of 6 x 3 Units
+    private final float projectionWidth = 6.0f;
+    private final float projectionHeight = 3.0f;
+    private final Vector2f projectionSize = new Vector2f(projectionWidth, projectionHeight);
     private Vector2f currentProjSize = new Vector2f(projectionSize);
 
     public Camera(Vector2f cameraPosition) {

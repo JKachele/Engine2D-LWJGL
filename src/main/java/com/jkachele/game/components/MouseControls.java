@@ -26,12 +26,12 @@ public class MouseControls extends Component {
         this.holdingObject = null;
     }
 
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
         if (holdingObject!= null) {
-            holdingObject.transform.position.x = (int)(MouseListener.getOrthoX() /
-                    Constants.GRID_WIDTH) * Constants.GRID_WIDTH;
-            holdingObject.transform.position.y = (int)(MouseListener.getOrthoY() /
-                    Constants.GRID_HEIGHT) * Constants.GRID_HEIGHT;
+            holdingObject.transform.position.x = ((int)(MouseListener.getOrthoX() /
+                    Constants.GRID_WIDTH) * Constants.GRID_WIDTH)  + (Constants.GRID_WIDTH / 2f);
+            holdingObject.transform.position.y = ((int)(MouseListener.getOrthoY() /
+                    Constants.GRID_HEIGHT) * Constants.GRID_HEIGHT) + (Constants.GRID_HEIGHT / 2f);
 
 
 

@@ -31,7 +31,7 @@ public class EditorCamera extends Component{
     }
 
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
         // Pan camera
         if (MouseListener.isButtonPressed(GLFW_MOUSE_BUTTON_RIGHT) && dragDebounce > 0) {
             this.clickOrigin = new Vector2f(MouseListener.getOrthoX(), MouseListener.getOrthoY());

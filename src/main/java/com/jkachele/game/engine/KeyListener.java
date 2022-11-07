@@ -12,7 +12,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class KeyListener {
     private static KeyListener instance;
     private static boolean[] keyPressed = new boolean[350];
-
+    private static boolean[] keyBeginPress = new boolean[350];
     private KeyListener() {
     }
 
@@ -20,10 +20,12 @@ public class KeyListener {
         if (action == GLFW_PRESS) {
             if (key < KeyListener.keyPressed.length && key >= 0) {
                 KeyListener.keyPressed[key] = true;
+                keyBeginPress[key] = true;
             }
         } else if (action == GLFW_RELEASE) {
             if (key < KeyListener.keyPressed.length && key >= 0) {
                 KeyListener.keyPressed[key] = false;
+                keyBeginPress[key] = false;
             }
         }
     }
@@ -35,5 +37,13 @@ public class KeyListener {
             System.err.println("Invalid key pressed");
             return false;
         }
+    }
+
+    public static boolean keyBeginPress(int keyCode) {
+        boolean result = keyBeginPress[keyCode];
+        if (result) {
+            keyBeginPress[keyCode] = false;
+        }
+        return result;
     }
 }

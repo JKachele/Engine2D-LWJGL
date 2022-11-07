@@ -17,25 +17,25 @@ import org.joml.Vector2f;
 public class GridLines extends Component {
 
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
         Camera camera = Window.getCurrentScene().getCamera();
 
         Vector2f cameraPos = camera.getPosition();
         Vector2f projectionSize = camera.getProjectionSize();
 
-        int firstX = ((int)(cameraPos.x / Constants.GRID_WIDTH) - 1) * Constants.GRID_WIDTH;
-        int firstY = ((int)(cameraPos.y / Constants.GRID_HEIGHT) - 1) * Constants.GRID_HEIGHT;
+        float firstX = ((int)(cameraPos.x / Constants.GRID_WIDTH) - 1) * Constants.GRID_WIDTH;
+        float firstY = ((int)(cameraPos.y / Constants.GRID_HEIGHT) - 1) * Constants.GRID_HEIGHT;
 
-        int width = (int)(projectionSize.x * camera.getZoom()) + Constants.GRID_WIDTH * 2;
-        int height = (int)(projectionSize.y * camera.getZoom()) + Constants.GRID_HEIGHT * 2;
+        float width = (int)(projectionSize.x * camera.getZoom()) + Constants.GRID_WIDTH * 2;
+        float height = (int)(projectionSize.y * camera.getZoom()) + Constants.GRID_HEIGHT * 2;
 
-        int numVerticalLines = (int)(projectionSize.x * camera.getZoom())/ Constants.GRID_WIDTH + 2;
-        int numHorizontalLines = (int)(projectionSize.y * camera.getZoom()) / Constants.GRID_HEIGHT + 2;
+        float numVerticalLines = (int)(projectionSize.x * camera.getZoom())/ Constants.GRID_WIDTH + 2;
+        float numHorizontalLines = (int)(projectionSize.y * camera.getZoom()) / Constants.GRID_HEIGHT + 2;
 
-        int maxLines = Math.max(numVerticalLines, numHorizontalLines);
+        float maxLines = Math.max(numVerticalLines, numHorizontalLines);
         for (int i = 0; i < maxLines; i++) {
-            int x = firstX + (Constants.GRID_WIDTH * i);
-            int y = firstY + (Constants.GRID_HEIGHT * i);
+            float x = firstX + (Constants.GRID_WIDTH * i);
+            float y = firstY + (Constants.GRID_HEIGHT * i);
 
             if (i < numVerticalLines) {
                 DebugDraw.addLine2D(new Vector2f(x, firstY), new Vector2f(x, firstY + height), Color.DARK_GRAY.toVector());

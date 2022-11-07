@@ -178,14 +178,15 @@ public class MouseListener {
 
     public static float getScreenX() {
         float currentX = getX() - MouseListener.gameViewportPos.x;
-        currentX = (currentX / MouseListener.gameViewportSize.x) * Window.getFramebufferWidth();
+        currentX = (currentX / MouseListener.gameViewportSize.x) * Window.getInstance().getFramebufferWidth();
 
         return currentX;
     }
 
     public static float getScreenY() {
         float currentY = getY() - MouseListener.gameViewportPos.y;
-        currentY = Window.getFramebufferHeight() - ((currentY / MouseListener.gameViewportSize.y) * Window.getFramebufferHeight());
+        currentY = Window.getInstance().getFramebufferHeight() - ((currentY / MouseListener.gameViewportSize.y) *
+                Window.getInstance().getFramebufferHeight());
 
         return currentY;
     }

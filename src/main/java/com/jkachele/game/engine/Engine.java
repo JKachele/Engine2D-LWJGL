@@ -19,10 +19,11 @@ import static org.lwjgl.opengl.GL11.*;
 public class Engine implements Runnable{
 
     private final Thread GAME_LOOP_THREAD;
+    private Window window = Window.getInstance();
 
     public Engine(int width, int height, String title, Color backgroundColor, boolean reset) {
         GAME_LOOP_THREAD = new Thread(this, "GAME_LOOP_THREAD");
-        Window.init(width, height, title, backgroundColor, reset);
+        window.init(width, height, title, backgroundColor, reset);
     }
 
     public void start() {
@@ -32,7 +33,7 @@ public class Engine implements Runnable{
     @Override
     public void run() {
         try {
-            Window.start();
+            window.start();
             gameLoop();
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,40 +43,40 @@ public class Engine implements Runnable{
 
     public void gameLoop() {
         float beginTime = (float)glfwGetTime();
-        float endtime;
+        float endTime;
         float dt = -1.0f;
 
         Shader defaultShader = AssetPool.getShader("assets/shaders/default.glsl");
         Shader pickingShader = AssetPool.getShader("assets/shaders/pickingShader.glsl");
 
         // Run the rendering loop until the user has attempted to close the window
-        while (!glfwWindowShouldClose(Window.getGlfwWindow())) {
+        while (!glfwWindowShouldClose(window.getGlfwWindow())) {
             // Poll for window events. The key callback above will only be
             // invoked during this call.
             glfwPollEvents();
 
             // Render pass 1: render to picking texture
             glDisable(GL_BLEND);
-            Window.getPickingTexture().enableWriting();
+            window.getPickingTexture().enableWriting();
 
-            glViewport(0, 0, Window.getFramebufferWidth(), Window.getFramebufferHeight());
+            glViewport(0, 0, window.getFramebufferWidth(), window.getFramebufferHeight());
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             Renderer.bindShader(pickingShader);
             Window.getCurrentScene().render();
 
-            Window.getPickingTexture().disableWriting();
+            window.getPickingTexture().disableWriting();
             glEnable(GL_BLEND);
 
             // Render pass 2: render actual scene to Screen
             DebugDraw.beginFrame();
 
             // Render the scene into the framebuffer
-            Window.getFramebuffer().bind();
+            window.getFramebuffer().bind();
 
             // Set the clear color
-            Color backgroundColor = Window.getBackgroundColor();
+            Color backgroundColor = window.getBackgroundColor();
             glClearColor(backgroundColor.getRed(), backgroundColor.getGreen(),
                     backgroundColor.getBlue(), backgroundColor.getAlpha());
             glClear(GL_COLOR_BUFFER_BIT);
@@ -83,27 +84,31 @@ public class Engine implements Runnable{
             if(dt >= 0) {
                 DebugDraw.draw();
                 Renderer.bindShader(defaultShader);
-                Window.getCurrentScene().update(dt);
+                if (window.isEditorActive()) {
+                    Window.getCurrentScene().update(dt);
+                } else {
+                    Window.getCurrentScene().editorUpdate(dt);
+                }
                 Window.getCurrentScene().render();
             }
             // Render ImGUI into the window
-            Window.getFramebuffer().unbind();
+            window.getFramebuffer().unbind();
 
-            Window.getImGuiLayer().update(dt, Window.getCurrentScene());
+            window.getImGuiLayer().update(dt, Window.getCurrentScene());
 
-            glfwSwapBuffers(Window.getGlfwWindow());
+            glfwSwapBuffers(window.getGlfwWindow());
 
             MouseListener.endFrame();
 
             // Print the current FPS to the console
 //            System.out.print("\r" + fps(dt));
 
-            endtime = (float)glfwGetTime();
-            dt = endtime - beginTime;
-            beginTime = endtime;
+            endTime = (float)glfwGetTime();
+            dt = endTime - beginTime;
+            beginTime = endTime;
         }
 
-        Window.getCurrentScene().saveExit();
+        Window.getCurrentScene().save("assets/levels/levelEditor.txt");
         glfwTerminate();
     }
 

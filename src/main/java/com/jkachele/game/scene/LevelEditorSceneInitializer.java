@@ -8,67 +8,43 @@
 package com.jkachele.game.scene;
 
 import com.jkachele.game.components.*;
-import com.jkachele.game.engine.*;
-import com.jkachele.game.physics2dtmp.PhysicsSystem2D;
-import com.jkachele.game.physics2dtmp.rigidbody.Rigidbody2D;
+import com.jkachele.game.engine.GameObject;
+import com.jkachele.game.engine.Prefabs;
 import com.jkachele.game.util.AssetPool;
 import com.jkachele.game.util.Constants;
 import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 
-public class LevelEditorScene extends Scene {
-    String spritesPath = "assets/images/spritesheets/decorationsAndBlocks.png";
-    Spritesheet sprites;
-    String marioSpritesPath = "assets/images/spritesheets/characters.png";
-    Spritesheet marioSprites;
-    String gizmosPath = "assets/images/gizmos.png";
-    Spritesheet gizmos;
-    GameObject levelEditorComponents;
-    PhysicsSystem2D physics = new PhysicsSystem2D(1.0f / 60.0f, new Vector2f(0, -50));
-    DebugObject obj1;
-    DebugObject obj2;
-    Rigidbody2D rigidBody1;
-    Rigidbody2D rigidBody2;
+public class LevelEditorSceneInitializer extends SceneInitializer {
+    private String spritesPath = "assets/images/spritesheets/decorationsAndBlocks.png";
+    private Spritesheet sprites;
+    private String marioSpritesPath = "assets/images/spritesheets/characters.png";
+    private Spritesheet marioSprites;
+    private String gizmosPath = "assets/images/gizmos.png";
+    private Spritesheet gizmos;
+    private GameObject levelEditorComponents;
 
     @Override
-    public void init(boolean reset) {
-        loadResources();
+    public void init(Scene scene) {
         sprites = AssetPool.getSpritesheet(spritesPath);
         marioSprites = AssetPool.getSpritesheet(marioSpritesPath);
         gizmos = AssetPool.getSpritesheet(gizmosPath);
 
-        this.camera = new Camera(new Vector2f(0, 0));
-        levelEditorComponents = this.createGameObject("Level Editor");
+
+        levelEditorComponents = scene.createGameObject("Level Editor");
+        levelEditorComponents.setTransient(true);
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
-        levelEditorComponents.addComponent(new EditorCamera(this.camera));
+        levelEditorComponents.addComponent(new EditorCamera(scene.getCamera()));
+//        levelEditorComponents.addComponent(new Gizmo(gizmos.getSprite(1),
+//                Window.getInstance().getImGuiLayer().getPropertiesWindow()));
         levelEditorComponents.addComponent(new GizmoSystem(gizmos));
-        levelEditorComponents.start();
-
-//        obj1 = new DebugObject("Circle-1", new Transform(new Vector2f(100, 1000)), 0);
-//        rigidBody1 = new Rigidbody2D();
-//        rigidBody1.setRawTransform(obj1.transform);
-//        rigidBody1.setMass(100);
-//        Circle c1 = new Circle();
-//        c1.setRadius(10.0f);
-//        c1.setRigidbody(rigidBody1);
-//        rigidBody1.setCollider(c1);
-//
-//        obj2 = new DebugObject("Circle-2", new Transform(new Vector2f(100, 800)), 0);
-//        rigidBody2 = new Rigidbody2D();
-//        rigidBody2.setRawTransform(obj2.transform);
-//        rigidBody2.setMass(200);
-//        Circle c2 = new Circle();
-//        c2.setRadius(20.0f);
-//        c2.setRigidbody(rigidBody2);
-//        rigidBody2.setCollider(c2);
-//
-//        physics.addRigidBody(rigidBody1, true);
-//        physics.addRigidBody(rigidBody2, false);
+        scene.addGameObject(levelEditorComponents);
     }
 
-    private void loadResources() {
+    @Override
+    public void loadResources(Scene scene) {
         AssetPool.getShader("assets/shaders/default.glsl");
 
         AssetPool.addSpritesheet(spritesPath, new Spritesheet(AssetPool.getTexture(spritesPath),
@@ -78,7 +54,7 @@ public class LevelEditorScene extends Scene {
         AssetPool.addSpritesheet(gizmosPath, new Spritesheet(AssetPool.getTexture(gizmosPath),
                         24, 48, 3, 0));
 
-        for (GameObject gameObject : gameObjects) {
+        for (GameObject gameObject : scene.getGameObjects()) {
             if(gameObject.getComponent(SpriteRenderer.class) != null) {
                 SpriteRenderer sprite = gameObject.getComponent(SpriteRenderer.class);
                 if (sprite.getTexture() != null) {
@@ -86,26 +62,6 @@ public class LevelEditorScene extends Scene {
                 }
             }
         }
-    }
-
-    @Override
-    public void update(float dt) {
-        levelEditorComponents.update(dt);
-
-        // Update all game objects in the scene
-        for (GameObject gameObject : this.gameObjects) {
-            gameObject.update(dt);
-        }
-
-//        DebugDraw.addCircle(obj1.transform.position, 10.0f, Color.RED.toVector());
-//        DebugDraw.addCircle(obj2.transform.position, 20.0f, Color.BLUE.toVector());
-//        physics.update(dt);
-    }
-
-    @Override
-    public void render() {
-        // Render the scene
-        this.renderer.render();
     }
 
     @Override

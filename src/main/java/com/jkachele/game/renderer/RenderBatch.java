@@ -8,6 +8,7 @@
 package com.jkachele.game.renderer;
 
 import com.jkachele.game.components.SpriteRenderer;
+import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.Window;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
@@ -40,6 +41,7 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
     private SpriteRenderer[] sprites;
+    private Renderer renderer;
     private int numSprites;
     private Boolean hasRoom;
     private float[] vertices;
@@ -52,14 +54,15 @@ public class RenderBatch implements Comparable<RenderBatch> {
     private int[] texSlots = new int[16];   // Max 16 textures
     private int zIndex;
 
-    public RenderBatch(int maxBatchSize, int zIndex) {
-        init(maxBatchSize, zIndex);
+    public RenderBatch(int maxBatchSize, int zIndex, Renderer renderer) {
+        init(maxBatchSize, zIndex, renderer);
     }
 
-    public void init(int maxBatchSize, int zIndex) {
+    public void init(int maxBatchSize, int zIndex, Renderer renderer) {
         this.maxBatchSize = maxBatchSize;
         this.sprites = new SpriteRenderer[maxBatchSize];
         this.zIndex = zIndex;
+        this.renderer = renderer;
 
         // maxBatchSize quads, 4 vertices per quad, VERTEX_SIZE floats per vertex
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
@@ -127,6 +130,21 @@ public class RenderBatch implements Comparable<RenderBatch> {
         }
     }
 
+    public boolean destroyIfExists(GameObject gameObject) {
+        SpriteRenderer sprite = gameObject.getComponent(SpriteRenderer.class);
+        for (int i = 0; i < numSprites; i++) {
+            if (sprite == this.sprites[i]) {
+                for (int j = i; j < numSprites - 1; j++) {
+                    sprites[j] = sprites[j + 1];
+                    sprites[j].setDirty(true);
+                }
+                numSprites--;
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void render() {
         boolean rebufferData = false;
         for (int i = 0; i < numSprites; i++) {
@@ -135,6 +153,12 @@ public class RenderBatch implements Comparable<RenderBatch> {
                 loadVertexProperties(i);
                 sprite.setClean();
                 rebufferData = true;
+            }
+
+            if (sprite.gameObject.transform.zIndex != this.zIndex) {
+                destroyIfExists(sprite.gameObject);
+                renderer.add(sprite.gameObject);
+                i--;
             }
         }
 
@@ -209,15 +233,15 @@ public class RenderBatch implements Comparable<RenderBatch> {
         }
 
         // Add the vertices with the appropriate attributes
-        float xAdd = 1.0f;
-        float yAdd = 1.0f;
+        float xAdd = 0.5f;
+        float yAdd = 0.5f;
         for (int i = 0; i < 4; i++) {
             if (i == 1) {
-                yAdd = 0.0f;
+                yAdd = -0.5f;
             } else if (i == 2) {
-                xAdd = 0.0f;
+                xAdd = -0.5f;
             } else if (i == 3) {
-                yAdd = 1.0f;
+                yAdd = 0.5f;
             }
 
             Vector4f currentPosition = new Vector4f(sprite.gameObject.transform.position.x +

@@ -8,6 +8,7 @@
 package com.jkachele.game.engine;
 
 import com.jkachele.game.editor.GameViewWindow;
+import com.jkachele.game.editor.MenuBar;
 import com.jkachele.game.editor.PropertiesWindow;
 import com.jkachele.game.renderer.PickingTexture;
 import com.jkachele.game.scene.Scene;
@@ -30,6 +31,7 @@ public class ImGuiLayer {
     private long glfwWindow;
     private GameViewWindow gameViewWindow;
     private PropertiesWindow propertiesWindow;
+    private MenuBar menuBar;
 
     // Mouse cursors provided by GLFW
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
@@ -41,6 +43,7 @@ public class ImGuiLayer {
         this.glfwWindow = glfwWindow;
         this.gameViewWindow = new GameViewWindow();
         this.propertiesWindow = new PropertiesWindow(pickingTexture);
+        this.menuBar = new MenuBar();
     }
 
     // Initialize Dear ImGui.
@@ -197,6 +200,7 @@ public class ImGuiLayer {
         currentScene.imGui();
         propertiesWindow.update(dt, currentScene);
         propertiesWindow.imGui();
+        menuBar.imGui();
         ImGui.showDemoWindow();
         gameViewWindow.imgui();
         ImGui.end();
@@ -207,8 +211,8 @@ public class ImGuiLayer {
 
     private void startFrame(final float dt) {
         // Get window properties and mouse position
-        float[] winWidth = {Window.getWidth()};
-        float[] winHeight = {Window.getHeight()};
+        float[] winWidth = {Window.getInstance().getWidth()};
+        float[] winHeight = {Window.getInstance().getHeight()};
         double[] mousePosX = {0};
         double[] mousePosY = {0};
         glfwGetCursorPos(glfwWindow, mousePosX, mousePosY);
@@ -249,7 +253,7 @@ public class ImGuiLayer {
                 ImGuiWindowFlags.NoNavFocus;
 
         ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
-        ImGui.setNextWindowSize(Window.getWidth(), Window.getHeight());
+        ImGui.setNextWindowSize(Window.getInstance().getWidth(), Window.getInstance().getHeight());
         ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
         ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
 

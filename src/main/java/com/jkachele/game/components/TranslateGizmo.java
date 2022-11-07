@@ -3,7 +3,7 @@
  *File----------TranslateGizmo.java
  *Author--------Justin Kachele
  *Date----------10/24/2022
- *License-------GNU GENERAL PUBLIC LICENSE
+ *License-------MIT License
  ******************************************/
 package com.jkachele.game.components;
 
@@ -17,7 +17,7 @@ public class TranslateGizmo extends Gizmo {
     }
 
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
         if (activeGameObject != null) {
             if (xAxisActive && !yAxisActive && !zAxisActive) {
                 activeGameObject.transform.position.x -= MouseListener.getWorldDX();
@@ -30,6 +30,6 @@ public class TranslateGizmo extends Gizmo {
                 activeGameObject.transform.position.y -= MouseListener.getWorldDY();
             }
         }
-        super.update(dt);
+        super.editorUpdate(dt);
     }
 }

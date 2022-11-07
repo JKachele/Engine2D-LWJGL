@@ -7,8 +7,13 @@
  ******************************************/
 package com.jkachele.game.engine;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jkachele.game.components.Component;
+import com.jkachele.game.components.ComponentDeserializer;
+import com.jkachele.game.components.SpriteRenderer;
 import com.jkachele.game.components.Transform;
+import com.jkachele.game.util.AssetPool;
 import imgui.ImGui;
 
 import java.util.ArrayList;
@@ -23,6 +28,7 @@ public class GameObject {
     public transient Transform transform;
     private boolean isTransient = false;
     private boolean pickable = true;
+    private boolean isDead = false;
 
     public GameObject(String name) {
         this.name = name;
@@ -34,6 +40,13 @@ public class GameObject {
 
     public static void init(int maxID) {
         ID_COUNTER = maxID;
+    }
+
+    public void destroy() {
+        this.isDead = true;
+        for (Component component : components) {
+            component.destroy();
+        }
     }
 
     public void addComponent(Component component) {
@@ -76,8 +89,34 @@ public class GameObject {
         }
     }
 
-    @SuppressWarnings("ForLoopReplaceableByForEach")
+    public void editorUpdate(float dt) {
+        for (Component component : components) {
+            component.editorUpdate(dt);
+        }
+    }
+
+    public GameObject copy() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Component.class, new ComponentDeserializer())
+                .registerTypeAdapter(GameObject.class, new GameObjectDeserializer())
+                .create();
+        String objAsJson = gson.toJson(this);
+        GameObject newGameObject = gson.fromJson(objAsJson, GameObject.class);
+        newGameObject.generateUid();
+        for (Component component : newGameObject.getComponents()) {
+            component.generateID();
+        }
+
+        SpriteRenderer sprite = newGameObject.getComponent(SpriteRenderer.class);
+        if (sprite!= null && sprite.getTexture() != null) {
+            sprite.setTexture(AssetPool.getTexture(sprite.getTexture().getFilepath()));
+        }
+
+        return newGameObject;
+    }
+
     public void start() {
+        //noinspection ForLoopReplaceableByForEach
         for (int i=0; i < components.size(); i++) {
             components.get(i).start();
         }
@@ -89,6 +128,11 @@ public class GameObject {
                 component.imGui();
             }
         }
+    }
+
+    public void generateUid() {
+        this.uid = ID_COUNTER;
+        ID_COUNTER++;
     }
 
     public boolean isTransient() {
@@ -105,6 +149,10 @@ public class GameObject {
 
     public void setPickable(boolean pickable) {
         this.pickable = pickable;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
     public int getUid() {

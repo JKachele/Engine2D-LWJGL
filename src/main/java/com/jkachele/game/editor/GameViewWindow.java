@@ -9,6 +9,9 @@ package com.jkachele.game.editor;
 
 import com.jkachele.game.engine.MouseListener;
 import com.jkachele.game.engine.Window;
+import com.jkachele.game.observers.EventSystem;
+import com.jkachele.game.observers.events.Event;
+import com.jkachele.game.observers.events.EventType;
 import imgui.ImGui;
 import imgui.ImVec2;
 import imgui.flag.ImGuiWindowFlags;
@@ -22,9 +25,26 @@ public class GameViewWindow {
 
     private final float aspectRatio = 16.0f / 9.0f;
 
+    private boolean isPlaying = false;
+
     public void imgui() {
         ImGui.begin("Game Viewport",
-                ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse);
+                ImGuiWindowFlags.NoScrollbar |
+                        ImGuiWindowFlags.NoScrollWithMouse |
+                        ImGuiWindowFlags.MenuBar);
+
+        ImGui.beginMenuBar();
+
+        if (ImGui.menuItem("Play", "", isPlaying, !isPlaying)) {
+            isPlaying = true;
+            EventSystem.notify(null, new Event(EventType.GameEngineStartPlay));
+        }
+        if (ImGui.menuItem("Stop", "",!isPlaying, isPlaying)) {
+            isPlaying = false;
+            EventSystem.notify(null, new Event(EventType.GameEngineStopPlay));
+        }
+
+        ImGui.endMenuBar();
 
         ImVec2 windowSize = getLargestSizeForViewport();
         ImVec2 windowPos = getPositionForViewport(windowSize);
@@ -41,7 +61,7 @@ public class GameViewWindow {
         maxX = topLeft.x + windowSize.x;
         maxY = topLeft.y + windowSize.y;
 
-        int textureID = Window.getFramebuffer().getTexture().getID();
+        int textureID = Window.getInstance().getFramebuffer().getTexture().getID();
         ImGui.image(textureID, windowSize.x, windowSize.y, 0, 1, 1, 0);
 
         MouseListener.setGameViewportPos(new Vector2f(topLeft.x, topLeft.y));

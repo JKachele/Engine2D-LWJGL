@@ -39,6 +39,15 @@ public class SpriteRenderer extends Component {
     }
 
     @Override
+    public void editorUpdate(float dt) {
+        // Set the Dirty flag if the transform of the game object was changed
+        if (!this.lastTransform.equals(this.gameObject.transform)) {
+            this.gameObject.transform.copy(this.lastTransform);
+            isDirty = true;
+        }
+    }
+
+    @Override
     public void imGui() {
         if (GameImGui.colorPicker4("Color Picker", this.color)) {
             this.isDirty = true;
@@ -77,6 +86,10 @@ public class SpriteRenderer extends Component {
 
     public boolean isDirty() {
         return isDirty;
+    }
+
+    public void setDirty(boolean dirty) {
+        isDirty = dirty;
     }
 
     public void setClean() {

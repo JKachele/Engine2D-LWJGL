@@ -9,6 +9,9 @@ package com.jkachele.game.editor;
 
 import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.MouseListener;
+import com.jkachele.game.physics2d.components.Box2DCollider;
+import com.jkachele.game.physics2d.components.CircleCollider;
+import com.jkachele.game.physics2d.components.Rigidbody2D;
 import com.jkachele.game.renderer.PickingTexture;
 import com.jkachele.game.scene.Scene;
 import imgui.ImGui;
@@ -48,6 +51,29 @@ public class PropertiesWindow {
     public void imGui() {
         if(currentGameObject != null) {
             ImGui.begin("Properties");
+
+            if (ImGui.beginPopupContextWindow("ComponentAdder")) {
+                if (ImGui.menuItem("Add Rigidbody2D")) {
+                    if (currentGameObject.getComponent(Rigidbody2D.class) == null) {
+                        currentGameObject.addComponent(new Rigidbody2D());
+                    }
+                }
+                if (ImGui.menuItem("Add Box2DCollider")) {
+                    if (currentGameObject.getComponent(Box2DCollider.class) == null &&
+                            currentGameObject.getComponent(CircleCollider.class) == null) {
+                        currentGameObject.addComponent(new Box2DCollider());
+                    }
+                }
+                if (ImGui.menuItem("Add CircleCollider")) {
+                    if (currentGameObject.getComponent(CircleCollider.class) == null &&
+                            currentGameObject.getComponent(Box2DCollider.class) == null) {
+                        currentGameObject.addComponent(new CircleCollider());
+                    }
+                }
+
+                ImGui.endPopup();
+            }
+
             currentGameObject.imGui();
             ImGui.end();
         }
@@ -55,5 +81,9 @@ public class PropertiesWindow {
 
     public GameObject getCurrentGameObject() {
         return currentGameObject;
+    }
+
+    public void setCurrentGameObject(GameObject gameObject) {
+        this.currentGameObject = gameObject;
     }
 }

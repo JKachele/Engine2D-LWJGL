@@ -3,7 +3,7 @@
  *File----------ScaleGizmo.java
  *Author--------Justin Kachele
  *Date----------10/31/2022
- *License-------GNU GENERAL PUBLIC LICENSE
+ *License-------MIT License
  ******************************************/
 package com.jkachele.game.components;
 
@@ -16,7 +16,7 @@ public class ScaleGizmo extends Gizmo{
     }
 
     @Override
-    public void update(float dt) {
+    public void editorUpdate(float dt) {
         if (activeGameObject != null) {
             if(xAxisActive && !yAxisActive && !zAxisActive) {
                 activeGameObject.transform.scale.x -= MouseListener.getWorldDX();
@@ -34,6 +34,6 @@ public class ScaleGizmo extends Gizmo{
                 activeGameObject.transform.scale.y -= distance;
             }
         }
-        super.update(dt);
+        super.editorUpdate(dt);
     }
 }

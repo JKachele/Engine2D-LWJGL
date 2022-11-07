@@ -11,11 +11,13 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jkachele.game.components.Component;
 import com.jkachele.game.components.ComponentDeserializer;
+import com.jkachele.game.components.Transform;
 import com.jkachele.game.engine.Camera;
 import com.jkachele.game.engine.GameObject;
 import com.jkachele.game.engine.GameObjectDeserializer;
-import com.jkachele.game.components.Transform;
+import com.jkachele.game.physics2d.Physics2D;
 import com.jkachele.game.renderer.Renderer;
+import org.joml.Vector2f;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,30 +27,88 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class Scene {
+public class Scene {
 
-    protected Renderer renderer = new Renderer();
-    protected Camera camera;
-    private boolean isRunning = false;
-    protected boolean levelLoaded = false;
-    protected List<GameObject> gameObjects = new ArrayList<>();
+    private Renderer renderer;
+    private Camera camera;
+    private boolean isRunning;
+    private boolean levelLoaded;
+    private List<GameObject> gameObjects;
 
-    public abstract void update(float dt);
-    public abstract void render();
+    private SceneInitializer sceneInitializer;
+    private Physics2D physics2D;
 
-    public Scene() {
+    public Scene(SceneInitializer sceneInitializer) {
+        this.renderer = new Renderer();
+        this.isRunning = false;
+        this.levelLoaded = false;
+        this.gameObjects = new ArrayList<>();
+        this.sceneInitializer = sceneInitializer;
+        this.physics2D = new Physics2D();
     }
 
-    public void init(boolean reset) {
+    public void init() {
+        this.camera = new Camera(new Vector2f(0, 0));
+        this.sceneInitializer.loadResources(this);
+        this.sceneInitializer.init(this);
+    }
 
+    public void update(float dt) {
+        this.camera.adjustProjection();
+
+        this.physics2D.update(dt);
+
+        // Update all game objects in the scene
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject gameObject = gameObjects.get(i);
+            gameObject.update(dt);
+
+            if (gameObject.isDead()) {
+                gameObjects.remove(i);
+                this.renderer.destroyGameObject(gameObject);
+                this.physics2D.destroyGameObject(gameObject);
+                i--;
+            }
+        }
+    }
+
+    public void editorUpdate(float dt) {
+        this.camera.adjustProjection();
+
+        // Update all game objects in the scene
+        for (int i = 0; i < gameObjects.size(); i++) {
+            GameObject gameObject = gameObjects.get(i);
+            gameObject.editorUpdate(dt);
+
+            if (gameObject.isDead()) {
+                gameObjects.remove(i);
+                this.renderer.destroyGameObject(gameObject);
+                this.physics2D.destroyGameObject(gameObject);
+                i--;
+            }
+        }
     }
 
     public void start() {
-        for (GameObject gameObject : gameObjects) {
+        // Avoids Concurrent modification exception
+        //noinspection ForLoopReplaceableByForEach
+        for (int i = 0; i < this.gameObjects.size(); i++) {
+            GameObject gameObject = gameObjects.get(i);
             gameObject.start();
             this.renderer.add(gameObject);
+            this.physics2D.add(gameObject);
         }
         isRunning = true;
+    }
+
+    public void destroy() {
+        for (GameObject gameObject : this.gameObjects) {
+            gameObject.destroy();
+        }
+    }
+
+    public void render() {
+        this.renderer.render();
     }
 
     public void addGameObject(GameObject gameObject) {
@@ -58,6 +118,7 @@ public abstract class Scene {
             gameObjects.add(gameObject);
             gameObject.start();
             this.renderer.add(gameObject);
+            this.physics2D.add(gameObject);
         }
     }
 
@@ -69,7 +130,7 @@ public abstract class Scene {
     }
 
     public void imGui() {
-
+        this.sceneInitializer.imGui();
     }
 
     public GameObject createGameObject(String name) {
@@ -79,14 +140,15 @@ public abstract class Scene {
         return gameObject;
     }
 
-    public void saveExit() {
+    public void save(String filePath) {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(Component.class, new ComponentDeserializer())
                 .registerTypeAdapter(GameObject.class, new GameObjectDeserializer())
                 .create();
+
         try {
-            FileWriter writer = new FileWriter("assets/levels/levelEditor.txt", false);
+            FileWriter writer = new FileWriter(filePath, false);
             // Only serialize objects that are not transient
             List<GameObject> gameObjectsToSerialize = new ArrayList<>();
             for (GameObject gameObject : this.gameObjects) {
@@ -101,7 +163,7 @@ public abstract class Scene {
         }
     }
 
-    public void load() {
+    public void load(String filePath) {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(Component.class, new ComponentDeserializer())
@@ -109,7 +171,7 @@ public abstract class Scene {
                 .create();
         String inFile = "";
         try {
-            inFile = new String(Files.readAllBytes(Paths.get("assets/levels/levelEditor.txt")));
+            inFile = new String(Files.readAllBytes(Paths.get(filePath)));
         } catch (IOException e) {
             System.err.println("File: " + inFile + " does not exist, New file created.");
         }
@@ -141,5 +203,9 @@ public abstract class Scene {
 
     public Camera getCamera() {
         return camera;
+    }
+
+    public List<GameObject> getGameObjects() {
+        return gameObjects;
     }
 }

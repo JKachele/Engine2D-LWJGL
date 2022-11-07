@@ -11,6 +11,7 @@ import com.jkachele.game.editor.GameImGui;
 import com.jkachele.game.engine.GameObject;
 import imgui.ImGui;
 import imgui.ImVec2;
+import imgui.type.ImInt;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -24,7 +25,15 @@ public abstract class Component {
 
     public transient GameObject gameObject = null;
 
+    public static void init(int maxID) {
+        ID_COUNTER = maxID;
+    }
+
     public void update(float dt) {
+
+    }
+
+    public void editorUpdate(float dt) {
 
     }
 
@@ -32,7 +41,12 @@ public abstract class Component {
 
     }
 
+    public void destroy() {
+
+    }
+
     // Uses Java reflection to get the fields of components to be able to edit them in ImGUI
+    @SuppressWarnings({"rawtypes", "unchecked"})
     public void imGui() {
         try {
             Field[] fields = this.getClass().getDeclaredFields();
@@ -47,7 +61,7 @@ public abstract class Component {
                     field.setAccessible(true);
                 }
 
-                Class<?> type = field.getType();
+                Class type = field.getType();
                 Object value = field.get(this);
                 String name = field.getName();
                 ImVec2 windowSize = new ImVec2();
@@ -73,6 +87,15 @@ public abstract class Component {
                 } else if (type == Vector4f.class) {
                     Vector4f val = (Vector4f) value;
                     GameImGui.drawVec4Control(name, val);
+                } else if (type.isEnum()) {
+                    String[] enumValues = getEnumValues(type);
+                    String enumType = ((Enum<?>)value).name();
+                    ImInt index = GameImGui.enumCombo(name, enumValues, enumType);
+                    field.set(this, type.getEnumConstants()[index.get()]);
+//                    ImInt index = new ImInt(indexOf(enumType, enumValues));
+//                    if (ImGui.combo(name, index, enumValues, enumValues.length)) {
+//                        field.set(this, type.getEnumConstants()[index.get()]);
+//                    }
                 }
 
 
@@ -85,6 +108,25 @@ public abstract class Component {
         }
     }
 
+    private <T extends Enum<T>> String[] getEnumValues(Class<T> type) {
+         String[] enumValues = new String[type.getEnumConstants().length];
+         int i = 0;
+         for (T val : type.getEnumConstants()) {
+             enumValues[i] = val.name();
+             i++;
+         }
+         return enumValues;
+    }
+
+    private int indexOf(String enumType, String[] enumValues) {
+        for (int i = 0; i < enumValues.length; i++) {
+            if (enumValues[i].equals(enumType)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     public void generateID() {
         if (this.uid == -1) {
             this.uid = ID_COUNTER;
@@ -94,9 +136,5 @@ public abstract class Component {
 
     public int getUid() {
         return this.uid;
-    }
-
-    public static void init(int maxID) {
-        ID_COUNTER = maxID;
     }
 }

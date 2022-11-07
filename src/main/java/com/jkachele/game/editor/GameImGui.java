@@ -10,6 +10,7 @@ package com.jkachele.game.editor;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
+import imgui.type.ImInt;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
@@ -39,7 +40,7 @@ public class GameImGui {
         return dragInt(label, value, DEFAULT_WIDTH);
     }
 
-    public static float dragFloat(String label, float value, float resetValue, float columnWidth) {
+    public static float dragFloat(String label, float value, float columnWidth) {
         ImGui.pushID(label);
 
         ImGui.columns(2);
@@ -56,12 +57,52 @@ public class GameImGui {
         return valueArray[0];
     }
 
-    public static float dragFloat(String label, float value, float resetValue) {
-        return dragFloat(label, value, resetValue, DEFAULT_WIDTH);
+    public static float dragFloat(String label, float value) {
+        return dragFloat(label, value, DEFAULT_WIDTH);
     }
 
-    public static float dragFloat(String label, float value) {
-        return dragFloat(label, value, 0.0f, DEFAULT_WIDTH);
+    public static float dragFloatButton(String label, float value, float resetValue, float columnWidth) {
+        ImGui.pushID(label);
+
+        ImGui.columns(2);
+        ImGui.setColumnWidth(0, columnWidth);
+        ImGui.text(label);
+        ImGui.nextColumn();
+
+        ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 0, 0);
+        float lineHeight = ImGui.getFontSize() + ImGui.getStyle().getFramePaddingY() * 2.0f;
+        Vector2f buttonSize = new Vector2f(lineHeight + 1.0f, lineHeight);
+        float widthEach = (ImGui.calcItemWidth() - buttonSize.x * 2.0f) / 2.0f;
+
+        ImGui.pushItemWidth(widthEach);
+        ImGui.pushStyleColor(ImGuiCol.Button, 0.8f, 0.1f, 0.15f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.9f, 0.2f, 0.2f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.8f, 0.1f, 0.15f, 1.0f);
+        if (ImGui.button("R", buttonSize.x, buttonSize.y)) {
+            value = resetValue;
+        }
+        ImGui.popStyleColor(3);
+
+        ImGui.sameLine();
+        float[] valueArray = {value};
+        ImGui.dragFloat("##x", valueArray, 0.1f);
+        ImGui.popItemWidth();
+
+        ImGui.nextColumn();
+
+        ImGui.columns(1);
+        ImGui.popStyleVar();
+        ImGui.popID();
+
+        return valueArray[0];
+    }
+
+    public static float dragFloatButton(String label, float value, float resetValue) {
+        return dragFloatButton(label, value, resetValue, DEFAULT_WIDTH);
+    }
+
+    public static float dragFloatButton(String label, float value) {
+        return dragFloatButton(label, value, 0.0f, DEFAULT_WIDTH);
     }
 
     public static boolean checkbox(String label, boolean value, float columnWidth) {
@@ -355,5 +396,35 @@ public class GameImGui {
 
     public static boolean colorPicker4(String label, Vector4f color) {
         return colorPicker4(label, color, DEFAULT_WIDTH);
+    }
+
+    public static ImInt enumCombo(String label, String[] enumValues, String enumType, float columnWidth) {
+        ImGui.pushID(label);
+
+        ImGui.columns(2);
+        ImGui.setColumnWidth(0, columnWidth);
+        ImGui.text(label);
+        ImGui.nextColumn();
+
+        ImInt index = new ImInt(indexOf(enumType, enumValues));
+        ImGui.combo("##value", index, enumValues, enumValues.length);
+
+        ImGui.columns(1);
+        ImGui.popID();
+
+        return index;
+    }
+
+    public static ImInt enumCombo(String label, String[] enumValues, String enumType) {
+        return enumCombo(label, enumValues,enumType, DEFAULT_WIDTH);
+    }
+
+    private static int indexOf(String enumType, String[] enumValues) {
+        for (int i = 0; i < enumValues.length; i++) {
+            if (enumValues[i].equals(enumType)) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
