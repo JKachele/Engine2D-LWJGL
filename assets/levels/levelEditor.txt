@@ -8,7 +8,7 @@
         "properties": {
           "position": {
             "x": 894.6797,
-            "y": 334.1673
+            "y": 324.00546
           },
           "scale": {
             "x": 64.0,
@@ -106,7 +106,7 @@
         "properties": {
           "position": {
             "x": 1.681147,
-            "y": -206.72038
+            "y": -216.88214
           },
           "scale": {
             "x": 0.25,
@@ -204,7 +204,7 @@
         "properties": {
           "position": {
             "x": 0.9535994,
-            "y": -198.12102
+            "y": -208.28278
           },
           "scale": {
             "x": 0.25,
@@ -302,7 +302,7 @@
         "properties": {
           "position": {
             "x": 3.5496597,
-            "y": -196.3945
+            "y": -206.55626
           },
           "scale": {
             "x": 0.25,
@@ -889,7 +889,7 @@
         "type": "com.jkachele.game.components.Transform",
         "properties": {
           "position": {
-            "x": 1.625,
+            "x": 1.6250001,
             "y": 0.625
           },
           "scale": {
@@ -2555,14 +2555,14 @@
         "type": "com.jkachele.game.components.Transform",
         "properties": {
           "position": {
-            "x": 1.2533331,
-            "y": 2.492595
+            "x": 0.9095012,
+            "y": 2.150849
           },
           "scale": {
             "x": 0.25,
             "y": 0.25
           },
-          "rotation": 0.0,
+          "rotation": 90.44434,
           "zIndex": 0,
           "uid": 111
         }
@@ -3045,14 +3045,14 @@
         "type": "com.jkachele.game.components.Transform",
         "properties": {
           "position": {
-            "x": 1.3950748,
-            "y": 2.1816998
+            "x": 1.9086511,
+            "y": 2.3967247
           },
           "scale": {
             "x": 0.25,
             "y": 0.25
           },
-          "rotation": 0.0,
+          "rotation": 90.99107,
           "zIndex": 0,
           "uid": 111
         }
@@ -3143,14 +3143,14 @@
         "type": "com.jkachele.game.components.Transform",
         "properties": {
           "position": {
-            "x": 1.5659633,
-            "y": 2.4888937
+            "x": 1.0944026,
+            "y": 2.5024283
           },
           "scale": {
             "x": 0.25,
             "y": 0.25
           },
-          "rotation": 0.0,
+          "rotation": -89.79849,
           "zIndex": 0,
           "uid": 111
         }
@@ -3241,14 +3241,14 @@
         "type": "com.jkachele.game.components.Transform",
         "properties": {
           "position": {
-            "x": 1.5994471,
-            "y": 1.8967125
+            "x": 1.3662654,
+            "y": 2.1039767
           },
           "scale": {
             "x": 0.25,
             "y": 0.25
           },
-          "rotation": 0.0,
+          "rotation": 0.008857822,
           "zIndex": 0,
           "uid": 111
         }
@@ -3339,14 +3339,14 @@
         "type": "com.jkachele.game.components.Transform",
         "properties": {
           "position": {
-            "x": 1.8078092,
-            "y": 2.1854007
+            "x": 1.4695028,
+            "y": 2.4538631
           },
           "scale": {
             "x": 0.25,
             "y": 0.25
           },
-          "rotation": 0.0,
+          "rotation": -89.26688,
           "zIndex": 0,
           "uid": 111
         }

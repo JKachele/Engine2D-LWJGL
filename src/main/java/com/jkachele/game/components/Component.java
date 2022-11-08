@@ -92,10 +92,6 @@ public abstract class Component {
                     String enumType = ((Enum<?>)value).name();
                     ImInt index = GameImGui.enumCombo(name, enumValues, enumType);
                     field.set(this, type.getEnumConstants()[index.get()]);
-//                    ImInt index = new ImInt(indexOf(enumType, enumValues));
-//                    if (ImGui.combo(name, index, enumValues, enumValues.length)) {
-//                        field.set(this, type.getEnumConstants()[index.get()]);
-//                    }
                 }
 
 

@@ -21,15 +21,22 @@ import org.jbox2d.dynamics.World;
 import org.joml.Vector2f;
 
 public class Physics2D {
-    private Vec2 gravity = new Vec2(0, -9.81f);
-    private World world = new World(gravity);
+    private final Vec2 GRAVITY = new Vec2(0, -9.81f);
+    private World world;
 
-    private float physicsTime = 0.0f;
-    private float physicsTimeStep = 1.0f / 60.0f;
+    private float physicsTime;
+    private final float TIME_STEP = 1.0f / 60.0f;
 
     // Number of calculation passes to resolve collisions. Higher number = better physics but slows performance
-    private int velocityIterations = 8;
-    private int positionIterations = 3;
+    private int velocityIterations;
+    private int positionIterations;
+
+    public Physics2D() {
+        this.world = new World(GRAVITY);
+        this.physicsTime = 0.0f;
+        this.velocityIterations = 8;
+        this.positionIterations = 3;
+    }
 
     public void add(GameObject gameObject) {
         Rigidbody2D rigidBody = gameObject.getComponent(Rigidbody2D.class);
@@ -86,8 +93,8 @@ public class Physics2D {
     public void update(float dt) {
         physicsTime += dt;
         if (physicsTime >= 0.0f) {
-            physicsTime -= physicsTimeStep;
-            world.step(physicsTimeStep, velocityIterations, positionIterations);
+            physicsTime -= TIME_STEP;
+            world.step(TIME_STEP, velocityIterations, positionIterations);
         }
 
     }
