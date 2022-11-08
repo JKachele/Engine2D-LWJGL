@@ -3,7 +3,7 @@
  *File----------GridLines.java
  *Author--------Justin Kachele
  *Date----------10/9/2022
- *License-------MIT License
+ *License-------Mozilla Public License Version 2.0
  ******************************************/
 package com.jkachele.game.components;
 

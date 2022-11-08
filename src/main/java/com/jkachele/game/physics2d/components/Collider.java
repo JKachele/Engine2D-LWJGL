@@ -3,7 +3,7 @@
  *File----------Collider.java
  *Author--------Justin Kachele
  *Date----------11/4/2022
- *License-------MIT License
+ *License-------Mozilla Public License Version 2.0
  ******************************************/
 package com.jkachele.game.physics2d.components;
 

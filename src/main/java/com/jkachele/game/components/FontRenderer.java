@@ -3,7 +3,7 @@
  *File----------FontRenderer.java
  *Author--------Justin Kachele
  *Date----------10/3/2022
- *License-------MIT License
+ *License-------Mozilla Public License Version 2.0
  ******************************************/
 package com.jkachele.game.components;
 

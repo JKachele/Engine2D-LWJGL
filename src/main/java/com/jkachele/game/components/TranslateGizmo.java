@@ -3,7 +3,7 @@
  *File----------TranslateGizmo.java
  *Author--------Justin Kachele
  *Date----------10/24/2022
- *License-------MIT License
+ *License-------Mozilla Public License Version 2.0
  ******************************************/
 package com.jkachele.game.components;
 

@@ -3,7 +3,7 @@
  *File----------Window.java
  *Author--------Justin Kachele
  *Date----------9/22/2022
- *License-------MIT License
+ *License-------Mozilla Public License Version 2.0
  ******************************************/
 
 package com.jkachele.game.engine;

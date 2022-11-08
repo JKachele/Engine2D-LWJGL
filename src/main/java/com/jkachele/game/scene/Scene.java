@@ -3,7 +3,7 @@
  *File----------Scene.java
  *Author--------Justin Kachele
  *Date----------9/25/2022
- *License-------MIT License
+ *License-------Mozilla Public License Version 2.0
  ******************************************/
 package com.jkachele.game.scene;
 

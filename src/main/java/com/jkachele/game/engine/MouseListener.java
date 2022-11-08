@@ -3,7 +3,7 @@
  *File----------MouseListener.java
  *Author--------Justin Kachele
  *Date----------9/24/20.022
- *License-------MIT License
+ *License-------Mozilla Public License Version 2.0
  ******************************************/
 package com.jkachele.game.engine;
 
