@@ -13,13 +13,13 @@ import com.jkachele.game.util.Color;
 public class Main {
 
     public static void main(String[] args) {
-        final int DEFAULT_WIdtH = 1920;
-        final int DEFAULT_HEIGHT = (DEFAULT_WIdtH / 16) * 9;    // 16 x 9 aspect ratio
+        final int DEFAULT_WIDTH = 1920;
+        final int DEFAULT_HEIGHT = (DEFAULT_WIDTH / 16) * 9;    // 16 x 9 aspect ratio
         final String DEFAULT_TITLE = "Java Game";
-        final Color backgroundColor = Color.BLACK;
-        final boolean resetLevels = false;
+        final Color BACKGROUND_COLOR = Color.BLACK;
+        final boolean RESET_LEVELS = false;
 
-        Engine engine = new Engine(DEFAULT_WIdtH, DEFAULT_HEIGHT, DEFAULT_TITLE, backgroundColor, resetLevels);
+        Engine engine = new Engine(DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_TITLE, BACKGROUND_COLOR, RESET_LEVELS);
         engine.start();
     }
 }

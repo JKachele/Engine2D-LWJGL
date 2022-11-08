@@ -46,9 +46,9 @@ public class Window implements Observer {
 
     private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
-    private final int framebufferWidth = 3840;
-    private final int framebufferHeight = 2160;
-    private final String levelEditorSceneLocation = "assets/levels/levelEditor.txt";
+    private final int FRAME_BUFFER_WIDTH = 3840;
+    private final int FRAME_BUFFER_HEIGHT = 2160;
+    private final String LEVEL_EDITOR_SCENE_LOCATION = "assets/levels/levelEditor.txt";
 
     private static Scene currentScene = null;
     private boolean editorActive = false;
@@ -113,7 +113,7 @@ public class Window implements Observer {
         });
         glfwSetFramebufferSizeCallback(glfwWindow, (window, width, height) -> {
             //glViewport(0, 0, width, height);
-            glViewport(0, 0, framebufferWidth, framebufferHeight);
+            glViewport(0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT);
         });
 
         // Center the window on the primary monitor
@@ -140,9 +140,9 @@ public class Window implements Observer {
         glEnable(GL_BLEND);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-        this.framebuffer = new Framebuffer(framebufferWidth, framebufferHeight);
-        this.pickingTexture = new PickingTexture(framebufferWidth, framebufferHeight);
-        glViewport(0, 0, framebufferWidth, framebufferHeight);
+        this.framebuffer = new Framebuffer(FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT);
+        this.pickingTexture = new PickingTexture(FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT);
+        glViewport(0, 0, FRAME_BUFFER_WIDTH, FRAME_BUFFER_HEIGHT);
 
         this.imGuiLayer = new ImGuiLayer(this.glfwWindow, pickingTexture);
         this.imGuiLayer.initImGui();
@@ -168,7 +168,7 @@ public class Window implements Observer {
         currentScene = new Scene(sceneInitializer);
         if (!Window.getInstance().isReset()) {
             // Load the current scene from the level.txt
-            currentScene.load(Window.getInstance().levelEditorSceneLocation);
+            currentScene.load(Window.getInstance().LEVEL_EDITOR_SCENE_LOCATION);
         }
         currentScene.init();
         currentScene.start();
@@ -189,7 +189,7 @@ public class Window implements Observer {
         switch (event.eventType) {
             case GameEngineStartPlay -> {
                 this.editorActive = true;
-                currentScene.save(levelEditorSceneLocation);
+                currentScene.save(LEVEL_EDITOR_SCENE_LOCATION);
                 Window.changeScene(new LevelEditorSceneInitializer());
             }
             case GameEngineStopPlay -> {
@@ -197,7 +197,7 @@ public class Window implements Observer {
                 Window.changeScene(new LevelEditorSceneInitializer());
             }
             case LoadLevel -> Window.changeScene(new LevelEditorSceneInitializer());
-            case SaveLevel -> Window.currentScene.save(levelEditorSceneLocation);
+            case SaveLevel -> Window.currentScene.save(LEVEL_EDITOR_SCENE_LOCATION);
         }
     }
 
@@ -246,11 +246,11 @@ public class Window implements Observer {
     }
 
     public int getFramebufferWidth() {
-        return framebufferWidth;
+        return FRAME_BUFFER_WIDTH;
     }
 
     public int getFramebufferHeight() {
-        return framebufferHeight;
+        return FRAME_BUFFER_HEIGHT;
     }
 
     public boolean isEditorActive() {

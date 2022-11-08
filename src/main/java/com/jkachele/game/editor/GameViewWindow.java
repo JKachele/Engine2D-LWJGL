@@ -23,7 +23,7 @@ public class GameViewWindow {
     private float maxX;
     private float maxY;
 
-    private final float aspectRatio = 16.0f / 9.0f;
+    private final float ASPECT_RATIO = 16.0f / 9.0f;
 
     private boolean isPlaying = false;
 
@@ -78,12 +78,12 @@ public class GameViewWindow {
         windowSize.y -= ImGui.getScrollY();
 
         float aspectWidth = windowSize.x;
-        float aspectHeight = aspectWidth / aspectRatio;
+        float aspectHeight = aspectWidth / ASPECT_RATIO;
 
         if (aspectHeight > windowSize.y) {
             // We must switch to pillarBox mode
             aspectHeight = windowSize.y;
-            aspectWidth = aspectHeight * aspectRatio;
+            aspectWidth = aspectHeight * ASPECT_RATIO;
         }
 
         return new ImVec2(aspectWidth, aspectHeight);

@@ -15,7 +15,7 @@ import static org.lwjgl.glfw.GLFW.GLFW_KEY_E;
 public class GizmoSystem extends Component{
     private Spritesheet gizmos;
     private int usingGizmo = 0;
-    private final int numGizmos = 2;
+    private final int NUM_GIZMOS = 2;
     private float debounceTime = 0.2f;
 
     public GizmoSystem(Spritesheet gizmos) {
@@ -44,7 +44,7 @@ public class GizmoSystem extends Component{
 
         if (KeyListener.isKeyPressed(GLFW_KEY_E) && debounceTime < 0){
             usingGizmo++;
-            if (usingGizmo == numGizmos) {
+            if (usingGizmo == NUM_GIZMOS) {
                 usingGizmo = 0;
             }
             this.debounceTime = 0.2f;

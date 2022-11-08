@@ -25,14 +25,14 @@ public class Gizmo extends Component{
     private Vector4f zColor = Color.GREEN.toVector();
     private Vector4f zColorHover = Color.GREEN.scale(0.25f).toVector();
 
-    private final Vector2f xOffset = new Vector2f(15f / 80f, -6f / 80f);
-    private final Vector2f yOffset = new Vector2f(-7f / 80f, 15f / 80f);
-    private final Vector2f zOffset = new Vector2f(12f / 80f, 12f / 80f);
+    private final Vector2f X_OFFSET = new Vector2f(15f / 80f, -6f / 80f);
+    private final Vector2f Y_OFFSET = new Vector2f(-7f / 80f, 15f / 80f);
+    private final Vector2f Z_OFFSET = new Vector2f(12f / 80f, 12f / 80f);
 
-    private final float gizmoWidth = 10 / 80f;
-    private final float gizmoHeight = 30 / 80f;
-    private final float gizmoHalfWidth;
-    private final float gizmoHalfHeight;
+    private final float GIZMO_WIDTH = 10 / 80f;
+    private final float GIZMO_HEIGHT = 30 / 80f;
+    private final float GIZMO_HALF_WIDTH;
+    private final float GIZMO_HALF_HEIGHT;
 
     protected boolean xAxisActive = false;
     protected boolean yAxisActive = false;
@@ -51,12 +51,12 @@ public class Gizmo extends Component{
     private PropertiesWindow propertiesWindow;
 
     public Gizmo(Sprite arrowSprite, PropertiesWindow propertiesWindow) {
-        gizmoHalfWidth = gizmoWidth / 2f;
-        gizmoHalfHeight = gizmoHeight / 2f;
+        GIZMO_HALF_WIDTH = GIZMO_WIDTH / 2f;
+        GIZMO_HALF_HEIGHT = GIZMO_HEIGHT / 2f;
 
-        this.xObject = Prefabs.generateSpriteObject(arrowSprite, gizmoWidth, gizmoHeight, false);
-        this.yObject = Prefabs.generateSpriteObject(arrowSprite, gizmoWidth, gizmoHeight, false);
-        this.zObject = Prefabs.generateSpriteObject(arrowSprite, gizmoWidth, gizmoHeight, false);
+        this.xObject = Prefabs.generateSpriteObject(arrowSprite, GIZMO_WIDTH, GIZMO_HEIGHT, false);
+        this.yObject = Prefabs.generateSpriteObject(arrowSprite, GIZMO_WIDTH, GIZMO_HEIGHT, false);
+        this.zObject = Prefabs.generateSpriteObject(arrowSprite, GIZMO_WIDTH, GIZMO_HEIGHT, false);
         this.xSprite = xObject.getComponent(SpriteRenderer.class);
         this.ySprite = yObject.getComponent(SpriteRenderer.class);
         this.zSprite = zObject.getComponent(SpriteRenderer.class);
@@ -138,9 +138,9 @@ public class Gizmo extends Component{
             this.xObject.transform.position.set(this.activeGameObject.transform.position);
             this.yObject.transform.position.set(this.activeGameObject.transform.position);
             this.zObject.transform.position.set(this.activeGameObject.transform.position);
-            this.xObject.transform.position.add(this.xOffset);
-            this.yObject.transform.position.add(this.yOffset);
-            this.zObject.transform.position.add(this.zOffset);
+            this.xObject.transform.position.add(this.X_OFFSET);
+            this.yObject.transform.position.add(this.Y_OFFSET);
+            this.zObject.transform.position.add(this.Z_OFFSET);
         }
     }
 
@@ -148,10 +148,10 @@ public class Gizmo extends Component{
         Vector2f mousePos = new Vector2f(MouseListener.getOrthoX(), MouseListener.getOrthoY());
         GameMath.rotate(mousePos, xObject.transform.position, -90);
 
-        if (    mousePos.x >= this.xObject.transform.position.x - gizmoHalfWidth &&
-                mousePos.x <= this.xObject.transform.position.x + gizmoHalfWidth &&
-                mousePos.y >= this.xObject.transform.position.y - gizmoHalfHeight &&
-                mousePos.y <= this.xObject.transform.position.y + gizmoHalfHeight) {
+        if (    mousePos.x >= this.xObject.transform.position.x - GIZMO_HALF_WIDTH &&
+                mousePos.x <= this.xObject.transform.position.x + GIZMO_HALF_WIDTH &&
+                mousePos.y >= this.xObject.transform.position.y - GIZMO_HALF_HEIGHT &&
+                mousePos.y <= this.xObject.transform.position.y + GIZMO_HALF_HEIGHT) {
 
             xSprite.setColor(xColorHover);
 
@@ -166,10 +166,10 @@ public class Gizmo extends Component{
         Vector2f mousePos = new Vector2f(MouseListener.getOrthoPos());
         GameMath.rotate(mousePos, yObject.transform.position, -180);
 
-        if (    mousePos.x >= this.yObject.transform.position.x - gizmoHalfWidth &
-                mousePos.x <= this.yObject.transform.position.x + gizmoHalfWidth &&
-                mousePos.y >= this.yObject.transform.position.y - gizmoHalfHeight &&
-                mousePos.y <= this.yObject.transform.position.y + gizmoHalfHeight) {
+        if (    mousePos.x >= this.yObject.transform.position.x - GIZMO_HALF_WIDTH &
+                mousePos.x <= this.yObject.transform.position.x + GIZMO_HALF_WIDTH &&
+                mousePos.y >= this.yObject.transform.position.y - GIZMO_HALF_HEIGHT &&
+                mousePos.y <= this.yObject.transform.position.y + GIZMO_HALF_HEIGHT) {
 
             ySprite.setColor(yColorHover);
 
@@ -184,10 +184,10 @@ public class Gizmo extends Component{
         Vector2f mousePos = new Vector2f(MouseListener.getOrthoPos());
         GameMath.rotate(mousePos, zObject.transform.position, -135);
 
-        if (    mousePos.x >= this.zObject.transform.position.x  - gizmoHalfWidth&&
-                mousePos.x <= this.zObject.transform.position.x  + gizmoHalfWidth&&
-                mousePos.y >= this.zObject.transform.position.y - gizmoHalfHeight &&
-                mousePos.y <= this.zObject.transform.position.y + gizmoHalfHeight ) {
+        if (    mousePos.x >= this.zObject.transform.position.x  - GIZMO_HALF_WIDTH &&
+                mousePos.x <= this.zObject.transform.position.x  + GIZMO_HALF_WIDTH &&
+                mousePos.y >= this.zObject.transform.position.y - GIZMO_HALF_HEIGHT &&
+                mousePos.y <= this.zObject.transform.position.y + GIZMO_HALF_HEIGHT) {
 
             zSprite.setColor(zColorHover);
 

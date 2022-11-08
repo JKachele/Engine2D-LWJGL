@@ -33,9 +33,9 @@ public class PhysicsSystem2D {
     private float fixedUpdateTime;
     private float timeSinceLastUpdate = 0.0f;
 
-    private final int impulseIterations = 6;
+    private final int IMPULSE_ITERATIONS = 6;
 
-    public PhysicsSystem2D(float fixedUpdatedt, Vector2f gravity) {
+    public PhysicsSystem2D(float fixedUpdatedTime, Vector2f gravity) {
         this.forceRegistry = new ForceRegistry();
         this.gravity = new Gravity2D(gravity);
 
@@ -44,7 +44,7 @@ public class PhysicsSystem2D {
         this.rigidBodies2 = new ArrayList<>();
         this.collisions = new ArrayList<>();
 
-        this.fixedUpdateTime = fixedUpdatedt;
+        this.fixedUpdateTime = fixedUpdatedTime;
     }
 
     public void update(float dt) {
@@ -97,7 +97,7 @@ public class PhysicsSystem2D {
         // ====================================================================
         // Resolve collisions via iterative impulse resolution
         // ====================================================================
-        for (int k = 0; k < impulseIterations; k++) {
+        for (int k = 0; k < IMPULSE_ITERATIONS; k++) {
             // Loop through all collisions
             for (int i = 0; i < collisions.size(); i++) {
                 CollisionManifold collision = collisions.get(i);

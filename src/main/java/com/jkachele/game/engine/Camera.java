@@ -18,13 +18,13 @@ public class Camera {
     private Matrix4f inverseView;
     private Vector2f position;
     private float zoom = 1.0f;
-    private final float maxZoomOut = 2.75f;
+    private final float MAX_ZOOM_OUT = 2.75f;
 
     // Virtual screen size of 6 x 3 Units
-    private final float projectionWidth = 6.0f;
-    private final float projectionHeight = 3.0f;
-    private final Vector2f projectionSize = new Vector2f(projectionWidth, projectionHeight);
-    private Vector2f currentProjSize = new Vector2f(projectionSize);
+    private final float PROJECTION_WIDTH = 6.0f;
+    private final float PROJECTION_HEIGHT = 3.0f;
+    private final Vector2f PROJECTION_SIZE = new Vector2f(PROJECTION_WIDTH, PROJECTION_HEIGHT);
+    private Vector2f currentProjSize = new Vector2f(PROJECTION_SIZE);
 
     public Camera(Vector2f cameraPosition) {
         this.position = cameraPosition;
@@ -36,7 +36,7 @@ public class Camera {
     }
 
     public void adjustProjection() {
-        currentProjSize = new Vector2f(projectionSize).mul(zoom);
+        currentProjSize = new Vector2f(PROJECTION_SIZE).mul(zoom);
         projectionMatrix.identity();
         // Defines the size of the virtual screen the camera will output to accounting for the zoom factor
         projectionMatrix.ortho(0.0f, currentProjSize.x,        //Screen Width in "pixels"
@@ -88,7 +88,7 @@ public class Camera {
     }
 
     public Vector2f getProjectionSize() {
-        return this.projectionSize;
+        return this.PROJECTION_SIZE;
     }
 
     public Vector2f getCurrentProjSize() {
@@ -104,10 +104,10 @@ public class Camera {
     }
 
     public void addZoom(float value) {
-        if (this.zoom + value <= maxZoomOut) {
+        if (this.zoom + value <= MAX_ZOOM_OUT) {
             this.zoom += value;
         } else {
-            this.zoom = maxZoomOut;
+            this.zoom = MAX_ZOOM_OUT;
         }
     }
 }
