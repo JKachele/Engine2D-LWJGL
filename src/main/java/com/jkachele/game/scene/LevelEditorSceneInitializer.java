@@ -37,8 +37,6 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
         levelEditorComponents.addComponent(new MouseControls());
         levelEditorComponents.addComponent(new GridLines());
         levelEditorComponents.addComponent(new EditorCamera(scene.getCamera()));
-//        levelEditorComponents.addComponent(new Gizmo(gizmos.getSprite(1),
-//                Window.getInstance().getImGuiLayer().getPropertiesWindow()));
         levelEditorComponents.addComponent(new GizmoSystem(gizmos));
         scene.addGameObject(levelEditorComponents);
     }

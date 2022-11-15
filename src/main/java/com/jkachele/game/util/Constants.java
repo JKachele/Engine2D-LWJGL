@@ -7,7 +7,7 @@
  ******************************************/
 package com.jkachele.game.util;
 
-public enum Constants {;
+public final class Constants {
     public static final float GRID_WIDTH = 0.25f;
     public static final float GRID_HEIGHT = 0.25f;
 
