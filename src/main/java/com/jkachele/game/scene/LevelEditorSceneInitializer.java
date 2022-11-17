@@ -17,12 +17,13 @@ import imgui.ImVec2;
 import org.joml.Vector2f;
 
 public class LevelEditorSceneInitializer extends SceneInitializer {
-    private String spritesPath = "assets/images/spritesheets/decorationsAndBlocks.png";
+    private final String spritesPath = "assets/images/spritesheets/decorationsAndBlocks.png";
     private Spritesheet sprites;
-    private String marioSpritesPath = "assets/images/spritesheets/characters.png";
+    private final String marioSpritesPath = "assets/images/spritesheets/characters.png";
     private Spritesheet marioSprites;
-    private String gizmosPath = "assets/images/gizmos.png";
+    private final String gizmosPath = "assets/images/gizmos.png";
     private Spritesheet gizmos;
+    private final String filePath = "assets/levels/levelEditor.txt";
     private GameObject levelEditorComponents;
 
     @Override
@@ -105,5 +106,9 @@ public class LevelEditorSceneInitializer extends SceneInitializer {
         }
 
         ImGui.end();
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 }

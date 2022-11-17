@@ -48,7 +48,6 @@ public class Window implements Observer {
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
     private final int FRAME_BUFFER_WIDTH = 3840;
     private final int FRAME_BUFFER_HEIGHT = 2160;
-    private final String LEVEL_EDITOR_SCENE_LOCATION = "assets/levels/levelEditor.txt";
 
     private static Scene currentScene = null;
     private boolean editorActive = false;
@@ -168,7 +167,7 @@ public class Window implements Observer {
         currentScene = new Scene(sceneInitializer);
         if (!Window.getInstance().isReset()) {
             // Load the current scene from the level.txt
-            currentScene.load(Window.getInstance().LEVEL_EDITOR_SCENE_LOCATION);
+            currentScene.load(currentScene.getSceneInitializer().getFilePath());
         }
         currentScene.init();
         currentScene.start();
@@ -189,7 +188,7 @@ public class Window implements Observer {
         switch (event.eventType) {
             case GameEngineStartPlay -> {
                 this.editorActive = true;
-                currentScene.save(LEVEL_EDITOR_SCENE_LOCATION);
+                currentScene.save(currentScene.getSceneInitializer().getFilePath());
                 Window.changeScene(new LevelEditorSceneInitializer());
             }
             case GameEngineStopPlay -> {
@@ -197,7 +196,7 @@ public class Window implements Observer {
                 Window.changeScene(new LevelEditorSceneInitializer());
             }
             case LoadLevel -> Window.changeScene(new LevelEditorSceneInitializer());
-            case SaveLevel -> Window.currentScene.save(LEVEL_EDITOR_SCENE_LOCATION);
+            case SaveLevel -> Window.currentScene.save(currentScene.getSceneInitializer().getFilePath());
         }
     }
 

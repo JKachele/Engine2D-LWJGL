@@ -208,4 +208,8 @@ public class Scene {
     public List<GameObject> getGameObjects() {
         return gameObjects;
     }
+
+    public SceneInitializer getSceneInitializer() {
+        return sceneInitializer;
+    }
 }

@@ -1,6 +1,6 @@
 #type vertex
 #version 460 core
-layout (location=0) in vec3 aPos;       // Position
+layout (location=0) in vec2 aPos;       // Position
 layout (location=1) in vec4 aColor;     // Color
 layout (location=2) in vec2 aUVCoords;  // UV Coordinates
 layout (location=3) in float aTexID;    // Texture ID
@@ -16,7 +16,7 @@ void main() {
     fColor = aColor;
     fUVCoords = aUVCoords;
     fTexID = aTexID;
-    gl_Position = uProjection * uView * vec4(aPos, 1.0);
+    gl_Position = uProjection * uView * vec4(aPos, 0.0, 1.0);
 }
 
 #type fragment
