@@ -197,6 +197,7 @@ public class Window implements Observer {
             }
             case LoadLevel -> Window.changeScene(new LevelEditorSceneInitializer());
             case SaveLevel -> Window.currentScene.save(currentScene.getSceneInitializer().getFilePath());
+            case UserEvent -> {}
         }
     }
 

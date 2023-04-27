@@ -9,6 +9,7 @@ package com.jkachele.game.engine;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+@SuppressWarnings("unused")
 public class KeyListener {
     private static KeyListener instance;
     private static boolean[] keyPressed = new boolean[350];

@@ -26,6 +26,7 @@ import java.util.Objects;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+@SuppressWarnings("unused")
 public class ImGuiLayer {
 
     private long glfwWindow;

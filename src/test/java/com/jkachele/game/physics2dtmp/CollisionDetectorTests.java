@@ -93,7 +93,6 @@ public class CollisionDetectorTests {
 //        assertFalse(IntersectionDetector2D.pointOnLine(point, line));
 //    }
 //
-////    TODO: Closest point to line
 ////    @Test
 ////    public void closestPointToLineTestOne() {
 ////        Line2D line = new Line2D(new Vector2f(0, 0), new Vector2f(12, 4));
@@ -163,7 +162,6 @@ public class CollisionDetectorTests {
 //    // =========================================================================================================
 //    // Ray2DCast IntersectionDetector2D tests
 //    // =========================================================================================================
-//    // TODO: Closest point to ray
 ////    @Test
 ////    public void pointOnRayShouldReturnTrueTestOne() {
 ////        Ray2D ray = new Ray2D(new Vector2f(0), new Vector2f(0.948683f, 0.316228f));
@@ -378,7 +376,6 @@ public class CollisionDetectorTests {
 //        assertFalse(result);
 //    }
 //
-////    TODO: Closest point to circle
 ////    @Test
 ////    public void closestPointToCircleTestOne() {
 ////        Circle circle = new Circle();
@@ -598,7 +595,6 @@ public class CollisionDetectorTests {
 //    }
 //
 //
-////    TODO: Closest point to box2D
 ////    @Test
 ////    public void closestPointToBox2dtestOne() {
 ////        Box2D box = new Box2D();

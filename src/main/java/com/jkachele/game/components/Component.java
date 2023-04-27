@@ -114,14 +114,14 @@ public abstract class Component {
          return enumValues;
     }
 
-    private int indexOf(String enumType, String[] enumValues) {
-        for (int i = 0; i < enumValues.length; i++) {
-            if (enumValues[i].equals(enumType)) {
-                return i;
-            }
-        }
-        return -1;
-    }
+    // private int indexOf(String enumType, String[] enumValues) {
+    //     for (int i = 0; i < enumValues.length; i++) {
+    //         if (enumValues[i].equals(enumType)) {
+    //             return i;
+    //         }
+    //     }
+    //     return -1;
+    // }
 
     public void generateID() {
         if (this.uid == -1) {

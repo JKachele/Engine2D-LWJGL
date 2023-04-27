@@ -1,6 +1,6 @@
 [
   {
-    "uid": 0,
+    "uid": 18,
     "name": "Sprite_Object_Gen",
     "components": [
       {
@@ -56,6 +56,70 @@
             "height": 16.0
           },
           "uid": 20
+        }
+      }
+    ],
+    "isTransient": false,
+    "pickable": true,
+    "isDead": false
+  },
+  {
+    "uid": 19,
+    "name": "Sprite_Object_Gen",
+    "components": [
+      {
+        "type": "com.jkachele.game.components.Transform",
+        "properties": {
+          "position": {
+            "x": 1.8429503,
+            "y": 2.3311737
+          },
+          "scale": {
+            "x": 0.25,
+            "y": 0.25
+          },
+          "rotation": 0.0,
+          "zIndex": 0,
+          "uid": 40
+        }
+      },
+      {
+        "type": "com.jkachele.game.components.SpriteRenderer",
+        "properties": {
+          "color": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0,
+            "w": 1.0
+          },
+          "sprite": {
+            "texture": {
+              "filepath": "assets/images/spritesheets/decorationsAndBlocks.png",
+              "width": 112,
+              "height": 192
+            },
+            "uvCoords": [
+              {
+                "x": 0.85714287,
+                "y": 1.0
+              },
+              {
+                "x": 0.85714287,
+                "y": 0.9166667
+              },
+              {
+                "x": 0.71428573,
+                "y": 0.9166667
+              },
+              {
+                "x": 0.71428573,
+                "y": 1.0
+              }
+            ],
+            "width": 16.0,
+            "height": 16.0
+          },
+          "uid": 41
         }
       }
     ],

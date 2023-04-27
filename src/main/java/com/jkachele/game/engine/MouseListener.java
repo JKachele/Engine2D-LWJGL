@@ -13,6 +13,7 @@ import org.joml.Vector4f;
 
 import static org.lwjgl.glfw.GLFW.*;
 
+@SuppressWarnings("unused")
 public class MouseListener {
     private static MouseListener instance;
     private static double scrollX = 0.0;

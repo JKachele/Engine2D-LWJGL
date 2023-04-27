@@ -16,6 +16,7 @@ import imgui.ImGui;
 import imgui.ImVec2;
 import org.joml.Vector2f;
 
+@SuppressWarnings("unused")
 public class LevelEditorSceneInitializer extends SceneInitializer {
     private final String spritesPath = "assets/images/spritesheets/decorationsAndBlocks.png";
     private Spritesheet sprites;

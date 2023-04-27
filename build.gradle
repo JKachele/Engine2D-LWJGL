@@ -1,14 +1,16 @@
 //file:noinspection SpellCheckingInspection
 plugins {
-    id 'java'
+    id 'application'
 }
+
+mainClassName = "com.jkachele.game.Main"
 
 group 'com.jkachele'
 version '1.0-SNAPSHOT'
 
 project.ext.lwjglVersion = "3.3.1"
 project.ext.jomlVersion = "1.10.5"
-project.ext.lwjglNatives = "natives-windows"
+project.ext.lwjglNatives = "natives-linux"
 
 repositories {
     flatDir {
@@ -19,7 +21,7 @@ repositories {
 
 dependencies {
     // LWJGL
-    implementation platform("org.lwjgl:lwjgl-bom:3.3.1")
+    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
     implementation "org.lwjgl:lwjgl"
     implementation "org.lwjgl:lwjgl-assimp"
     implementation "org.lwjgl:lwjgl-cuda"
@@ -38,7 +40,7 @@ dependencies {
     runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
 
     // Joml
-    implementation "org.joml:joml:1.10.4"
+    implementation "org.joml:joml:$jomlVersion"
 
     // JBox2D
     implementation name: 'jbox2d-library'
